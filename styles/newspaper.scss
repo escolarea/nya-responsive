@@ -1,0 +1,2178 @@
+.news-page {
+    .signature {
+        // background-image: url('https://s3.amazonaws.com/neilyoungarchives.com/assets/about/signature.png');
+        height: 103px;
+        width: 143px;
+        margin-bottom: 200px;
+    }
+}
+
+.news-content {
+    text-align: left;
+    $main-width: 1920px - (80px * 2);
+    width: $main-width;
+    margin: 0px auto;
+    box-sizing: border-box;
+    position:relative;
+
+    $content-width: $main-width;
+    $column-width: 347px;
+
+    .main-content {
+        $ad-column-width: 332px;
+        $article-column-width: 1420px;
+        padding-top: 32px;
+        box-sizing: border-box;
+        position: relative;
+        display: flex;
+
+        .excerpt-wrapper {
+            position:relative;
+            flex: 1; 
+        }
+
+        .column-title {
+            p, em {
+                white-space: pre;
+                font-family: 'Georgia';
+                font-size: 30px;
+                line-height: 30px;
+                margin: 0px;
+                color: black;
+                font-weight: bold;
+                text-align: center;
+            }
+
+            img {
+                width: 100%;
+            }
+
+            &.viewpoint {
+                &.left > p, em {
+                    font-family: 'Roboto';
+                    font-weight: bold;
+                }
+
+                &.center > p, em {
+                    font-family: 'Yrsa';
+                    font-weight: bold;
+                    font-size: 80px;
+                    line-height: 40px;
+                    padding-top: 10px;
+                }
+
+                &.right > p, em {
+                    font-family: 'LibreBaskerville';
+                    font-style: italic;
+                    font-size: 60px;
+                    line-height: 60px;
+                }
+            }
+
+            &.licvolt{
+                &.left > p, em {
+                    font-family: 'Roboto';
+                    font-weight: bold;
+                    font-size: 32px;
+                    letter-spacing: -1px;
+                }
+
+                &.center > p, em {
+                    font-family: 'Yrsa';
+                    font-weight: bold;
+                    font-size: 45px;
+                    line-height: 30px;
+                    padding-top: 10px;
+                }
+
+                &.right > p, em {
+                    font-family: 'Georgia';
+                    font-style: bold;
+                    font-size: 40px;
+                    line-height: 40px;
+                }
+            }
+
+            &.subscribers-news {
+                &.left > p, em {
+                    font-family: 'Roboto';
+                    font-weight: bold;
+                    font-size: 32px;
+                    letter-spacing: -1px;
+                }
+
+                &.center > p, em {
+                    font-family: 'Galada';
+                    font-weight: normal;
+                    font-size: 65px;
+                    line-height: 55px;
+                    padding-top: 10px;
+                }
+
+                &.right > p, em {
+                    font-family: 'Comic Sans MS';
+                    font-style: bold;
+                    font-size: 40px;
+                    line-height: 40px;
+                }
+            }
+
+            &.tech {
+                &.left > p, em {
+                    font-family: 'Sixcaps';
+                    font-weight: bold;
+                    font-size: 100px;
+                    line-height: 100px;
+                    letter-spacing: -1px;
+                }
+
+                &.center > p, em {
+                    font-family: 'Yrsa';
+                    font-weight: bold;
+                    font-size: 75px;
+                    line-height: 35px;
+                    padding-top: 10px;
+                }
+
+                &.right > p, em {
+                    font-family: 'Georgia';
+                    font-style: italic;
+                    font-weight: normal;
+                    font-size: 60px;
+                    line-height: 60px;
+                }
+
+                &.fourth > p, em {
+                    font-family: 'Roboto';
+                    font-style: bold;
+                    font-size: 60px;
+                    line-height: 60px;
+                    letter-spacing: -2px;
+                }
+
+                &.fifth > p, em {
+                    font-family: 'Georgia';
+                    font-size: 60px;
+                    line-height: 65px;
+                    font-weight: normal;
+                    font-style: italic;
+                }
+            }
+        }
+
+        .column {
+            display: inline-block;
+            vertical-align: top;
+            box-sizing: border-box;
+            width: $column-width;
+            padding:0px;
+
+            &.left {
+                padding-right: 10px;
+
+                &.column-4 {
+                    width: 336px + 10px;
+                }
+
+                &.column-3-equal {
+                    width: 456px + 10px;
+                }
+
+                &.column-4-full-inner {
+                    position: relative;
+                    width: 340px + 10px;
+                }
+            }
+            &.center {
+                padding-left: 10px;
+                padding-right: 10px;
+                width: 2 * $column-width + 20px;
+
+                &.column-4 {
+                    width: 336px + 20px;
+                }
+
+                &.column-4-full-inner {
+                    position: relative;
+                    width: 340px + 20px;
+                }
+
+                &.column-3-full {
+                    width: 1066px;
+                }
+
+                &.column-3-equal {
+                    width: 456px + 20px;
+                }
+            }
+            &.right {
+                padding-left: 10px;
+
+                &.column-4 {
+                    width: 336px + 20px;
+                    padding-right: 10px;
+                }
+
+                &.column-4-full-inner {
+                    position: relative;
+                    width: 340px + 20px;
+                    padding-right: 10px;
+                }
+
+                &.column-3-equal {
+                    width: 456px + 10px;
+                }
+            }
+            &.fourth {
+                padding-left: 10px;
+
+                &.column-4 {
+                    width: 336px + 10px;
+                    padding-right: 10px;
+                }
+
+                &.column-4-full-inner {
+                    position: relative;
+                    width: 340px + 10px;
+                }
+
+                &.column-3-full-inner {
+                    position: relative;
+                    width: (1006px/3+10);
+                    padding-left: 0px;
+                    padding-right: 10px;
+                }
+            }
+            &.fifth {
+
+                &.column-4 {
+                    padding-left: 10px;
+                    width: 336px + 10px;
+                }
+
+                &.column-4-full {
+                    position: relative;
+                    width: 1420px;
+                }
+
+                &.column-3-full-inner {
+                    position: relative;
+                    width: (1006px/3+20);
+                    padding-left: 10px;
+                    padding-right: 10px;
+                }
+            }
+            &.sixth {
+                &.column-3-full-inner {
+                    position: relative;
+                    width: (1006px/3+10);
+                    padding-left: 10px;
+                    padding-right: 0px;
+                }
+            }
+            &.ads {
+                margin-left: 20px;
+                width: $ad-column-width;
+            }
+            &.article {
+                width: $article-column-width;
+            }
+
+            .divider {
+                height: 4px;
+                // background-image: url('../images/news/excerpt-separator.png');
+                background-position: center;
+                background-repeat: repeat-x;
+                margin: 10px auto;
+            }
+
+            .playlist-image {
+                width: 100%;
+            }
+        }
+
+        .center-line {
+            position: absolute;
+            height: auto;
+            top:0px; bottom:0px;
+            left: $column-width;
+            background: black;
+            width: 1px;
+
+            &.inner-column {
+                left: unset;
+                right: 0;
+            }
+        }
+
+        .excerpt {
+            > a { text-decoration: none; }
+
+            .title-column {
+                > a { text-decoration: none; }
+
+                &.double-column {
+                    column-count: 2;
+                }
+
+                &.three-column {
+                    column-count: 3;
+                }
+                &.double-format{
+                    column-count: 2 !important;
+                }
+                &.single-format{
+                    column-count: 1;
+                }
+            }
+
+            .title {
+                margin-bottom: 10px;
+                overflow: hidden;
+
+                &:hover {
+                    opacity: 0.65;
+                }
+
+                img {
+                    width: 100%;
+                }
+
+                h1 {
+                    font-family: 'Georgia';
+                    font-size: 1.875em;
+                    line-height: 1;
+                    margin: 0px;
+                    color: black;
+                    font-weight: bold;
+                    text-align: center;
+                }
+
+                p, em {
+                    white-space: pre;
+                    font-family: 'Georgia';
+                    font-size: 1.875em;
+                    line-height: 1;
+                    margin: 0px;
+                    color: black;
+                    font-weight: bold;
+                    text-align: center;
+                }
+
+                &.left {
+                    &.headline {
+                        p, em, h1 {
+                            font-size: 2.8125em;
+                            line-height: 1;
+                        }
+                    }
+                    &.subtitle {
+                        p, em, h1 {
+                            font-family: 'Yrsa';
+                            font-size: 2.1875em;
+                            line-height: 1.1428571429;
+                        }
+                    }
+
+                    &.callout {
+                        p, em, h1 {
+                            font-size: 2.1875em;
+                            line-height: 1.1428571429;
+                        }
+                    }
+                }
+
+                &.center {
+                    &.headline {
+                        p, em, h1 {
+                            font-size: 3.125em;
+                            line-height: 1;
+                        }
+                    }
+                    &.subtitle {
+                        p, em, h1 {
+                            font-size: 3.75;
+                            line-height: 1;
+                        }
+                    }
+
+                    &.callout {
+                        p, em, h1 {
+                            font-family: 'Yrsa';
+                            font-size: 2.1875;
+                            line-height: 1.2857142857;
+                        }
+                    }
+                }
+
+                &.right {
+                    &.headline {
+                        p, em, h1 {
+                            font-size: 2.1875em;
+                            line-height: 1.1428571429;
+                        }
+                    }
+                    &.subtitle {
+                        p, em, h1 {
+                            font-family: 'Yrsa';
+                            font-size: 2.1875em;
+                            line-height: 1.1428571429;
+                        }
+                    }
+
+                    &.callout {
+                        p, em, h1 {
+                            font-size: 2.1875em;
+                            line-height: 1.1428571429;
+                        }
+                    }
+                }
+
+                &.viewpoint {
+                    &.left {
+                        &.headline {
+                            p, em, h1 {
+                                font-size: 1.625em;
+                                line-height: 1;
+                            }
+                        }
+                    }
+
+                    &.center {
+                        &.headline {
+                            p, em, h1 {
+                                font-family: 'Yrsa';
+                                font-weight: bold;
+                                font-size: 2.5em;
+                                line-height: 1;
+                            }
+                        }
+                    }
+
+                    &.right {
+                        &.headline {
+                            p, em, h1 {
+                                font-family: 'Oswald';
+                                font-weight: bold;
+                                font-size: 2.625em;
+                                line-height: 1;
+                            }
+                        }
+                    }
+                }
+
+                &.licvolt{
+                    &.left {
+                        &.headline {
+                            p, em, h1 {
+                                font-size: 2.8125em;
+                                line-height: 1;
+                                font-weight: bold;
+                            }
+
+                            em {
+                                font-style: italic;
+                            }
+                        }
+                        &.subtitle {
+                            p, em, h1 {
+                                font-family: 'Yrsa';
+                                font-size: 2.1875em;
+                                line-height: 1;
+                            }
+                        }
+
+                        &.callout {
+                            p, em, h1 {
+                                font-size: 1.875em;
+                                line-height: 1;
+                            }
+                        }
+                    }
+
+                    &.center {
+                        &.headline {
+                            p, em, h1 {
+                                font-size: 2.0625em;
+                                line-height: 1;
+                            }
+                        }
+                        &.subtitle {
+                            p, em, h1 {
+                                font-size: 1.5625em;
+                                line-height: 1;
+                                font-weight: bold;
+                                font-style: italic;
+                            }
+                        }
+
+                        &.callout {
+                            p, em, h1 {
+                                font-size: 1.875em;
+                                line-height: 1;
+                            }
+                        }
+                    }
+
+                    &.right {
+                        &.headline {
+                            p, em, h1 {
+                                font-family: 'Roboto';
+                                font-weight: bold;
+                                font-size: 3.75em;
+                                line-height: 1;
+                            }
+                        }
+                        &.subtitle {
+                            p, em, h1 {
+                                font-family: 'Roboto';
+                                font-weight: bold;
+                                font-size: 1.875em;
+                                line-height: 1;
+                            }
+                        }
+
+                        &.callout {
+                            p, em, h1 {
+                                font-family: 'Roboto';
+                                font-style: italic;
+                                font-size: 1.5625;
+                                line-height: 1;
+                            }
+                        }
+                    }
+                }
+
+                &.subscribers-news {
+                    &.left {
+                        &.headline {
+                            p, em, h1 {
+                                font-size: 1.875em;
+                                line-height: 1;
+                            }
+                        }
+                        &.subtitle {
+                            p, em, h1 {
+                                font-size: 1.875em;
+                                line-height: 1;
+                            }
+                        }
+
+                        &.callout {
+                            p, em, h1 {
+                                font-size: 1.875em;
+                                line-height: 1;
+                            }
+                        }
+                    }
+
+                    &.center {
+                        &.headline {
+                            p, em, h1 {
+                                font-family: 'Microbrew';
+                                font-size: 2.8125em;
+                                line-height: 1;
+                                font-weight: bold;
+                            }
+                        }
+                        &.subtitle {
+                            p, em, h1 {
+                                font-size: 1.875em;
+                                line-height: 1;
+                            }
+                        }
+
+                        &.callout {
+                            p, em, h1 {
+                                font-size: 1.875em;
+                                line-height: 1;
+                            }
+                        }
+                    }
+
+                    &.right {
+                        &.headline {
+                            p, em, h1 {
+                                font-family: 'Comic Sans MS';
+                                font-weight: bold;
+                                font-size: 1.875;
+                                line-height: 1;
+                            }
+                        }
+                        &.subtitle {
+                            p, em, h1 {
+                                font-family: 'Comic Sans MS';
+                                font-weight: normal;
+                                font-size: 1.875;
+                                line-height: 1;
+                            }
+                        }
+
+                        &.callout {
+                            p, em, h1 {
+                                font-family: 'Comic Sans MS';
+                                font-weight: normal;
+                                font-size: 1.875;
+                                line-height: 1;
+                            }
+                        }
+                    }
+                }
+                &.listen {
+                    &.left {
+                        &.headline {
+                            p, em, h1 {
+                                font-family: 'Georgia';
+                                font-size:30px;
+                                font-style: normal !important;
+                                line-height: 1 !important;
+                            }
+                        }
+                        &.subtitle {
+                            p, em, h1 {
+                                font-family: 'Roboto-Condensed';
+                                font-weight: bold;
+                                font-size: 2.1875em;
+                                line-height: 1 !important;
+                            }
+                        }
+
+                        &.callout {
+                            p, em, h1 {
+                                font-size: 1.875em;
+                                line-height: 1 !important;
+                            }
+                        }
+                    }
+
+                    &.center {
+                        &.headline {
+                            p, em, h1 {
+                                font-family: 'Georgia';
+                                font-weight: bold;
+                                text-transform: uppercase;
+                                font-size:30px;
+                                font-style: normal !important;
+                                line-height: 1 !important;
+                            }
+                        }
+                        &.subtitle {
+                            p, em, h1 {
+                                font-style: italic;
+                                font-weight: normal;
+                                font-size: 1.875em;
+                                line-height: 1 !important;
+                            }
+                        }
+
+                        &.callout {
+                            p, em, h1 {
+                                font-size: 1.875em;
+                                line-height: 1 !important;
+                            }
+                        }
+                    }
+
+                    &.right {
+                        &.headline {
+                            p, em, h1 {
+                                font-family: 'Oswald';
+                                font-weight: bold;
+                                font-size:36px;
+                                font-style: normal !important;
+                                line-height: 1 !important;
+                            }
+                        }
+                        &.subtitle {
+                            p, em, h1 {
+                                font-size: 1.875em;
+                                line-height: 1em !important;
+                            }
+                        }
+
+                        &.callout {
+                            p, em, h1 {
+                                font-size: 1.875em;
+                                line-height: 1em !important;
+                            }
+                        }
+                    }
+
+                   
+                }
+                &.politics {
+                    &.left {
+                        &.headline {
+                            p, em, h1 {
+                                font-family: 'Georgia';
+                                font-weight: bold;
+                                font-size: 30px;
+                                line-height: 1 !important;
+                                font-style: normal !important;
+                            }
+                        }
+                        &.subtitle {
+                            p, em, h1 {
+                                font-family: 'Roboto-Condensed';
+                                font-style: italic;
+                                font-weight: normal;
+                                font-size: 2.1875em;
+                                line-height: 1 !important;
+                            }
+                        }
+
+                        &.callout {
+                            p, em, h1 {
+                                font-size: 1.875em;
+                                line-height: 1 !important;
+                            }
+                        }
+                    }
+
+                    &.center {
+                        &.headline {
+                            p, em, h1 {
+                                font-family: 'Georgia';
+                                text-transform: uppercase;
+                                font-size: 30px;
+                                font-style: normal !important;
+                                line-height: 1 !important;
+                                font-weight: bold;
+                            }
+                        }
+                        &.subtitle {
+                            p, em, h1 {
+                                font-style: italic;
+                                font-weight: normal;
+                                font-size: 1.875em;
+                                line-height: 1;
+                            }
+                        }
+
+                        &.callout {
+                            p, em, h1 {
+                                font-size: 1.875em;
+                                line-height: 1 !important;
+                            }
+                        }
+                    }
+
+                    &.right {
+                        &.headline {
+                            p, em, h1 {
+                                font-family: 'Georgia';
+                                font-weight: bold;
+                                font-size: 30px;
+                                font-style: normal !important;
+                                line-height: 1 !important;
+                            }
+                        }
+                        &.subtitle {
+                            p, em, h1 {
+                                font-size: 1.875em;
+                                line-height: 1em !important;
+                            }
+                        }
+
+                        &.callout {
+                            p, em, h1 {
+                                font-size: 1.875em;
+                                line-height: 1em !important;
+                            }
+                        }
+                    }
+
+                   
+                }
+                &.tech {
+                    &.left {
+                        &.headline {
+                            p, em, h1 {
+                                font-family: 'Roboto-Condensed';
+                                font-weight: bold;
+                                font-size: 2.5em;
+                                line-height: 1;
+                            }
+                        }
+                        &.subtitle {
+                            p, em, h1 {
+                                font-family: 'Roboto-Condensed';
+                                font-style: italic;
+                                font-weight: normal;
+                                font-size: 2.1875em;
+                                line-height: 1;
+                            }
+                        }
+
+                        &.callout {
+                            p, em, h1 {
+                                font-size: 1.875em;
+                                line-height: 1;
+                            }
+                        }
+                    }
+
+                    &.center {
+                        &.headline {
+                            p, em, h1 {
+                                font-family: 'Yrsa';
+                                font-size: 2.5em;
+                                line-height: 1;
+                                font-weight: bold;
+                            }
+                        }
+                        &.subtitle {
+                            p, em, h1 {
+                                font-style: italic;
+                                font-weight: normal;
+                                font-size: 1.875em;
+                                line-height: 1;
+                            }
+                        }
+
+                        &.callout {
+                            p, em, h1 {
+                                font-size: 1.875em;
+                                line-height: 1;
+                            }
+                        }
+                    }
+
+                    &.right {
+                        &.headline {
+                            p, em, h1 {
+                                font-family: 'Yrsa';
+                                font-size: 1.875em;
+                                margin-top: 5px;
+                                line-height: 0.7142857143;
+                            }
+                        }
+                        &.subtitle {
+                            p, em, h1 {
+                                font-size: 1.875em;
+                                line-height: 1em;
+                            }
+                        }
+
+                        &.callout {
+                            p, em, h1 {
+                                font-size: 1.875em;
+                                line-height: 1em;
+                            }
+                        }
+                    }
+
+                    &.fourth {
+                        &.headline {
+                            p, em, h1 {
+                                font-family: 'Roboto';
+                                font-weight: bold;
+                                font-size: 2.1875em;
+                                line-height: 1;
+                            }
+                        }
+                        &.subtitle {
+                            p, em, h1 {
+                                font-family: 'Roboto';
+                                font-weight: normal;
+                                font-size: 1.875em;
+                                line-height: 1;
+                            }
+                        }
+
+                        &.callout {
+                            p, em, h1 {
+                                font-size: 1.875em;
+                                line-height: 1;
+                            }
+                        }
+                    }
+                }
+
+                &.earth-news {
+                    &.left {
+                        &.headline {
+                            p, em, h1 {
+                                font-weight: bold;
+                                font-size: 2.5em;
+                                line-height: 1;
+                                text-align: left;
+                            }
+                        }
+                        &.subtitle {
+                            p, em, h1 {
+                                font-weight: bold;
+                                font-size: 2em;
+                                line-height: 1;
+                            }
+                        }
+
+                        &.callout {
+                            p, em, h1 {
+                                font-weight: normal;
+                                font-size: 2em;
+                                line-height: 1;
+                            }
+                        }
+                    }
+
+                    &.center {
+                        &.headline {
+                            p, em, h1 {
+                                font-size: 2.5em;
+                                line-height: 1;
+                                font-weight: bold;
+                            }
+                        }
+                        &.subtitle {
+                            p, em, h1 {
+                                font-weight: bold;
+                                font-size: 2em;
+                                line-height: 1;
+                            }
+                        }
+
+                        &.callout {
+                            p, em, h1 {
+                                font-weight: normal;
+                                font-size: 2em;
+                                line-height: 1;
+                            }
+                        }
+                    }
+
+                    &.right {
+                        &.headline {
+                            p, em, h1 {
+                                font-size: 2.5em;
+                                line-height: 1;
+                            }
+                            em {
+                                font-style: italic;
+                            }
+                        }
+                        &.subtitle {
+                            p, em, h1 {
+                                font-size: 1.875em;
+                                line-height: 1;
+                            }
+                        }
+
+                        &.callout {
+                            p, em, h1 {
+                                font-size: 1.875em;
+                                line-height: 1;
+                            }
+                        }
+                    }
+
+                    &.fourth {
+                        &.headline {
+                            p, em, h1 {
+                                font-weight: bold;
+                                font-size: 2.5em;
+                                line-height: 1;
+                                text-align: left;
+                            }
+                        }
+                        &.subtitle {
+                            p, em, h1 {
+                                font-weight: bold;
+                                font-size: 2em;
+                                line-height: 1;
+                            }
+                        }
+
+                        &.callout {
+                            p, em, h1 {
+                                font-weight: normal;
+                                font-size: 2em;
+                                line-height: 1;
+                            }
+                        }
+                    }
+
+                    &.fifth {
+                        &.headline {
+                            p, em, h1 {
+                                font-weight: bold;
+                                font-size: 2.5em;
+                                line-height: 1;
+                            }
+                        }
+                        &.subtitle {
+                            p, em, h1 {
+                                font-weight: bold;
+                                font-size: 2em;
+                                line-height: 1;
+                            }
+                        }
+
+                        &.callout {
+                            p, em, h1 {
+                                font-weight: normal;
+                                font-size: 2em;
+                                line-height: 1;
+                            }
+                        }
+                    }
+
+                    &.sixth {
+                        &.headline {
+                            p, em, h1 {
+                                font-weight: bold;
+                                font-size: 2.5em;
+                                line-height: 1;
+                            }
+                        }
+                        &.subtitle {
+                            p, em, h1 {
+                                font-weight: bold;
+                                font-size: 2em;
+                                line-height: 1;
+                            }
+                        }
+
+                        &.callout {
+                            p, em, h1 {
+                                font-weight: normal;
+                                font-size: 2em;
+                                line-height: 1;
+                            }
+                        }
+                    }
+                }
+
+                &.inside-nya {
+                    &.left {
+                        &.headline {
+                            p, em, h1 {
+                                font-weight: bold;
+                                font-size: 2.5em;
+                                line-height: 1;
+                                text-align: left;
+                            }
+                        }
+                        &.subtitle {
+                            p, em, h1 {
+                                font-weight: bold;
+                                font-size: 2em;
+                                line-height: 1;
+                            }
+                        }
+
+                        &.callout {
+                            p, em, h1 {
+                                font-weight: normal;
+                                font-size: 2em;
+                                line-height: 1;
+                            }
+                        }
+                    }
+
+                    &.center {
+                        &.headline {
+                            p, em, h1 {
+                                font-size: 2.5em;
+                                line-height: 1;
+                                font-weight: bold;
+                            }
+                        }
+                        &.subtitle {
+                            p, em, h1 {
+                                font-weight: bold;
+                                font-size: 2em;
+                                line-height: 1;
+                            }
+                        }
+
+                        &.callout {
+                            p, em, h1 {
+                                font-weight: normal;
+                                font-size: 2em;
+                                line-height: 1;
+                            }
+                        }
+                    }
+
+                    &.right {
+                        &.headline {
+                            p, em, h1 {
+                                font-size: 2.5em;
+                                line-height: 1;
+                            }
+                            em {
+                                font-style: italic;
+                            }
+                        }
+                        &.subtitle {
+                            p, em, h1 {
+                                font-size: 1.875em;
+                                line-height: 1;
+                            }
+                        }
+
+                        &.callout {
+                            p, em, h1 {
+                                font-size: 1.875em;
+                                line-height: 1;
+                            }
+                        }
+                    }
+
+                    &.fourth {
+                        &.headline {
+                            p, em, h1 {
+                                font-weight: bold;
+                                font-size: 2.5em;
+                                line-height: 1;
+                                text-align: left;
+                            }
+                        }
+                        &.subtitle {
+                            p, em, h1 {
+                                font-weight: bold;
+                                font-size: 2em;
+                                line-height: 1;
+                            }
+                        }
+
+                        &.callout {
+                            p, em, h1 {
+                                font-weight: normal;
+                                font-size: 2em;
+                                line-height: 1;
+                            }
+                        }
+                    }
+
+                    &.fifth {
+                        &.headline {
+                            p, em, h1 {
+                                font-weight: bold;
+                                font-size: 2.5em;
+                                line-height: 1;
+                            }
+                        }
+                        &.subtitle {
+                            p, em, h1 {
+                                font-weight: bold;
+                                font-size: 2em;
+                                line-height: 1;
+                            }
+                        }
+
+                        &.callout {
+                            p, em, h1 {
+                                font-weight: normal;
+                                font-size: 2em;
+                                line-height: 1;
+                            }
+                        }
+                    }
+
+                    &.sixth {
+                        &.headline {
+                            p, em, h1 {
+                                font-weight: bold;
+                                font-size: 2.5em;
+                                line-height: 1;
+                            }
+                        }
+                        &.subtitle {
+                            p, em, h1 {
+                                font-weight: bold;
+                                font-size: 2em;
+                                line-height: 1;
+                            }
+                        }
+
+                        &.callout {
+                            p, em, h1 {
+                                font-weight: normal;
+                                font-size: 2em;
+                                line-height: 1;
+                            }
+                        }
+                    }
+                }
+            }
+
+            .excerpt-divider {
+                height: 4px;
+                width: 150px;
+                // background-image: url('../images/news/excerpt-separator.png');
+                background-position: center;
+                background-repeat: repeat-x;
+                margin: 10px auto;
+
+                &.notop {
+                    margin-top: 0px;
+                }
+
+                &.taller {
+                    margin: 20px auto;
+                }
+            }
+
+            h1 {
+                font-family: 'Georgia';
+                font-weight: bold;
+                font-size: 40px;
+                line-height: 40px;
+                margin-top: 0px;
+                text-decoration: none !important;
+                color: black;
+            }
+
+            .dateline {
+                font-family: 'Georgia';
+                font-size: 20px;
+                line-height: 20px;
+                margin-bottom: 8px;
+                text-align: left;
+            }
+
+            .byline {
+                font-family: 'Georgia';
+                font-size: 20px;
+                line-height: 20px;
+                margin-bottom: 10px;
+                text-align: center;
+                font-weight: bold;
+                color: black;
+            }
+
+            $two-image-width: 234px;
+            $one-image-width: 213px;
+
+            .image {
+                display: inline-block;
+                background-size:cover;
+                box-sizing: border-box;
+                border: 1px solid black;
+                width: $two-image-width;
+                height: 160px;
+            }
+
+            &.viewpoint {
+                .header-image {
+                    width: 100%;
+                    margin-bottom: 19px;
+                }
+            }
+
+            &.tech {
+                .header-image {
+                    width: 100%;
+                    margin-bottom: 19px;
+                }
+            }
+
+            .excerpt-content {
+
+                &.article {
+                    iframe {
+                        max-height: 600px;
+                    }
+                }
+
+                &.double-column {
+                    column-count: 2;
+
+                }
+
+                &.three-column {
+                    column-count: 3;
+                }
+                &.double-format{
+                    column-count: 2 !important;
+                }
+                &.single-format{
+                    column-count: 1;
+                }
+
+                * {
+                    font-family: 'Georgia';
+                    font-size: 20px;
+                    line-height: 24px;
+                    width: 100%;
+                    box-sizing: border-box;
+                    border-color: black;
+                }
+
+                blockquote {
+                    margin: 0;
+                }
+                p {
+                    margin-top: 0px;
+                    text-align: justify;
+                }
+                a {
+                    color: #046bc4;
+                    word-wrap: break-word;
+                }
+
+                iframe {
+                    max-height: 200px;
+                }
+            }
+
+            .images.one-image {
+                margin-bottom: 28px;
+                img {
+                    width: 100%;
+                }
+                .credits {
+                    margin-bottom:20px;
+                    font-family: 'Georgia';
+                    font-size: 16px;
+                }
+            }
+
+            .images.two-image {
+                margin-bottom: 19px;
+                .image.left { float: left; }
+                .image.right { float: right; }
+            }
+
+            .clearfix {
+                clear:both;
+            }
+
+            &__header {
+                font-size: 2em;
+            }
+        }
+    }
+
+    .video-container {
+        position: relative;
+        margin-bottom: 28px;
+        overflow: hidden;
+        padding-top: 56.25%; // 16:9 ratio
+
+        iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+    }
+
+    .main-content.article {
+        min-height: 1080px;
+        justify-content: center;
+
+        .title > h1, .title > p {
+            font-family: 'Georgia';
+            font-size: 40px;
+            line-height: 40px;
+            margin-top: 0px;
+            margin-bottom: 22px;
+            text-decoration: none !important;
+            color: black;
+            font-weight: bold;
+        }
+
+        .title {
+            &.left {
+                h1, p, em {
+                    font-family: 'Georgia';
+                }
+            }
+
+            &.center {
+                h1, p, em {
+                    font-family: 'Georgia';
+                }
+            }
+
+            &.right {
+                h1, p, em {
+                    font-family: 'Georgia';
+                }
+            }
+
+            &.viewpoint {
+                &.left {
+                    h1, p, em {
+                        font-family: 'Yrsa';
+                    }
+                }
+                &.center {
+                    h1, p, em {
+                        font-family: 'Yrsa';
+                    }
+                }
+                &.right {
+                    h1, p, em {
+                        font-family: 'Oswald';
+                    }
+                }
+            }
+
+            &.licvolt{
+                &.left {
+                    h1, p, em {
+                        font-family: 'Georgia';
+                    }
+                }
+                &.center {
+                    h1, p, em {
+                        font-family: 'Microbrew';
+                    }
+                }
+                &.right {
+                    h1, p, em {
+                        font-family: 'Yrsa';
+                    }
+                }
+                &.fourth {
+                    h1, p, em {
+                        font-family: 'Comic Sans MS';
+                    }
+                }
+            }
+
+            &.subscribers-news {
+                &.left {
+                    h1, p, em {
+                        font-family: 'Georgia';
+                    }
+                }
+                &.center {
+                    h1, p, em {
+                        font-family: 'Microbrew';
+                    }
+                }
+                &.right {
+                    h1, p, em {
+                        font-family: 'Yrsa';
+                    }
+                }
+                &.fourth {
+                    h1, p, em {
+                        font-family: 'Comic Sans MS';
+                    }
+                }
+            }
+
+            &.tech {
+                &.left {
+                    h1, p, em {
+                        font-family: 'Roboto-Condensed';
+                    }
+                }
+                &.center {
+                    h1, p, em {
+                        font-family: 'Yrsa';
+                    }
+                }
+                &.right {
+                    h1, p, em {
+                        font-family: 'Yrsa';
+                    }
+                }
+
+                &.fourth {
+                    h1, p, em {
+                        font-family: 'Roboto';
+                    }
+                }
+            }
+        }
+
+        .info {
+            box-sizing: border-box;
+            border-top: 1px solid black;
+            border-bottom: 1px solid black;
+            font-size: 20px;
+            line-height: 40px;
+            margin-bottom: 40px;
+            .byline {
+                font-family: 'Georgia';
+                font-weight: bold;
+                margin-right: 20px;
+            }
+            .dateline{
+                font-family: 'Georgia';
+            }
+        }
+
+        .article-text {
+            * {
+                font-family: 'Georgia';
+                font-size:28px;
+                line-height: 40px;
+            }
+            p {
+                margin-top: 0px;
+            }
+            a {
+                color: #046bc4;
+            }
+        }
+
+        $two-image-width: 475px;
+        $scale: 475 / 234;
+        // $one-image-width: 213px * $scale;
+        $article-content-width: $column-width * 2.0;
+        $one-image-width: $article-content-width;
+        $one-image-height: (160px / 213px) * $one-image-width;
+        .images {
+            .image {
+                display: inline-block;
+                //background: grey;
+                background-size:cover;
+                box-sizing: border-box;
+                border: 1px solid black;
+                width: $two-image-width;
+                height: 357px;
+            }
+            .credits{
+                margin-top: 13px;
+                float: right;
+                font-family: "Georgia";
+                font-size: 13px;
+                line-height: 13px;
+            }
+        }
+        .images.one-image {
+            display: inline-block;
+            width: 100%;
+            img {
+                width: 100%;
+            }
+            .credits {
+                font-size: 18px;
+                margin-bottom:20px;
+            }
+        }
+        .images.two-image {
+            .image.left { float: left; }
+            .image.right { float: right; }
+            .credits {
+                font-size: 18px;
+                margin-bottom:40px;
+            }
+        }
+        .images.video {
+            margin-bottom:40px;
+        }
+        .clearfix {
+            clear:both;
+        }
+    }
+}
+
+//
+.column.article {
+    margin-bottom: 48px;
+}
+
+.excerpt-content.article::before,
+.excerpt-content.article::after {
+    content: '';
+    display: table;
+    width: 100%;
+}
+
+.excerpt-content.article:after {
+    clear: both;
+}
+
+@include respond(small){
+    .news-3{
+        .excerpt-wrapper{
+            .column{
+                &.left,&.center{
+                    border-right: none !important;
+                }
+                &.left, &.right,&.center{
+                    flex-grow: 1 !important;
+                   
+                }
+            }
+        }
+
+    }
+   .main-content{
+    .column{
+        .mobile{
+            p{
+                font-size: 6em !important;
+            }
+        }
+        .article-text{
+            >*{
+                font-size: 3em !important;
+                line-height: 50px !important;
+            }
+        }
+    }
+        .center-line{
+            display: none;
+        }
+        .excerpt-wrapper{
+            display: flex;
+            flex-direction: row;
+            width: -webkit-fill-available;
+            .column{
+                &.left,&.center{
+                    border-right: 2px solid;
+                }
+                &.fourth,&.fifth{
+                    border-left: 2px solid;
+                }
+                &.left, &.right{
+                    flex-grow: 2;
+                   
+                }
+                &.center{
+                    flex-grow: 4;
+                }
+            }
+        }
+   } 
+   .news-content{
+    width: 100%;
+    padding: 0;
+    .main-content{
+        .column.article{
+            width: 90%; 
+        }
+    }
+   }
+}
+.newspaper-page {
+    width: 100%;
+    position: absolute;
+    top: 108px;
+    bottom:0px;
+
+    .controls {
+        top: 0px; left:0px;
+        z-index: 1000;
+        position: relative !important;
+
+        .x-button {
+            // background-image: url('../images/news/x-button.png');
+            height: 33px;
+            width: 33px;
+            position: absolute;
+            cursor:pointer;
+            left:36px;
+            top:42px;
+            &:hover {
+                opacity: 0.8;
+            }
+        }
+    }
+    .page-wrapper {
+        width: 100%;
+        height: 100%;
+        overflow-y: scroll;
+    }
+
+    .news-navbar {
+        background-color: #ebddc5;
+        height: 42px;
+        position: absolute;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        top: 165px;
+        border-bottom: 1px solid black;
+        &.dark-mode{
+            @include background-colors($light-theme:false);
+            border-bottom: 1px solid #b3b3b3;
+            >*, div, p, a{
+                @include theme-colors($light-theme: false);
+            }
+            .link{
+                .highlighted{
+                   color:black !important;
+                }
+            }
+        }     
+
+
+        p {
+            display: inline-block;
+            font-family: Georgia;
+            font-size: 15px;
+            line-height: 15px;
+            padding: 0px 5px;
+
+            &.highlighted {
+                background: yellow;
+            }
+        }
+
+        .divider {
+            //margin: 0px 10px;
+        }
+    
+        .link {
+            border-radius: 2px;
+            cursor: pointer;
+            margin: 0px;
+    
+            &:hover {
+                background: rgba(0,0,0,0.10);
+            }
+
+            &.selected {
+                background: rgba(0,0,0,0.10);
+            }
+        }
+    }
+
+    .page {
+        position: relative;
+        width: 100%;
+        margin: 0px auto;
+
+        .ragged-edge {
+            // background-image: url('../images/news/newspaper-edge-top.png');
+            height: 38px;
+            width: 100%;
+            &.dark-mode{
+                display:none;
+            }
+
+            &.bottom {
+                // background-image: url('../images/news/newspaper-edge-bottom.png');
+                background-repeat: no-repeat;
+                height: 500px;
+                height: 500px;
+                position: relative;
+                top: -2px;
+            }
+        }
+
+        .page-contents {
+            // background-image: url('../images/news/newspaper-bg-tile.png');
+            background-repeat: repeat;
+            position:relative;
+            top: -1px;
+
+            .newspaper-header {
+                background-color: #eaddc7;
+                width: 100%;
+                position:fixed; 
+                top: 100px;
+                left:0px;
+                height: 165px;
+                z-index: 99;
+                &.light-mode{
+                    >*,div,p,h1{
+                        @include theme-colors($light-theme: true);
+                    }
+                    .blurb{
+                        p{
+                            @include theme-colors($light-theme: true);
+                        }
+                    }
+                }
+                &.dark-mode{
+                     @include background-colors($light-theme:false);
+                    >*,div,p,h1{
+                        @include theme-colors($light-theme: false);
+                    }
+                    .blurb{
+                        border: 2px solid #b3b3b3;
+                        p{
+                            @include theme-colors($light-theme: false);
+                        }
+                    }
+                }
+
+                .title-click-area {
+                    cursor:pointer;
+                    position: absolute;
+                    width: 720px;
+                    height: 150px;
+                    left: 600px;
+                    top: 25px;
+                }
+
+                .title {
+                    position:absolute; 
+                    top: 23px;
+                    left: 50%;
+                    transform: translate(-50%);
+                    height: 85px;
+                    width: 800px;
+                    background-size: contain;
+                    background-position-x: center;
+                    background-repeat: no-repeat;
+                    // background-image: url('../images/news/newspaper-header.png');
+                }
+
+                .midline, .blurb {
+                    position: absolute;
+                    &.light-mode{
+                        @include background-colors($light-theme:true);
+                        >*, div, p, a{
+                            @include theme-colors($light-theme: true);
+                        }
+                    }
+                    &.dark-mode{
+                        @include background-colors($light-theme:false);
+                        border-bottom: 1px solid #b3b3b3;
+                        border-top: 1px solid #b3b3b3;
+                        >*, div, p, a{
+                            @include theme-colors($light-theme: false);
+                        }
+                        .navigation{
+                            .button{
+                                border: 2px solid #b3b3b3;
+                            }
+                        }
+                        
+                    }
+                }
+                .blurb {
+                    width: 10%;
+                    height: 80px;
+                    top: 24px;
+                    text-align: center;
+                    border: solid 2px;
+                    p {
+                        box-sizing: border-box;
+                        padding-left: 15px;
+                        padding-right: 15px;
+                        font-family: "American Typewriter";
+                        font-size: 15px;
+                    }
+
+                    &.left {
+                        left: 80px;
+                    }
+                    &.right {
+                        right: 80px;
+                    }
+                }
+                .midline {
+                    height: 42px;
+                    width: 100%;
+                    top: 123px;
+                    box-sizing: border-box;
+                    padding: 0px 80px;
+                    border-bottom: 1px solid black;
+                    border-top: 1px solid black;
+                    position: relative;
+
+                    > * {
+                        font-family: Georgia;
+                        @include theme-colors($light-theme: true);
+                        height: 42px;
+                        line-height: 42px;
+                        font-size: 14px;
+                    }
+                    .volume {
+                        position: absolute;
+                        top:0px;
+                        left: 80px;
+                    }
+                    .today {
+                        display: block;
+                        width: 100%;
+                        text-align:center;
+                    }
+                    .edition {
+                        position: absolute;
+                        top:0px;
+                        right: 0px;
+                    }
+                    .navigation {
+                        position: absolute;
+                        top:-2px;
+                        right: 80px;
+                        > div, > p {
+                            display: inline-block;
+                            vertical-align:middle;
+                        }
+
+                        .button {
+                            cursor:pointer;
+                            &:hover {
+                                background: rgba(0,0,0,0.15);
+                            }
+                            height: 26px;
+                            line-height: 26px;
+                            font-size: 14px;
+                            font-family:Georgia;
+                            border: 2px solid black;
+                            border-radius: 5px;
+                            &.prev {
+                                padding-left:12px;
+                                padding-right:12px;
+                            }
+                            &.next {
+                                padding-left:28px;
+                                padding-right:28px;
+                            }
+                            &.hidden {
+                                visibility:hidden;
+                            }
+                        }
+                        .text {
+                            margin: 0 28px 0 27px;
+                            word-spacing:-1px;
+                            font-size: 20px;
+                            font-family:Georgia;
+                            width: 100px;
+                            text-align: center;
+                        }
+                    }
+                }
+
+            }
+
+            .content {
+                width: 100%;
+                min-height: 100vh;
+                padding-top: 180px;
+                &.light-mode{
+                    >*, p, div, h1, h2, h3, h4, ul, li , a{
+                        @include theme-colors($light-theme: true);
+                    } 
+                }
+
+                &.dark-mode{
+                    padding-top: 250px;
+                    >*, p, div, h1, h2, h3, h4, ul, li , a{
+                        @include theme-colors($light-theme: false);
+                        title{
+                            hr{
+                                background-color: white;  
+                            }
+                        }
+                        .divider{
+                            background-color: white;
+                        }
+                    }
+                }
+            }
+        }
+
+    }
+
+    .ad {
+        width: 332px;
+        box-sizing: border-box;
+        border: 1px solid black;
+        background: grey;
+        margin-bottom: 10px;
+        &.height300 {
+            height:332px;
+        }
+        &.height250 {
+            height:250px;
+        }
+        &.height600 {
+            height:600px;
+        }
+        &.top40 {
+            // background-image: url('../images/news/Top40.jpg');
+            height: 90px;
+            width: 332px;
+            background-size: cover;
+        }
+        &.top10 {
+            // background-image: url('../images/news/Top10.jpg');
+            height: 90px;
+            width: 332px;
+            background-size: cover;
+        }
+    }
+}
+
+@include respond(small) {
+    .excerpt-wrapper{
+        .column{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: inherit;
+            .excerpt{
+                width: 90%;
+            }
+        }
+    }
+    
+    .page{
+        margin-top: 15rem !important; 
+        height:100%;
+        .content{
+            padding-top: 430px !important;
+            background-color: #ebddc5 !important;
+        }
+
+        .page-contents{
+            height: inherit;
+            .news-content{
+            .main-content{
+                .column{
+                    display: flex;
+                    flex-direction: column;
+                    .credits{
+                        font-size: 70px;
+                        line-height: 100px;
+                    }
+                }
+            .column,&.article{
+                .excerpt{
+                    .credits{
+                        font-size: 28px;
+                        line-height: inherit;
+                    } 
+                    .title{
+                        padding: 10px 0 10px 0;
+                        iframe{
+                            width: -webkit-fill-available;
+                            height: 20rem;
+                        }
+                        p{
+                            font-size: 2em !important;
+                            line-height: 55px !important;
+                            img{
+                                width: 100%; 
+                            }
+                        }   
+                    }
+                }
+            .title{
+                h1{
+
+                     font-size: 90px;
+
+                }
+                iframe{
+                    width: -webkit-fill-available;
+                    height: 60rem;
+                }
+               p{
+                font-size: 8em !important;
+                line-height: 135px !important; 
+                img{
+                    width: -webkit-fill-available;
+                }           
+               } 
+            }
+            .byline{
+                font-size: 3em !important;
+            }
+            .article-text{
+                &>*{
+                    line-height: 100px !important;
+                }
+                li{ 
+                    font-size: 2em;
+                    line-height: 100px;
+                    strong, a{
+                        font-size: 75px;
+                    }
+                }
+                p{
+                    font-size: 6em !important;
+                    strong{
+                        font-size: 60px;   
+                    }
+                    em{
+                        font-size: 1em !important;  
+                    }
+                    a{
+                        font-size: 70px;
+                        img{
+                            width: 100%;
+                        }
+                    }
+                    img{
+                        width: 100%;
+                    }
+
+                }
+
+            }
+        }}
+        }
+        }
+        .newspaper-header{
+            height: 20rem !important;
+            top: 11.7rem !important;
+            .title{
+                height: 10rem !important;
+                width: 55% !important;
+            }
+            .title-click-area{
+                top: -10px;
+            }
+            .midline{
+                top: 150px !important;
+                height: 135px !important;
+                padding-top: 1.5rem !important;
+                .volume{
+                    top: 40px !important;
+                }
+                .today{
+                    top: 20px;
+                    position: inherit !important;
+                }
+                .edition{
+                    position: absolute;
+                    margin-top: .7em;
+                    margin-right: 1em;
+                }
+                .volume, .today,.edition{
+                    font-size: 60px !important;
+                }
+            }
+            .news-navbar{
+                top: 300px;
+                height: 12rem;
+                overflow: hidden;
+                .mobile-nav{
+                    height: inherit;
+                    width: max-content;
+                    display: flex;
+                    flex-direction: row;
+                    position: relative;
+                    overflow: auto;
+                    white-space: nowrap;
+                    .divider{
+                        background: black;
+                        width: .2em;
+                    }
+                    .link{
+                        padding: 4em;
+                        border-right: solid 4px black;
+                    }
+                    span{
+                        font-family: Georgia,Times,Times New Roman,serif;
+                        font-size: 4em;
+                        letter-spacing: .02em;
+                        &.highlighted {
+                            background: yellow;
+                        }
+                    }
+                }
+               
+            }
+        }
+            
+    }
+    .newspaper-page{
+        .page-wrapper{
+            >*div{
+                height: 100%; 
+            }
+
+        }
+    }
+}

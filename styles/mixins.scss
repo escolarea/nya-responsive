@@ -1,0 +1,51 @@
+$light-background: #ebddc5;
+$light-text: #b3b3b3;
+$dark-background: black;
+$dark-text: black;
+
+@mixin theme-colors($light-theme) {
+  @if $light-theme {
+    color: $dark-text;
+  } @else {
+    color: $light-text;
+  }
+}
+
+@mixin background-colors($light-theme) {
+    @if $light-theme {
+      background-color: $light-background;
+    } @else {
+      background-color: $dark-background;
+    }
+  }
+
+  @mixin respond($breakpoint) {
+    @if($breakpoint == medium)  {
+      @media (max-width: 900px) { @content }
+    }
+    @if($breakpoint == small)  {
+      @media only screen and(max-width: 600px),
+      only screen and (min-device-width: 375px) and (max-device-height: 667px) and (orientation : landscape) and (-webkit-device-pixel-ratio: 2),
+        only screen and (min-device-width: 414px) and (max-device-height: 736px) and (orientation : landscape) and (-webkit-device-pixel-ratio: 2),
+        only screen and (min-device-width: 375px) and (max-device-height: 812px) and (orientation : landscape) and (-webkit-device-pixel-ratio: 3),
+        only screen and (min-device-width: 414px) and (max-device-height: 896px) and (orientation : landscape) and (-webkit-device-pixel-ratio: 3),
+        only screen and (min-device-width: 320px) and (max-device-height: 640px) and (orientation : landscape) and (-webkit-device-pixel-ratio: 2),
+        only screen and (min-device-width: 320px) and (max-device-height: 640px) and (orientation : landscape) and (-webkit-device-pixel-ratio: 3),
+        only screen and (min-device-width: 360px) and (max-device-height: 640px) and (orientation : landscape) and (-webkit-device-pixel-ratio: 3),
+        only screen and (device-width : 414px) and (device-height : 896px) and (orientation : landscape) and (-webkit-device-pixel-ratio : 2){ 
+          @content 
+        }
+    }
+    @if($breakpoint == landscape) {
+        @media only screen and (min-device-width: 375px) and (max-device-height: 667px) and (orientation : landscape) and (-webkit-device-pixel-ratio: 2),
+        only screen and (min-device-width: 414px) and (max-device-height: 736px) and (orientation : landscape) and (-webkit-device-pixel-ratio: 2),
+        only screen and (min-device-width: 375px) and (max-device-height: 812px) and (orientation : landscape) and (-webkit-device-pixel-ratio: 3),
+        only screen and (min-device-width: 414px) and (max-device-height: 896px) and (orientation : landscape) and (-webkit-device-pixel-ratio: 3),
+        only screen and (min-device-width: 320px) and (max-device-height: 640px) and (orientation : landscape) and (-webkit-device-pixel-ratio: 2),
+        only screen and (min-device-width: 320px) and (max-device-height: 640px) and (orientation : landscape) and (-webkit-device-pixel-ratio: 3),
+        only screen and (min-device-width: 360px) and (max-device-height: 640px) and (orientation : landscape) and (-webkit-device-pixel-ratio: 3),
+        only screen and (device-width : 414px) and (device-height : 896px) and (orientation : landscape) and (-webkit-device-pixel-ratio : 2){ 
+        @content 
+      } 
+    }
+}

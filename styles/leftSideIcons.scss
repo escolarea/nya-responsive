@@ -1,0 +1,202 @@
+#drawer-front-container{
+    width: 100vw;
+    height: 100vh;
+}
+#drawer-front {
+    position: relative;
+    height: 100%;
+
+    .body-unscaled & {
+        margin: 0px auto;
+        width: 1920px;
+    }
+    .body-scaled & {
+        width: 100%
+    }
+
+    .front {
+        width: 100%;
+    }
+
+    .front-wrapper {
+        height: 100%;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        overflow: scroll;
+        .body-unscaled & {
+            width: 1920px;
+            height: 100%;
+        }
+        .body-scaled & {
+            width: 100%
+        }
+        position: relative;
+
+        .left-side-icons {
+            width: 20%;
+            position: absolute;
+            display: inline-grid;
+            height: inherit;
+            grid-template-columns: 1fr;
+            grid-template-rows: repeat(auto-fit, 17%);
+
+            &.extendedColumn{
+                grid-template-rows: repeat(auto-fit, 15%);
+            }
+            &.extraColumn{
+                grid-template-rows: repeat(auto-fit, 11%);
+            }
+            a{
+                height: inherit !important;
+                &.small{
+                    position: relative;
+                    grid-column: 1; 
+                    width: inherit;
+                    left: 10%;
+                    .icon{
+                        width: 200% !important;
+                    }
+                }
+                &.side-to-side{
+                    position: relative;
+                    width: inherit;
+                    left: 50%;
+                }
+            }
+
+            .icon {
+                background-position: center;
+                background-repeat:no-repeat;
+                background-size: contain;
+                width:400px;
+                height: inherit; 
+                margin-bottom: 10px;
+            }
+        }
+        .subscribe-btn{
+            position: absolute;
+            margin-top: 7rem;
+            margin-left: 50rem;
+        }
+        .cabinet-label{
+            position: absolute;
+            margin-top: 45rem;
+            margin-left: 43rem;
+            cursor: pointer;
+        }
+    }
+
+    .post-it {
+        background-repeat: no-repeat;
+        background-size: contain;
+        background-position: center; 
+        width: 100vw;
+        height: 324px;
+        position: relative;
+        right: 15px;
+
+        > .content {
+            p {
+                position: absolute;
+                padding: 0px;
+                margin:0px;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                text-overflow: ellipsis;
+                overflow: hidden;
+            }
+        }
+
+        &.top {
+            top:15px;
+        }
+        &.middle {
+            top: 350px;
+        }
+        &.bottom {
+            top: 690px;
+        }
+
+        &.paper {
+            top: 30px;
+
+            > .content {
+                p {
+                    top: unset;
+                    left: unset;
+                    transform: unset;
+
+                    img {
+                        width: 100%
+                    }
+                }
+            }
+
+            &.S {
+                width: 375px;
+            }
+
+            &.M {
+                width: 390px;
+            }
+
+            &.L {
+                width: 540px;
+            }
+        }
+
+        
+
+        .content {
+            display: inline-block;
+            width: 100%;
+            height: 100%;
+            text-decoration: none;
+            color: black;
+            text-decoration: none;
+            box-sizing: border-box;
+            padding: 40px;
+            font-size: 22px;
+            line-height: 26px;
+            text-align: center;
+            overflow: hidden;
+
+            &.paper {
+                padding: 0;
+            }
+        }
+    }
+
+    .panel {
+        position: absolute;
+        width: 1920px;
+        height: 1094px;
+
+        // background-image: url('../images/filing-cabinet/cabinet-door-base.png');
+
+        &.ul {
+            top: 0%; right: 100%;
+            transform: scaleX(-1);
+        }
+        &.ur {
+            top: 0%; left: 100%;
+            transform: scaleX(-1);
+        }
+        &.ll {
+            top: 100%; right: 100%;
+            transform: scaleX(-1) scaleY(-1);
+        }
+        &.lm {
+            top: 100%; left: 0%;
+            transform: scaleY(-1);
+        }
+        &.lr {
+            top: 100%; left: 100%;
+            transform: scaleX(-1) scaleY(-1);
+        }
+
+    }
+
+}

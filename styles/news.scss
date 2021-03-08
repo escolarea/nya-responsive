@@ -1,0 +1,1648 @@
+.news-page {
+    .signature {
+        background-image: url('https://s3.amazonaws.com/neilyoungarchives.com/assets/about/signature.png');
+        height: 103px;
+        width: 143px;
+        margin-bottom: 200px;
+    }
+}
+
+.news-content {
+    text-align: left;
+    $main-width: 1920px - (80px * 2);
+    width: $main-width;
+    margin: 0px auto;
+    box-sizing: border-box;
+    position:relative;
+
+    $content-width: $main-width;
+    $column-width: 347px;
+
+    .main-content {
+        $ad-column-width: 332px;
+        $article-column-width: 1420px;
+        padding-top: 32px;
+        box-sizing: border-box;
+        position: relative;
+        display: flex;
+
+        .excerpt-wrapper {
+            position:relative;
+            flex: 1; 
+        }
+
+        .column-title {
+            p, em {
+                white-space: pre;
+                font-family: 'Georgia';
+                font-size: 30px;
+                line-height: 30px;
+                margin: 0px;
+                color: black;
+                font-weight: bold;
+                text-align: center;
+            }
+
+            img {
+                width: 100%;
+            }
+
+            &.viewpoint {
+                &.left > p, em {
+                    font-family: 'Roboto';
+                    font-weight: bold;
+                }
+
+                &.center > p, em {
+                    font-family: 'Yrsa';
+                    font-weight: bold;
+                    font-size: 80px;
+                    line-height: 40px;
+                    padding-top: 10px;
+                }
+
+                &.right > p, em {
+                    font-family: 'LibreBaskerville';
+                    font-style: italic;
+                    font-size: 60px;
+                    line-height: 60px;
+                }
+            }
+
+            &.licvolt{
+                &.left > p, em {
+                    font-family: 'Roboto';
+                    font-weight: bold;
+                    font-size: 32px;
+                    letter-spacing: -1px;
+                }
+
+                &.center > p, em {
+                    font-family: 'Yrsa';
+                    font-weight: bold;
+                    font-size: 45px;
+                    line-height: 30px;
+                    padding-top: 10px;
+                }
+
+                &.right > p, em {
+                    font-family: 'Georgia';
+                    font-style: bold;
+                    font-size: 40px;
+                    line-height: 40px;
+                }
+            }
+
+            &.subscribers-news {
+                &.left > p, em {
+                    font-family: 'Roboto';
+                    font-weight: bold;
+                    font-size: 32px;
+                    letter-spacing: -1px;
+                }
+
+                &.center > p, em {
+                    font-family: 'Galada';
+                    font-weight: normal;
+                    font-size: 65px;
+                    line-height: 55px;
+                    padding-top: 10px;
+                }
+
+                &.right > p, em {
+                    font-family: 'Comic Sans MS';
+                    font-style: bold;
+                    font-size: 40px;
+                    line-height: 40px;
+                }
+            }
+
+            &.tech {
+                &.left > p, em {
+                    font-family: 'Sixcaps';
+                    font-weight: bold;
+                    font-size: 100px;
+                    line-height: 100px;
+                    letter-spacing: -1px;
+                }
+
+                &.center > p, em {
+                    font-family: 'Yrsa';
+                    font-weight: bold;
+                    font-size: 75px;
+                    line-height: 35px;
+                    padding-top: 10px;
+                }
+
+                &.right > p, em {
+                    font-family: 'Georgia';
+                    font-style: italic;
+                    font-weight: normal;
+                    font-size: 60px;
+                    line-height: 60px;
+                }
+
+                &.fourth > p, em {
+                    font-family: 'Roboto';
+                    font-style: bold;
+                    font-size: 60px;
+                    line-height: 60px;
+                    letter-spacing: -2px;
+                }
+
+                &.fifth > p, em {
+                    font-family: 'Georgia';
+                    font-size: 60px;
+                    line-height: 65px;
+                    font-weight: normal;
+                    font-style: italic;
+                }
+            }
+        }
+
+        .column {
+            display: inline-block;
+            vertical-align: top;
+            box-sizing: border-box;
+            width: $column-width;
+            padding:0px;
+
+            &.left {
+                padding-right: 10px;
+
+                &.column-4 {
+                    width: 336px + 10px;
+                }
+
+                &.column-3-equal {
+                    width: 456px + 10px;
+                }
+
+                &.column-4-full-inner {
+                    position: relative;
+                    width: 340px + 10px;
+                }
+            }
+            &.center {
+                padding-left: 10px;
+                padding-right: 10px;
+                width: 2 * $column-width + 20px;
+
+                &.column-4 {
+                    width: 336px + 20px;
+                }
+
+                &.column-4-full-inner {
+                    position: relative;
+                    width: 340px + 20px;
+                }
+
+                &.column-3-full {
+                    width: 1066px;
+                }
+
+                &.column-3-equal {
+                    width: 456px + 20px;
+                }
+            }
+            &.right {
+                padding-left: 10px;
+
+                &.column-4 {
+                    width: 336px + 20px;
+                    padding-right: 10px;
+                }
+
+                &.column-4-full-inner {
+                    position: relative;
+                    width: 340px + 20px;
+                    padding-right: 10px;
+                }
+
+                &.column-3-equal {
+                    width: 456px + 10px;
+                }
+            }
+            &.fourth {
+                padding-left: 10px;
+
+                &.column-4 {
+                    width: 336px + 10px;
+                    padding-right: 10px;
+                }
+
+                &.column-4-full-inner {
+                    position: relative;
+                    width: 340px + 10px;
+                }
+
+                &.column-3-full-inner {
+                    position: relative;
+                    width: (1006px/3+10);
+                    padding-left: 0px;
+                    padding-right: 10px;
+                }
+            }
+            &.fifth {
+
+                &.column-4 {
+                    padding-left: 10px;
+                    width: 336px + 10px;
+                }
+
+                &.column-4-full {
+                    position: relative;
+                    width: 1420px;
+                }
+
+                &.column-3-full-inner {
+                    position: relative;
+                    width: (1006px/3+20);
+                    padding-left: 10px;
+                    padding-right: 10px;
+                }
+            }
+            &.sixth {
+                &.column-3-full-inner {
+                    position: relative;
+                    width: (1006px/3+10);
+                    padding-left: 10px;
+                    padding-right: 0px;
+                }
+            }
+            &.ads {
+                margin-left: 20px;
+                width: $ad-column-width;
+            }
+            &.article {
+                width: $article-column-width;
+            }
+
+            .divider {
+                height: 4px;
+                // background-image: url('../images/news/excerpt-separator.png');
+                background-position: center;
+                background-repeat: repeat-x;
+                margin: 10px auto;
+            }
+
+            .playlist-image {
+                width: 100%;
+            }
+        }
+
+        .center-line {
+            position: absolute;
+            height: auto;
+            top:0px; bottom:0px;
+            left: $column-width;
+            background: black;
+            width: 1px;
+
+            &.inner-column {
+                left: unset;
+                right: 0;
+            }
+        }
+
+        .excerpt {
+            > a { text-decoration: none; }
+
+            .title-column {
+                > a { text-decoration: none; }
+
+                &.double-column {
+                    column-count: 2;
+                }
+
+                &.three-column {
+                    column-count: 3;
+                }
+                &.double-format{
+                    column-count: 2 !important;
+                }
+                &.single-format{
+                    column-count: 1;
+                }
+            }
+
+            .title {
+                margin-bottom: 10px;
+                overflow: hidden;
+
+                &:hover {
+                    opacity: 0.65;
+                }
+
+                img {
+                    width: 100%;
+                }
+
+                h1 {
+                    font-family: 'Georgia';
+                    font-size: 1.875em;
+                    line-height: 1;
+                    margin: 0px;
+                    color: black;
+                    font-weight: bold;
+                    text-align: center;
+                }
+
+                p, em {
+                    white-space: pre;
+                    font-family: 'Georgia';
+                    font-size: 1.875em;
+                    line-height: 1;
+                    margin: 0px;
+                    color: black;
+                    font-weight: bold;
+                    text-align: center;
+                }
+
+                &.left {
+                    &.headline {
+                        p, em, h1 {
+                            font-size: 2.8125em;
+                            line-height: 1;
+                        }
+                    }
+                    &.subtitle {
+                        p, em, h1 {
+                            font-family: 'Yrsa';
+                            font-size: 2.1875em;
+                            line-height: 1.1428571429;
+                        }
+                    }
+
+                    &.callout {
+                        p, em, h1 {
+                            font-size: 2.1875em;
+                            line-height: 1.1428571429;
+                        }
+                    }
+                }
+
+                &.center {
+                    &.headline {
+                        p, em, h1 {
+                            font-size: 3.125em;
+                            line-height: 1;
+                        }
+                    }
+                    &.subtitle {
+                        p, em, h1 {
+                            font-size: 3.75;
+                            line-height: 1;
+                        }
+                    }
+
+                    &.callout {
+                        p, em, h1 {
+                            font-family: 'Yrsa';
+                            font-size: 2.1875;
+                            line-height: 1.2857142857;
+                        }
+                    }
+                }
+
+                &.right {
+                    &.headline {
+                        p, em, h1 {
+                            font-size: 2.1875em;
+                            line-height: 1.1428571429;
+                        }
+                    }
+                    &.subtitle {
+                        p, em, h1 {
+                            font-family: 'Yrsa';
+                            font-size: 2.1875em;
+                            line-height: 1.1428571429;
+                        }
+                    }
+
+                    &.callout {
+                        p, em, h1 {
+                            font-size: 2.1875em;
+                            line-height: 1.1428571429;
+                        }
+                    }
+                }
+
+                &.viewpoint {
+                    &.left {
+                        &.headline {
+                            p, em, h1 {
+                                font-size: 1.625em;
+                                line-height: 1;
+                            }
+                        }
+                    }
+
+                    &.center {
+                        &.headline {
+                            p, em, h1 {
+                                font-family: 'Yrsa';
+                                font-weight: bold;
+                                font-size: 2.5em;
+                                line-height: 1;
+                            }
+                        }
+                    }
+
+                    &.right {
+                        &.headline {
+                            p, em, h1 {
+                                font-family: 'Oswald';
+                                font-weight: bold;
+                                font-size: 2.625em;
+                                line-height: 1;
+                            }
+                        }
+                    }
+                }
+
+                &.licvolt{
+                    &.left {
+                        &.headline {
+                            p, em, h1 {
+                                font-size: 2.8125em;
+                                line-height: 1;
+                                font-weight: bold;
+                            }
+
+                            em {
+                                font-style: italic;
+                            }
+                        }
+                        &.subtitle {
+                            p, em, h1 {
+                                font-family: 'Yrsa';
+                                font-size: 2.1875em;
+                                line-height: 1;
+                            }
+                        }
+
+                        &.callout {
+                            p, em, h1 {
+                                font-size: 1.875em;
+                                line-height: 1;
+                            }
+                        }
+                    }
+
+                    &.center {
+                        &.headline {
+                            p, em, h1 {
+                                font-size: 2.0625em;
+                                line-height: 1;
+                            }
+                        }
+                        &.subtitle {
+                            p, em, h1 {
+                                font-size: 1.5625em;
+                                line-height: 1;
+                                font-weight: bold;
+                                font-style: italic;
+                            }
+                        }
+
+                        &.callout {
+                            p, em, h1 {
+                                font-size: 1.875em;
+                                line-height: 1;
+                            }
+                        }
+                    }
+
+                    &.right {
+                        &.headline {
+                            p, em, h1 {
+                                font-family: 'Roboto';
+                                font-weight: bold;
+                                font-size: 3.75em;
+                                line-height: 1;
+                            }
+                        }
+                        &.subtitle {
+                            p, em, h1 {
+                                font-family: 'Roboto';
+                                font-weight: bold;
+                                font-size: 1.875em;
+                                line-height: 1;
+                            }
+                        }
+
+                        &.callout {
+                            p, em, h1 {
+                                font-family: 'Roboto';
+                                font-style: italic;
+                                font-size: 1.5625;
+                                line-height: 1;
+                            }
+                        }
+                    }
+                }
+
+                &.subscribers-news {
+                    &.left {
+                        &.headline {
+                            p, em, h1 {
+                                font-size: 1.875em;
+                                line-height: 1;
+                            }
+                        }
+                        &.subtitle {
+                            p, em, h1 {
+                                font-size: 1.875em;
+                                line-height: 1;
+                            }
+                        }
+
+                        &.callout {
+                            p, em, h1 {
+                                font-size: 1.875em;
+                                line-height: 1;
+                            }
+                        }
+                    }
+
+                    &.center {
+                        &.headline {
+                            p, em, h1 {
+                                font-family: 'Microbrew';
+                                font-size: 2.8125em;
+                                line-height: 1;
+                                font-weight: bold;
+                            }
+                        }
+                        &.subtitle {
+                            p, em, h1 {
+                                font-size: 1.875em;
+                                line-height: 1;
+                            }
+                        }
+
+                        &.callout {
+                            p, em, h1 {
+                                font-size: 1.875em;
+                                line-height: 1;
+                            }
+                        }
+                    }
+
+                    &.right {
+                        &.headline {
+                            p, em, h1 {
+                                font-family: 'Comic Sans MS';
+                                font-weight: bold;
+                                font-size: 1.875;
+                                line-height: 1;
+                            }
+                        }
+                        &.subtitle {
+                            p, em, h1 {
+                                font-family: 'Comic Sans MS';
+                                font-weight: normal;
+                                font-size: 1.875;
+                                line-height: 1;
+                            }
+                        }
+
+                        &.callout {
+                            p, em, h1 {
+                                font-family: 'Comic Sans MS';
+                                font-weight: normal;
+                                font-size: 1.875;
+                                line-height: 1;
+                            }
+                        }
+                    }
+                }
+                &.listen {
+                    &.left {
+                        &.headline {
+                            p, em, h1 {
+                                font-family: 'Georgia';
+                                font-size:30px;
+                                font-style: normal !important;
+                                line-height: 1 !important;
+                            }
+                        }
+                        &.subtitle {
+                            p, em, h1 {
+                                font-family: 'Roboto-Condensed';
+                                font-weight: bold;
+                                font-size: 2.1875em;
+                                line-height: 1 !important;
+                            }
+                        }
+
+                        &.callout {
+                            p, em, h1 {
+                                font-size: 1.875em;
+                                line-height: 1 !important;
+                            }
+                        }
+                    }
+
+                    &.center {
+                        &.headline {
+                            p, em, h1 {
+                                font-family: 'Georgia';
+                                font-weight: bold;
+                                text-transform: uppercase;
+                                font-size:30px;
+                                font-style: normal !important;
+                                line-height: 1 !important;
+                            }
+                        }
+                        &.subtitle {
+                            p, em, h1 {
+                                font-style: italic;
+                                font-weight: normal;
+                                font-size: 1.875em;
+                                line-height: 1 !important;
+                            }
+                        }
+
+                        &.callout {
+                            p, em, h1 {
+                                font-size: 1.875em;
+                                line-height: 1 !important;
+                            }
+                        }
+                    }
+
+                    &.right {
+                        &.headline {
+                            p, em, h1 {
+                                font-family: 'Oswald';
+                                font-weight: bold;
+                                font-size:36px;
+                                font-style: normal !important;
+                                line-height: 1 !important;
+                            }
+                        }
+                        &.subtitle {
+                            p, em, h1 {
+                                font-size: 1.875em;
+                                line-height: 1em !important;
+                            }
+                        }
+
+                        &.callout {
+                            p, em, h1 {
+                                font-size: 1.875em;
+                                line-height: 1em !important;
+                            }
+                        }
+                    }
+
+                   
+                }
+                &.politics {
+                    &.left {
+                        &.headline {
+                            p, em, h1 {
+                                font-family: 'Georgia';
+                                font-weight: bold;
+                                font-size: 30px;
+                                line-height: 1 !important;
+                                font-style: normal !important;
+                            }
+                        }
+                        &.subtitle {
+                            p, em, h1 {
+                                font-family: 'Roboto-Condensed';
+                                font-style: italic;
+                                font-weight: normal;
+                                font-size: 2.1875em;
+                                line-height: 1 !important;
+                            }
+                        }
+
+                        &.callout {
+                            p, em, h1 {
+                                font-size: 1.875em;
+                                line-height: 1 !important;
+                            }
+                        }
+                    }
+
+                    &.center {
+                        &.headline {
+                            p, em, h1 {
+                                font-family: 'Georgia';
+                                text-transform: uppercase;
+                                font-size: 30px;
+                                font-style: normal !important;
+                                line-height: 1 !important;
+                                font-weight: bold;
+                            }
+                        }
+                        &.subtitle {
+                            p, em, h1 {
+                                font-style: italic;
+                                font-weight: normal;
+                                font-size: 1.875em;
+                                line-height: 1;
+                            }
+                        }
+
+                        &.callout {
+                            p, em, h1 {
+                                font-size: 1.875em;
+                                line-height: 1 !important;
+                            }
+                        }
+                    }
+
+                    &.right {
+                        &.headline {
+                            p, em, h1 {
+                                font-family: 'Georgia';
+                                font-weight: bold;
+                                font-size: 30px;
+                                font-style: normal !important;
+                                line-height: 1 !important;
+                            }
+                        }
+                        &.subtitle {
+                            p, em, h1 {
+                                font-size: 1.875em;
+                                line-height: 1em !important;
+                            }
+                        }
+
+                        &.callout {
+                            p, em, h1 {
+                                font-size: 1.875em;
+                                line-height: 1em !important;
+                            }
+                        }
+                    }
+
+                   
+                }
+                &.tech {
+                    &.left {
+                        &.headline {
+                            p, em, h1 {
+                                font-family: 'Roboto-Condensed';
+                                font-weight: bold;
+                                font-size: 2.5em;
+                                line-height: 1;
+                            }
+                        }
+                        &.subtitle {
+                            p, em, h1 {
+                                font-family: 'Roboto-Condensed';
+                                font-style: italic;
+                                font-weight: normal;
+                                font-size: 2.1875em;
+                                line-height: 1;
+                            }
+                        }
+
+                        &.callout {
+                            p, em, h1 {
+                                font-size: 1.875em;
+                                line-height: 1;
+                            }
+                        }
+                    }
+
+                    &.center {
+                        &.headline {
+                            p, em, h1 {
+                                font-family: 'Yrsa';
+                                font-size: 2.5em;
+                                line-height: 1;
+                                font-weight: bold;
+                            }
+                        }
+                        &.subtitle {
+                            p, em, h1 {
+                                font-style: italic;
+                                font-weight: normal;
+                                font-size: 1.875em;
+                                line-height: 1;
+                            }
+                        }
+
+                        &.callout {
+                            p, em, h1 {
+                                font-size: 1.875em;
+                                line-height: 1;
+                            }
+                        }
+                    }
+
+                    &.right {
+                        &.headline {
+                            p, em, h1 {
+                                font-family: 'Yrsa';
+                                font-size: 1.875em;
+                                margin-top: 5px;
+                                line-height: 0.7142857143;
+                            }
+                        }
+                        &.subtitle {
+                            p, em, h1 {
+                                font-size: 1.875em;
+                                line-height: 1em;
+                            }
+                        }
+
+                        &.callout {
+                            p, em, h1 {
+                                font-size: 1.875em;
+                                line-height: 1em;
+                            }
+                        }
+                    }
+
+                    &.fourth {
+                        &.headline {
+                            p, em, h1 {
+                                font-family: 'Roboto';
+                                font-weight: bold;
+                                font-size: 2.1875em;
+                                line-height: 1;
+                            }
+                        }
+                        &.subtitle {
+                            p, em, h1 {
+                                font-family: 'Roboto';
+                                font-weight: normal;
+                                font-size: 1.875em;
+                                line-height: 1;
+                            }
+                        }
+
+                        &.callout {
+                            p, em, h1 {
+                                font-size: 1.875em;
+                                line-height: 1;
+                            }
+                        }
+                    }
+                }
+
+                &.earth-news {
+                    &.left {
+                        &.headline {
+                            p, em, h1 {
+                                font-weight: bold;
+                                font-size: 2.5em;
+                                line-height: 1;
+                                text-align: left;
+                            }
+                        }
+                        &.subtitle {
+                            p, em, h1 {
+                                font-weight: bold;
+                                font-size: 2em;
+                                line-height: 1;
+                            }
+                        }
+
+                        &.callout {
+                            p, em, h1 {
+                                font-weight: normal;
+                                font-size: 2em;
+                                line-height: 1;
+                            }
+                        }
+                    }
+
+                    &.center {
+                        &.headline {
+                            p, em, h1 {
+                                font-size: 2.5em;
+                                line-height: 1;
+                                font-weight: bold;
+                            }
+                        }
+                        &.subtitle {
+                            p, em, h1 {
+                                font-weight: bold;
+                                font-size: 2em;
+                                line-height: 1;
+                            }
+                        }
+
+                        &.callout {
+                            p, em, h1 {
+                                font-weight: normal;
+                                font-size: 2em;
+                                line-height: 1;
+                            }
+                        }
+                    }
+
+                    &.right {
+                        &.headline {
+                            p, em, h1 {
+                                font-size: 2.5em;
+                                line-height: 1;
+                            }
+                            em {
+                                font-style: italic;
+                            }
+                        }
+                        &.subtitle {
+                            p, em, h1 {
+                                font-size: 1.875em;
+                                line-height: 1;
+                            }
+                        }
+
+                        &.callout {
+                            p, em, h1 {
+                                font-size: 1.875em;
+                                line-height: 1;
+                            }
+                        }
+                    }
+
+                    &.fourth {
+                        &.headline {
+                            p, em, h1 {
+                                font-weight: bold;
+                                font-size: 2.5em;
+                                line-height: 1;
+                                text-align: left;
+                            }
+                        }
+                        &.subtitle {
+                            p, em, h1 {
+                                font-weight: bold;
+                                font-size: 2em;
+                                line-height: 1;
+                            }
+                        }
+
+                        &.callout {
+                            p, em, h1 {
+                                font-weight: normal;
+                                font-size: 2em;
+                                line-height: 1;
+                            }
+                        }
+                    }
+
+                    &.fifth {
+                        &.headline {
+                            p, em, h1 {
+                                font-weight: bold;
+                                font-size: 2.5em;
+                                line-height: 1;
+                            }
+                        }
+                        &.subtitle {
+                            p, em, h1 {
+                                font-weight: bold;
+                                font-size: 2em;
+                                line-height: 1;
+                            }
+                        }
+
+                        &.callout {
+                            p, em, h1 {
+                                font-weight: normal;
+                                font-size: 2em;
+                                line-height: 1;
+                            }
+                        }
+                    }
+
+                    &.sixth {
+                        &.headline {
+                            p, em, h1 {
+                                font-weight: bold;
+                                font-size: 2.5em;
+                                line-height: 1;
+                            }
+                        }
+                        &.subtitle {
+                            p, em, h1 {
+                                font-weight: bold;
+                                font-size: 2em;
+                                line-height: 1;
+                            }
+                        }
+
+                        &.callout {
+                            p, em, h1 {
+                                font-weight: normal;
+                                font-size: 2em;
+                                line-height: 1;
+                            }
+                        }
+                    }
+                }
+
+                &.inside-nya {
+                    &.left {
+                        &.headline {
+                            p, em, h1 {
+                                font-weight: bold;
+                                font-size: 2.5em;
+                                line-height: 1;
+                                text-align: left;
+                            }
+                        }
+                        &.subtitle {
+                            p, em, h1 {
+                                font-weight: bold;
+                                font-size: 2em;
+                                line-height: 1;
+                            }
+                        }
+
+                        &.callout {
+                            p, em, h1 {
+                                font-weight: normal;
+                                font-size: 2em;
+                                line-height: 1;
+                            }
+                        }
+                    }
+
+                    &.center {
+                        &.headline {
+                            p, em, h1 {
+                                font-size: 2.5em;
+                                line-height: 1;
+                                font-weight: bold;
+                            }
+                        }
+                        &.subtitle {
+                            p, em, h1 {
+                                font-weight: bold;
+                                font-size: 2em;
+                                line-height: 1;
+                            }
+                        }
+
+                        &.callout {
+                            p, em, h1 {
+                                font-weight: normal;
+                                font-size: 2em;
+                                line-height: 1;
+                            }
+                        }
+                    }
+
+                    &.right {
+                        &.headline {
+                            p, em, h1 {
+                                font-size: 2.5em;
+                                line-height: 1;
+                            }
+                            em {
+                                font-style: italic;
+                            }
+                        }
+                        &.subtitle {
+                            p, em, h1 {
+                                font-size: 1.875em;
+                                line-height: 1;
+                            }
+                        }
+
+                        &.callout {
+                            p, em, h1 {
+                                font-size: 1.875em;
+                                line-height: 1;
+                            }
+                        }
+                    }
+
+                    &.fourth {
+                        &.headline {
+                            p, em, h1 {
+                                font-weight: bold;
+                                font-size: 2.5em;
+                                line-height: 1;
+                                text-align: left;
+                            }
+                        }
+                        &.subtitle {
+                            p, em, h1 {
+                                font-weight: bold;
+                                font-size: 2em;
+                                line-height: 1;
+                            }
+                        }
+
+                        &.callout {
+                            p, em, h1 {
+                                font-weight: normal;
+                                font-size: 2em;
+                                line-height: 1;
+                            }
+                        }
+                    }
+
+                    &.fifth {
+                        &.headline {
+                            p, em, h1 {
+                                font-weight: bold;
+                                font-size: 2.5em;
+                                line-height: 1;
+                            }
+                        }
+                        &.subtitle {
+                            p, em, h1 {
+                                font-weight: bold;
+                                font-size: 2em;
+                                line-height: 1;
+                            }
+                        }
+
+                        &.callout {
+                            p, em, h1 {
+                                font-weight: normal;
+                                font-size: 2em;
+                                line-height: 1;
+                            }
+                        }
+                    }
+
+                    &.sixth {
+                        &.headline {
+                            p, em, h1 {
+                                font-weight: bold;
+                                font-size: 2.5em;
+                                line-height: 1;
+                            }
+                        }
+                        &.subtitle {
+                            p, em, h1 {
+                                font-weight: bold;
+                                font-size: 2em;
+                                line-height: 1;
+                            }
+                        }
+
+                        &.callout {
+                            p, em, h1 {
+                                font-weight: normal;
+                                font-size: 2em;
+                                line-height: 1;
+                            }
+                        }
+                    }
+                }
+            }
+
+            .excerpt-divider {
+                height: 4px;
+                width: 150px;
+                // background-image: url('../images/news/excerpt-separator.png');
+                background-position: center;
+                background-repeat: repeat-x;
+                margin: 10px auto;
+
+                &.notop {
+                    margin-top: 0px;
+                }
+
+                &.taller {
+                    margin: 20px auto;
+                }
+            }
+
+            h1 {
+                font-family: 'Georgia';
+                font-weight: bold;
+                font-size: 40px;
+                line-height: 40px;
+                margin-top: 0px;
+                text-decoration: none !important;
+                color: black;
+            }
+
+            .dateline {
+                font-family: 'Georgia';
+                font-size: 20px;
+                line-height: 20px;
+                margin-bottom: 8px;
+                text-align: left;
+            }
+
+            .byline {
+                font-family: 'Georgia';
+                font-size: 20px;
+                line-height: 20px;
+                margin-bottom: 10px;
+                text-align: center;
+                font-weight: bold;
+                color: black;
+            }
+
+            $two-image-width: 234px;
+            $one-image-width: 213px;
+
+            .image {
+                display: inline-block;
+                background-size:cover;
+                box-sizing: border-box;
+                border: 1px solid black;
+                width: $two-image-width;
+                height: 160px;
+            }
+
+            &.viewpoint {
+                .header-image {
+                    width: 100%;
+                    margin-bottom: 19px;
+                }
+            }
+
+            &.tech {
+                .header-image {
+                    width: 100%;
+                    margin-bottom: 19px;
+                }
+            }
+
+            .excerpt-content {
+
+                &.article {
+                    iframe {
+                        max-height: 600px;
+                    }
+                }
+
+                &.double-column {
+                    column-count: 2;
+
+                }
+
+                &.three-column {
+                    column-count: 3;
+                }
+                &.double-format{
+                    column-count: 2 !important;
+                }
+                &.single-format{
+                    column-count: 1;
+                }
+
+                * {
+                    font-family: 'Georgia';
+                    font-size: 20px;
+                    line-height: 24px;
+                    width: 100%;
+                    box-sizing: border-box;
+                    border-color: black;
+                }
+
+                blockquote {
+                    margin: 0;
+                }
+                p {
+                    margin-top: 0px;
+                    text-align: justify;
+                }
+                a {
+                    color: #046bc4;
+                    word-wrap: break-word;
+                }
+
+                iframe {
+                    max-height: 200px;
+                }
+            }
+
+            .images.one-image {
+                margin-bottom: 28px;
+                img {
+                    width: 100%;
+                }
+                .credits {
+                    margin-bottom:20px;
+                    font-family: 'Georgia';
+                    font-size: 16px;
+                }
+            }
+
+            .images.two-image {
+                margin-bottom: 19px;
+                .image.left { float: left; }
+                .image.right { float: right; }
+            }
+
+            .clearfix {
+                clear:both;
+            }
+
+            &__header {
+                font-size: 2em;
+            }
+        }
+    }
+
+    .video-container {
+        position: relative;
+        margin-bottom: 28px;
+        overflow: hidden;
+        padding-top: 56.25%; // 16:9 ratio
+
+        iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+    }
+
+    .main-content.article {
+        min-height: 1080px;
+        justify-content: center;
+
+        .title > h1, .title > p {
+            font-family: 'Georgia';
+            font-size: 40px;
+            line-height: 40px;
+            margin-top: 0px;
+            margin-bottom: 22px;
+            text-decoration: none !important;
+            color: black;
+            font-weight: bold;
+        }
+
+        .title {
+            &.left {
+                h1, p, em {
+                    font-family: 'Georgia';
+                }
+            }
+
+            &.center {
+                h1, p, em {
+                    font-family: 'Georgia';
+                }
+            }
+
+            &.right {
+                h1, p, em {
+                    font-family: 'Georgia';
+                }
+            }
+
+            &.viewpoint {
+                &.left {
+                    h1, p, em {
+                        font-family: 'Yrsa';
+                    }
+                }
+                &.center {
+                    h1, p, em {
+                        font-family: 'Yrsa';
+                    }
+                }
+                &.right {
+                    h1, p, em {
+                        font-family: 'Oswald';
+                    }
+                }
+            }
+
+            &.licvolt{
+                &.left {
+                    h1, p, em {
+                        font-family: 'Georgia';
+                    }
+                }
+                &.center {
+                    h1, p, em {
+                        font-family: 'Microbrew';
+                    }
+                }
+                &.right {
+                    h1, p, em {
+                        font-family: 'Yrsa';
+                    }
+                }
+                &.fourth {
+                    h1, p, em {
+                        font-family: 'Comic Sans MS';
+                    }
+                }
+            }
+
+            &.subscribers-news {
+                &.left {
+                    h1, p, em {
+                        font-family: 'Georgia';
+                    }
+                }
+                &.center {
+                    h1, p, em {
+                        font-family: 'Microbrew';
+                    }
+                }
+                &.right {
+                    h1, p, em {
+                        font-family: 'Yrsa';
+                    }
+                }
+                &.fourth {
+                    h1, p, em {
+                        font-family: 'Comic Sans MS';
+                    }
+                }
+            }
+
+            &.tech {
+                &.left {
+                    h1, p, em {
+                        font-family: 'Roboto-Condensed';
+                    }
+                }
+                &.center {
+                    h1, p, em {
+                        font-family: 'Yrsa';
+                    }
+                }
+                &.right {
+                    h1, p, em {
+                        font-family: 'Yrsa';
+                    }
+                }
+
+                &.fourth {
+                    h1, p, em {
+                        font-family: 'Roboto';
+                    }
+                }
+            }
+        }
+
+        .info {
+            box-sizing: border-box;
+            border-top: 1px solid black;
+            border-bottom: 1px solid black;
+            font-size: 20px;
+            line-height: 40px;
+            margin-bottom: 40px;
+            .byline {
+                font-family: 'Georgia';
+                font-weight: bold;
+                margin-right: 20px;
+            }
+            .dateline{
+                font-family: 'Georgia';
+            }
+        }
+
+        .article-text {
+            * {
+                font-family: 'Georgia';
+                font-size:28px;
+                line-height: 40px;
+            }
+            p {
+                margin-top: 0px;
+            }
+            a {
+                color: #046bc4;
+            }
+        }
+
+        $two-image-width: 475px;
+        $scale: 475 / 234;
+        // $one-image-width: 213px * $scale;
+        $article-content-width: $column-width * 2.0;
+        $one-image-width: $article-content-width;
+        $one-image-height: (160px / 213px) * $one-image-width;
+        .images {
+            .image {
+                display: inline-block;
+                //background: grey;
+                background-size:cover;
+                box-sizing: border-box;
+                border: 1px solid black;
+                width: $two-image-width;
+                height: 357px;
+            }
+            .credits{
+                margin-top: 13px;
+                float: right;
+                font-family: "Georgia";
+                font-size: 13px;
+                line-height: 13px;
+            }
+        }
+        .images.one-image {
+            display: inline-block;
+            width: 100%;
+            img {
+                width: 100%;
+            }
+            .credits {
+                font-size: 18px;
+                margin-bottom:20px;
+            }
+        }
+        .images.two-image {
+            .image.left { float: left; }
+            .image.right { float: right; }
+            .credits {
+                font-size: 18px;
+                margin-bottom:40px;
+            }
+        }
+        .images.video {
+            margin-bottom:40px;
+        }
+        .clearfix {
+            clear:both;
+        }
+    }
+}
+
+//
+.column.article {
+    margin-bottom: 48px;
+}
+
+.excerpt-content.article::before,
+.excerpt-content.article::after {
+    content: '';
+    display: table;
+    width: 100%;
+}
+
+.excerpt-content.article:after {
+    clear: both;
+}
+
+@include respond(small){
+    .news-3{
+        .excerpt-wrapper{
+            .column{
+                &.left,&.center{
+                    border-right: none !important;
+                }
+                &.left, &.right,&.center{
+                    flex-grow: 1 !important;
+                   
+                }
+            }
+        }
+
+    }
+   .main-content{
+    .column{
+        .mobile{
+            p{
+                font-size: 6em !important;
+            }
+        }
+        .article-text{
+            >*{
+                font-size: 3em !important;
+                line-height: 50px !important;
+            }
+        }
+    }
+        .center-line{
+            display: none;
+        }
+        .excerpt-wrapper{
+            display: flex;
+            flex-direction: row;
+            width: -webkit-fill-available;
+            .column{
+                &.left,&.center{
+                    border-right: 2px solid;
+                }
+                &.fourth,&.fifth{
+                    border-left: 2px solid;
+                }
+                &.left, &.right{
+                    flex-grow: 2;
+                   
+                }
+                &.center{
+                    flex-grow: 4;
+                }
+            }
+        }
+   } 
+   .news-content{
+    width: 100%;
+    padding: 0;
+    .main-content{
+        .column.article{
+            width: 90%; 
+        }
+    }
+   }
+}
