@@ -7,9 +7,12 @@ nya adaptation with nextjs
 - ORASTREAMLINK 
 - NODE_ENV
 
-# run localy 
+# run localy
+node ^10
+yarn install
 yarn dev
 
 # To build a production build 
+yarn install
 yarn build
 yarn start
