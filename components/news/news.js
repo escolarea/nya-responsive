@@ -6,6 +6,10 @@ import Excerpt from './excerpt'
 import interpose from '../../helpers/interpose'
 import {parseOnlyNumbers} from '../../helpers/numbers'
 
+const layoutGrid = {
+    'column-3': "three wide",
+    'column-4': "four wide"
+}
 
 const layoutColumns = {
     'column-3': ['left', 'center', 'right'],
@@ -72,7 +76,7 @@ class NewsWrapper extends Component {
     }
 
     _renderColumn(side, page, layout) {
-        const columnCn = cn('column', side, layout)
+        const columnCn = cn(layoutGrid[layout], 'column' , side, layout)
         const innerColumns3 = ( layout === 'column-3-full' && side === 'center' ) ? layoutColumns['column-3-full-inner'] : null
         const innerColumns4 = ( layout === 'column-4-full' && side === 'fifth' ) ? layoutColumns['column-4-full-inner'] : null
 
@@ -144,14 +148,17 @@ class NewsWrapper extends Component {
         const { page } = this.props
         const pageData = this.props.pageData.find(p => parseOnlyNumbers(p.title)=== parseInt(page)) || {};
         const { layout = 'column-3'} = pageData;
+        console.log(JSON.parse(this.props.articles));
         const columns = layoutColumns[layout] || []
         const parsedColumns = columns.map(side => this._renderColumn(side, page, layout))
         return (
             
                 <div className= "main-content">
                     <div className="excerpt-wrapper">
-                        { parsedColumns }
-                        { this._renderColDivs(layout) }
+                        <div className="ui grid">
+                            { parsedColumns }
+                            { this._renderColDivs(layout) }
+                        </div>
                     </div>
                     {/* { (layout !== 'column-3-full' && layout !== 'column-4-full' && layout !== 'column-4') && <AdColumn numberOfArticles={this.state.numberOfArticles} page={page} />} */}
                 </div>

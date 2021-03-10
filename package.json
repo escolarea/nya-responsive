@@ -5,7 +5,9 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "build-semantic": "cd ./semantic && gulp build-css build-assets",
+    "watch-semantic": "cd ./semantic && yarn run build-semantic && gulp watch"
   },
   "dependencies": {
     "@zeit/next-sass": "^1.0.1",
@@ -29,6 +31,7 @@
     "sass": "^1.32.8"
   },
   "devDependencies": {
+    "fomantic-ui": "^2.8.7",
     "webpack": "^5.24.3"
   }
 }

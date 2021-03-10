@@ -12,6 +12,7 @@ import cn from "classnames";
 // import postit05 from '../images/filing-cabinet/postit_05.png'
 
 const FrontDrawer = ({leftSideIcons, postIt}) => {
+  
   const tryParseIcon = (suffix, data, out, prev, columnRow) => {
     const imageKey = "icon" + suffix;
     const linkKey = "link" + suffix;
@@ -175,9 +176,13 @@ const FrontDrawer = ({leftSideIcons, postIt}) => {
     }
   };
   return (
-    <div className="front-wrapper">
-      {getItems(postIt, "post")}
-      {getItems(leftSideIcons, "icon")}
+    <div className="ui stackable two column grid">
+      <div className="column">
+        {getItems(leftSideIcons, "icon")}
+      </div>
+      <div className="column">
+        {getItems(postIt, "post")}
+      </div>
     </div>
   );
 };

@@ -7,11 +7,11 @@ import fetchData from '../api/fetch'
 
 const Home = ({leftSideIcons,postIt }) => {
   return (
-    <div id="drawer-front-container">
+    // <div id="ui container">
       <div id="drawer-front">
           <FrontDrawer leftSideIcons={leftSideIcons} postIt={postIt} />
       </div>
-    </div>
+    // </div>
   );
   
 } 
