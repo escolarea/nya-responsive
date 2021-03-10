@@ -1,7 +1,9 @@
 import "../styles/index.scss";
 import { wrapper } from "../store/store";
+import TopBar from "../components/globalMenu/global-top-bar";
 
 const WrappedApp = ({ Component, pageProps }) => {
+  //TODO : add a temporary loaded on route change 
   return (
     <div id="main-wrapper">
       <div id="content">
@@ -12,6 +14,7 @@ const WrappedApp = ({ Component, pageProps }) => {
           <Component {...pageProps} />
         </div>
       </div>
+      <TopBar/>
     </div>
   );
 };

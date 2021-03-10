@@ -1,0 +1,69 @@
+.account-info-page {
+    .user-info {
+        position: fixed !important;
+        top: 108px !important;
+    }
+}
+
+.user-info {
+    position: absolute;
+    top: 0px;
+    right:0px;
+    margin-top: 15px;
+    background-color: pink;
+
+    > div {
+        display: inline-block;
+        vertical-align: middle;
+        margin-right: 26px;
+        position: relative;
+        background-color: white;
+    }
+
+    .subscribe {
+        // background-image: url('../images/global-menu/subscribe-hl.png');
+        height: 60px;
+        width: 158px;
+        cursor:pointer;
+        opacity: 0.85;
+        background-position: center;
+        &:hover {
+            opacity: 1;
+        }
+
+        &.login {
+            margin-right: 0;
+            width: 114px;
+            // background-image: url('../images/global-menu/login-hl.png');
+        }
+    }
+    .avatar {
+        width: 50px; height: 50px;
+        border-radius: 50px;
+        background-position: center;
+        background-size: cover;
+        top: 2px;
+    }
+    .username {
+        font-family: DINPro;
+        font-size: 18px;
+        color: white;
+        top: 2px;
+        left: 6px;
+    }
+    .user-menu-arrow {
+        // background-image: url('../images/global-menu/down-arrow.png');
+        height: 41px;
+        width: 45px;
+        cursor:pointer;
+        opacity: 0.85;
+        &:hover {
+            opacity: 1.0;
+        }
+    }
+    .user-pulldown {
+        position: absolute;
+        top: 52px; right: -7px;
+        pointer-events:none;
+    }
+}

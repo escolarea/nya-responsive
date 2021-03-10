@@ -395,4 +395,76 @@
 @import 'leftSideIcons.scss';
 @import 'news.scss';
 @import 'newspaper.scss';
+@import 'global-menu.scss';
+@import 'global-top-bar.scss';
+@import 'global-menu-icon.scss';
+@import 'user-info.scss';
 
+.overlay {
+    position: absolute !important;
+    top: 0px; left: 0px;
+    width: 100%; height: 100%;
+    z-index: 1000;
+
+    .body-unscaled & {
+        width: 100vw;
+        height: 100vh;
+    }
+}
+.auth0-lock-widget {
+    * {
+        font-family: DINPro;
+    }
+    .auth0-lock-header {
+        min-height: 125px;
+    }
+    .auth0-lock-header-bg {
+        // background: url('../images/auth0/Login.png') !important;
+        background-size: contain  !important;
+        min-height: 125px !important;
+        image-rendering: -webkit-optimize-contrast;
+    }
+    .auth0-lock-content-wrapper {
+        overflow: visible !important;
+    }
+    .auth0-lock-name {
+        display: none;
+    }
+    .auth0-lock-content, .auth0-lock-tabs, input {
+        background-color: #f2ecdc !important;
+    }
+    .auth0-lock-input-wrap {
+        border: 1px solid #ccc7b8 !important;
+        background: #ccc7b8 !important;
+    }
+
+    .auth0-lock-header-bg-blur {
+        display: none !important;
+        filter:  none;
+    }
+}
+
+.auth0-lock.auth0-lock.auth0-lock-opened .auth0-lock-overlay {
+    opacity: 0.3 !important;
+}
+
+.auth0-lock.auth0-lock .auth0-lock-widget {
+    overflow: visible !important;
+}
+.auth0-lock.auth0-lock.auth0-lock-opened .auth0-lock-widget{
+    transition: none !important;
+    // transition: transform 0.6s !important;
+    // -webkit-transition: transform 0.6s !important;
+}
+
+#auth, #terms {
+    display:none;
+    position: absolute;
+    top:0px; left: 0px;
+    width: 100%; height: 100%;
+}
+
+#auth {
+    z-index: 100;
+    background: rgba(0,0,0,0.3);
+}
