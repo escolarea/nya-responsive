@@ -28,7 +28,8 @@
     "redux": "^4.0.5",
     "redux-devtools-extension": "^2.13.8",
     "redux-thunk": "2.3.0",
-    "sass": "^1.32.8"
+    "sass": "^1.32.8",
+    "semantic-ui-react": "^2.0.3"
   },
   "devDependencies": {
     "fomantic-ui": "^2.8.7",
