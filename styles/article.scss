@@ -1,0 +1,26 @@
+.ui.header {
+  p {
+    font-size: 20px!important;
+    line-height: 20px!important;
+
+    img,iframe {
+      width: 100%;
+    }
+  }
+}
+
+.title-column{
+  p {
+    img,iframe {
+      width: 100%;
+    }
+  }
+}
+
+.excerpt-content{
+  text-align: justify;
+}
+
+.news-content{
+  padding: 12px;
+}

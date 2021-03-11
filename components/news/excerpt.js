@@ -33,8 +33,8 @@ function getExcerptImages(data, page) {
         const url1 = `url(${data.images[1]})`
         return (
             <div className="images two-image">
-              <a href={link}><div className="image left"  style={{backgroundImage:url0}} /></a>
-              <a href={link}><div className="image right" style={{backgroundImage:url1}} /></a>
+              <a href={link}><img className="ui image left"  src={url0} /></a>
+              <a href={link}><img className="ui image right" src={url1} /></a>
               <div className="clearfix" />
             </div>
         )
@@ -43,7 +43,7 @@ function getExcerptImages(data, page) {
         const url = `${data.image1}`
         return (
             <div className="images one-image">
-              <a href={link}><img src={url} /></a>
+              <a href={link}><img className="ui image" src={url} /></a>
               <div className="clearfix" />
               <div className="credits">{data.credits}</div>
             </div>
@@ -139,14 +139,14 @@ class Excerpt extends Component {
                 { headlineText &&
                     <a href={linkToArticle}>
                         { showTopDivider && <div style={{width: `${topTitleDivider || 150}px`}} className="excerpt-divider" /> }
-                        <div className={'title headline ' + column + ` ${pageStyle}`} ref="content" dangerouslySetInnerHTML={{__html:marked(headlineText || '')}} />
+                        <div className={'title headline ui header ' + column + ` ${pageStyle}`} ref="content" dangerouslySetInnerHTML={{__html:marked(headlineText || '')}} />
                         { titleDivider !== 0 && <div style={{width: `${titleDivider || 150}px`}} className="excerpt-divider" /> }
                     </a>
                 }
                 { (headline && !headlineText) &&
                     <a href={linkToArticle}>
                         { showTopDivider && <div className="excerpt-divider" /> }
-                        <div className={'title headline ' + column + ` ${pageStyle}`}><h1>{headline}</h1></div>
+                        <div className={'title headline ui header ' + column + ` ${pageStyle}`}><h1>{headline}</h1></div>
                         { titleDivider !== 0 && <div style={{width: `${titleDivider || 150}px`}} className="excerpt-divider" /> }
                     </a>
                 }
@@ -155,7 +155,7 @@ class Excerpt extends Component {
                     {/* centerColumn && <div style={{width: `${titleDivider || 150}px`}} className="excerpt-divider notop" /> */}
                     { subtitle &&
                         <a href={linkToArticle}>
-                            <div className={'title subtitle ' + column + ` ${pageStyle}`} ref="content" dangerouslySetInnerHTML={{__html:marked(subtitle || '')}} />
+                            <div className={'title subtitle' + column + ` ${pageStyle}`} ref="content" dangerouslySetInnerHTML={{__html:marked(subtitle || '')}} />
                             { subtitleDivider !== 0 && <div style={{width: `${subtitleDivider || 150}px`}} className="excerpt-divider" /> }
                         </a>
                     }
