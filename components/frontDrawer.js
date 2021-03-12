@@ -11,7 +11,7 @@ import cn from "classnames";
 // import postit04 from '../images/filing-cabinet/postit_04.png'
 // import postit05 from '../images/filing-cabinet/postit_05.png'
 
-const FrontDrawer = ({leftSideIcons, postIt}) => {
+const FrontDrawer = ({ leftSideIcons, postIt }) => {
   const tryParseIcon = (suffix, data, out, prev, columnRow) => {
     const imageKey = "icon" + suffix;
     const linkKey = "link" + suffix;
@@ -58,9 +58,12 @@ const FrontDrawer = ({leftSideIcons, postIt}) => {
     }
 
     out.push(
-      <a href={path} key={suffix} className={columnClass} style={gridRow}>
-        <div className="icon" style={{ backgroundImage }} />
-      </a>
+      <div className="row">
+        <a href={path} key={suffix} className={columnClass} style={gridRow}>
+          {/* <div className="icon" style={{ backgroundImage }} /> */}
+          <img className="ui medium centered image" src={url} alt={suffix}/>
+        </a>
+      </div>
     );
   };
   const parseLeftSideIcons = (data, result, leftSideIconsColumns) => {
@@ -104,7 +107,6 @@ const FrontDrawer = ({leftSideIcons, postIt}) => {
     content = marked(content);
     let cx = cn("post-it", id, type, typeValue);
     let contentCn = cn("content", type);
-
     const link = videoId ? `/video?vimeoId=${videoId}` : url;
     if (link) {
       let path = removeHash(link);
@@ -121,7 +123,7 @@ const FrontDrawer = ({leftSideIcons, postIt}) => {
     }
   };
   const getKeys = (item) => Object.keys(item);
-  
+
   const getItems = (icons, type) => {
     const keys = getKeys(icons);
     const result = [];
@@ -131,15 +133,14 @@ const FrontDrawer = ({leftSideIcons, postIt}) => {
       columnCount: 0,
       leftSideIconStyle: {},
     };
-    let top = '0rem'
+    let top = "0rem";
 
     keys.forEach((_key, index) => {
       let icon = icons[_key] || false;
 
       if (type == "icon") {
         parseLeftSideIcons(icon, result, leftSideIconsColumns);
-        top = '50rem'
-
+        top = "50rem";
       } else {
         parsePostIt(icon, result);
       }
@@ -158,7 +159,7 @@ const FrontDrawer = ({leftSideIcons, postIt}) => {
         : "defaultColumn";
     const leftSideIconStyle = {
       gridTemplateAreas: leftSideIconsColumns.columnRow,
-      top
+      top,
     };
 
     if (result.length > 0) {
@@ -175,10 +176,12 @@ const FrontDrawer = ({leftSideIcons, postIt}) => {
     }
   };
   return (
-    <div className="front-wrapper">
-      {getItems(postIt, "post")}
-      {getItems(leftSideIcons, "icon")}
+    // <div className="front-wrapper">
+    <div className="ui stackable column grid">
+      <div className="eight wide column">{getItems(postIt, "post")}</div>
+      <div className="eight wide column">{getItems(leftSideIcons, "icon")}</div>
     </div>
+    // </div>
   );
 };
 

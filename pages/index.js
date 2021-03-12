@@ -1,17 +1,19 @@
 import React from 'react'
-import Nav from '../components/nav'
 import FrontDrawer from '../components/frontDrawer'
 import fetchData from '../api/fetch'
-
+import NavBar from  '../components/navbar'
 
 
 const Home = ({leftSideIcons,postIt }) => {
   return (
-    <div id="drawer-front-container">
-      <div id="drawer-front">
-          <FrontDrawer leftSideIcons={leftSideIcons} postIt={postIt} />
-      </div>
-    </div>
+    // <div id="drawer-front">
+      <React.Fragment>
+        <NavBar/>
+        <div id="ui container">
+         <FrontDrawer leftSideIcons={leftSideIcons} postIt={postIt} />
+        </div>
+      </React.Fragment>
+    // </div>
   );
   
 } 

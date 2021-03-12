@@ -1,3 +1,4 @@
+import "../semantic/dist/semantic.min.css";
 import "../styles/index.scss";
 import { wrapper } from "../store/store";
 import TopBar from "../components/globalMenu/global-top-bar";
@@ -17,6 +18,7 @@ const WrappedApp = ({ Component, pageProps }) => {
       <TopBar/>
     </div>
   );
+  // return <Component {...pageProps} />
 };
 
 export default wrapper.withRedux(WrappedApp);

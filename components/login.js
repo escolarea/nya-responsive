@@ -1,5 +1,5 @@
 import { isString }               from 'lodash';
-import Auth                       from '../services/auth0'
+import Auth                       from '../api/auth0'
 
 const Login = redirect => {
   Auth.login(() => {
