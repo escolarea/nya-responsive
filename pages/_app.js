@@ -2,6 +2,7 @@ import "../semantic/dist/semantic.min.css";
 import "../styles/index.scss";
 import { wrapper } from "../store/store";
 import TopBar from "../components/globalMenu/global-top-bar";
+import PopUp from '../components/pop-up-box';
 
 const WrappedApp = ({ Component, pageProps }) => {
   //TODO : add a temporary loaded on route change 
@@ -15,6 +16,7 @@ const WrappedApp = ({ Component, pageProps }) => {
           <Component {...pageProps} />
         </div>
       </div>
+      <PopUp />
       <TopBar/>
     </div>
   );
