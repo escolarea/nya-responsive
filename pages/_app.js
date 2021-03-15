@@ -1,7 +1,7 @@
-import "../semantic/dist/semantic.min.css";
+import 'semantic-ui-css/semantic.min.css'
 import "../styles/index.scss";
 import { wrapper } from "../store/store";
-import TopBar from "../components/globalMenu/global-top-bar";
+import NavBar from "../components/navbar";
 import PopUp from '../components/pop-up-box';
 
 const WrappedApp = ({ Component, pageProps }) => {
@@ -16,8 +16,8 @@ const WrappedApp = ({ Component, pageProps }) => {
           <Component {...pageProps} />
         </div>
       </div>
+      {/* <TopBar/> */}
       <PopUp />
-      <TopBar/>
     </div>
   );
   // return <Component {...pageProps} />

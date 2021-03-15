@@ -1,6 +1,7 @@
 import {React, useState} from 'react';
 import {connect} from 'react-redux';
-import { hidePopUp } from '../store/notSupportedRoutes/action'
+import { hidePopUp } from '../store/notSupportedRoutes/action';
+import { Grid } from 'semantic-ui-react';
 
 const PopUpBox = ({visible, hidePopUp}) => {
 
@@ -13,19 +14,23 @@ const PopUpBox = ({visible, hidePopUp}) => {
       <h1 className="center aligned header">
         Please download the NYA App
       </h1>
-      <div className="ui stackable grid">
-        <div className="eight wide column icon">
-          <img src="/static/images/email/itunes-badge.png" alt="itunes"/>
-        </div>
-        <div className="eight wide column icon">
-          <img src="/static/images/email/google-play-badge.png" alt="google-play"/>
-        </div>
-        <div className="centered column">
-          <h2 className="header">
-            or visit us from your desktop computer
-          </h2>
-        </div>
-      </div>
+      <Grid columns="equal" stackable>
+          <Grid.Row>
+            <Grid.Column width="8" className="icon">
+              <img src="/static/images/email/itunes-badge.png" alt="itunes"/>
+            </Grid.Column>
+            <Grid.Column width="8">
+              <img src="/static/images/email/google-play-badge.png" alt="google-play"/>
+            </Grid.Column>
+          </Grid.Row>
+          <Grid.Row>
+          <Grid.Column textAlign="center">
+              <h2 className="header">
+              or visit us from your desktop computer
+            </h2>
+            </Grid.Column>
+          </Grid.Row>
+        </Grid>
       </div>
     </div>
   )

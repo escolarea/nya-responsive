@@ -1,3 +1,6 @@
+import {Menu} from 'semantic-ui-react';
+import Link from 'next/link';
+
 const NavBar = ({sidebarVisible}) => {
   const toggleSideBar = () => {
     sidebarVisible = !sidebarVisible;
@@ -5,17 +8,16 @@ const NavBar = ({sidebarVisible}) => {
   }
 
   return (
-    <div className="ui top fixed menu">
-      <div className="item" onClick={e=>toggleSideBar()}>
-        <img src="/static/images/global-menu/global-menu-icon-hl.png"/>
-      </div>
-      {/* <a className="item">Features</a>
-      <a className="item">Testimonials</a>
-      <a className="item">Sign-in</a> */}
-      <a href="#" className="item">
+    <Menu fixed="top">
+      <Menu.Item>
+        <Link href="/menu">
+          <img src="/static/images/global-menu/global-menu-icon-hl.png"/>
+        </Link>
+      </Menu.Item>
+      <Menu.Item>
         Neil Young Archives
-      </a>
-    </div>
+      </Menu.Item>
+    </Menu>
   );
 }
 
