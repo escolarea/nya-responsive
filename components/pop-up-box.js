@@ -1,7 +1,7 @@
 import {React, useState} from 'react';
+import {connect} from 'react-redux';
 
-const PopUpBox = () => {
-  const [visible, setVisible] = useState(false);
+const PopUpBox = ({visible}) => {
 
   return (
     <div className="pop__up" style={{visibility: visible ? 'visible' : 'hidden'}}>
@@ -30,4 +30,13 @@ const PopUpBox = () => {
   )
 }
 
-export default PopUpBox;
+const mapStateToProps = (state) => {
+  console.log(state);
+  return {
+    visible: state.notSupportedRoutes.showNotSupportedPopUp
+  }
+}
+
+export default connect(mapStateToProps, {
+
+})(PopUpBox);
