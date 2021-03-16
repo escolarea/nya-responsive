@@ -5,6 +5,7 @@ import cn from "classnames";
 import Excerpt from "./excerpt";
 import interpose from "../../helpers/interpose";
 import { parseOnlyNumbers } from "../../helpers/numbers";
+import {Container, Grid} from 'semantic-ui-react';
 
 const layoutColumns = {
   "column-3": ["left", "center", "right"],
@@ -113,7 +114,7 @@ class NewsWrapper extends Component {
         : null;
 
     return (
-      <div key={`column-${side}-${layout}`} className={columnCn}>
+      <Grid.Column key={`column-${side}-${layout}`} className={columnCn}>
         {this._renderColumnTitle(side, page)}
         {this._renderExcerpts(side, page, layout)}
         {layout === "column-3-full-inner" &&
@@ -130,7 +131,7 @@ class NewsWrapper extends Component {
           innerColumns4.map((side) =>
             this._renderColumn(side, page, "column-4-full-inner")
           )}
-      </div>
+      </Grid.Column>
     );
   }
 
@@ -209,12 +210,12 @@ class NewsWrapper extends Component {
     //         </div>
     // );
     return (
-      <div className="container">
-        <div className="ui equal width column grid">
+      <Container>
+        <Grid columns="equal">
           {parsedColumns}
           {this._renderColDivs(layout)}
-        </div>
-      </div>
+        </Grid>
+      </Container>
     );
   }
 }
