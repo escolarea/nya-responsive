@@ -1,17 +1,20 @@
 import React from 'react'
-import Nav from '../components/nav'
 import FrontDrawer from '../components/frontDrawer'
 import fetchData from '../api/fetch'
-
+import NavBar from  '../components/navbar';
+import {Container} from 'semantic-ui-react';
 
 
 const Home = ({leftSideIcons,postIt }) => {
   return (
-    <div id="drawer-front-container">
-      <div id="drawer-front">
+    // <div id="drawer-front">
+      <React.Fragment>
+        <NavBar/>
+        <Container>
           <FrontDrawer leftSideIcons={leftSideIcons} postIt={postIt} />
-      </div>
-    </div>
+        </Container>
+      </React.Fragment>
+    // </div>
   );
   
 } 

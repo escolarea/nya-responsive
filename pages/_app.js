@@ -1,6 +1,8 @@
+import 'semantic-ui-css/semantic.min.css'
 import "../styles/index.scss";
 import { wrapper } from "../store/store";
-import TopBar from "../components/globalMenu/global-top-bar";
+import NavBar from "../components/navbar";
+import PopUp from '../components/pop-up-box';
 
 const WrappedApp = ({ Component, pageProps }) => {
   //TODO : add a temporary loaded on route change 
@@ -14,9 +16,11 @@ const WrappedApp = ({ Component, pageProps }) => {
           <Component {...pageProps} />
         </div>
       </div>
-      <TopBar/>
+      {/* <TopBar/> */}
+      <PopUp />
     </div>
   );
+  // return <Component {...pageProps} />
 };
 
 export default wrapper.withRedux(WrappedApp);

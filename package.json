@@ -5,7 +5,9 @@
   "scripts": {
     "dev": " next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "build-semantic": "cd ./semantic && gulp build-css build-assets",
+    "watch-semantic": "cd ./semantic && yarn run build-semantic && gulp watch"
   },
   "dependencies": {
     "@zeit/next-sass": "^1.0.1",
@@ -17,6 +19,7 @@
     "jwt-decode": "^3.1.2",
     "lodash": "^4.17.21",
     "marked": "^2.0.1",
+    "moment": "^2.29.1",
     "next": "10.0.7",
     "next-fonts": "^1.5.1",
     "next-images": "^1.7.0",
@@ -30,7 +33,9 @@
     "redux": "^4.0.5",
     "redux-devtools-extension": "^2.13.8",
     "redux-thunk": "2.3.0",
-    "sass": "^1.32.8"
+    "sass": "^1.32.8",
+    "semantic-ui-css": "^2.4.1",
+    "semantic-ui-react": "^2.0.3"
   },
   "devDependencies": {
     "eslint": "^4.19.1",

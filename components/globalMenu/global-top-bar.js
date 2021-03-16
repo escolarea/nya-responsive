@@ -46,10 +46,10 @@ class TopBar extends Component {
       }
     render(){
         return (
-            <div className={`global-top-bar-wrapper light-mode`}>
-              <div className="global-top-bar">
-              </div>
+            <div className="ui top fixed menu">
+              <div className="item">
               <GlobalMenuIcon />
+              </div>
             </div>
         )
     }
