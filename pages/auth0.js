@@ -3,7 +3,7 @@ import jwtDecode from 'jwt-decode'
 import moment from 'moment'
 import _ from 'lodash'
 // import icon from '../../images/auth0/user.svg'
-import { setAuth, setUserInfo} from './localstorage' 
+import { setAuth, setUserInfo} from '../services/localstorage' 
 import getConfig from 'next/config';
 
 
