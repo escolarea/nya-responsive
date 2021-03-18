@@ -7,14 +7,12 @@ import {Container} from 'semantic-ui-react';
 
 const Home = ({leftSideIcons,postIt }) => {
   return (
-    // <div id="drawer-front">
       <React.Fragment>
         <NavBar/>
         <Container>
           <FrontDrawer leftSideIcons={leftSideIcons} postIt={postIt} />
         </Container>
       </React.Fragment>
-    // </div>
   );
   
 } 

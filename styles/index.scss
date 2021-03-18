@@ -22,14 +22,17 @@
 
 
 .content-wrapper {
-    /* must be positioned relative to allow transition animations */
     position:relative;
-    // height: 100vh !important;
+}
+div.ui.container{
+    margin-left:0rem;
+    margin-right:0rem;
+    margin-top: 0px;
+    padding-top:20px;
 }
 
 @import 'mixins.scss';
-@import 'fonts.scss';
-// @import 'leftSideIcons.scss';
+@import 'leftSideIcons.scss';
 // @import 'news.scss';
 // @import 'newspaper.scss';
 @import 'home.scss';

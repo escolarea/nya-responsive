@@ -58,9 +58,8 @@ const FrontDrawer = ({ leftSideIcons, postIt }) => {
     }
 
     out.push(
-      <div className="row">
-        <a href={path} key={suffix} className={columnClass} style={gridRow}>
-          {/* <div className="icon" style={{ backgroundImage }} /> */}
+      <div className={`row ${columnClass}`} key={imageKey} style={gridRow} >
+        <a href={path} >
           <img className="ui medium centered image" src={url} alt={suffix}/>
         </a>
       </div>
@@ -176,12 +175,10 @@ const FrontDrawer = ({ leftSideIcons, postIt }) => {
     }
   };
   return (
-    // <div className="front-wrapper">
-    <div className="ui stackable column grid">
+    <div id="leftside-icons-wrapper"className="ui stackable column grid">
       <div className="eight wide column">{getItems(postIt, "post")}</div>
       <div className="eight wide column">{getItems(leftSideIcons, "icon")}</div>
     </div>
-    // </div>
   );
 };
 
