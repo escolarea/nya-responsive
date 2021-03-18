@@ -25,10 +25,10 @@
     position:relative;
 }
 div.ui.container{
-    margin-left:0rem;
-    margin-right:0rem;
-    margin-top: 0px;
+    margin-left:0rem !important;
+    margin-right:0rem !important;
     padding-top:20px;
+    margin-top: -5px;
 }
 
 @import 'mixins.scss';
@@ -38,7 +38,7 @@ div.ui.container{
 @import 'home.scss';
 @import 'article.scss';
 @import 'sidebar.scss';
-// @import 'global-top-bar.scss';
+@import 'global-top-bar.scss';
 // @import 'global-menu-icon.scss';
 @import 'user-info.scss';
 
