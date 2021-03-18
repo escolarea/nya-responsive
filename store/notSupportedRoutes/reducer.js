@@ -1,7 +1,7 @@
 import { actionType } from './action';
 
 const initialState = {
-  visible: true
+  visible: false
 }
 
 export default function update(state = initialState, action) {

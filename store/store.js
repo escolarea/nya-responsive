@@ -3,6 +3,7 @@ import { HYDRATE, createWrapper } from 'next-redux-wrapper'
 import thunkMiddleware from 'redux-thunk'
 import commonValues from './commonValues/reducer'
 import notSupportedRoutes from './notSupportedRoutes/reducer'
+import sidebar from './sidebar/reducer'
 
 const bindMiddleware = (middleware) => {
   if (process.env.NODE_ENV !== 'production') {
@@ -14,7 +15,8 @@ const bindMiddleware = (middleware) => {
 
 const combinedReducer = combineReducers({
     commonValues,
-    notSupportedRoutes
+    notSupportedRoutes,
+    sidebar
 })
 
 const reducer = (state, action) => {
