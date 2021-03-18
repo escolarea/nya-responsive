@@ -1,8 +1,30 @@
 import { Sidebar, Grid, Divider, Button } from "semantic-ui-react";
 import { connect } from "react-redux";
+import {useEffect} from 'react';
 import Link from "next/link";
+import { showPopUp } from '../store/notSupportedRoutes/action';
+import { hideSideBar } from '../store/sidebar/action';
 
-const SideBarMenu = ({ visibleSideBar }) => {
+const SideBarMenu = ({ 
+  visibleSideBar,
+  showPopUp,
+  hideSideBar
+}) => {
+  const handleNotSupportedRoutes = () => showPopUp();
+
+  useEffect(() => {
+    const clickOnLink = (e) => {
+      console.log(e.target.classList);
+      if (e.target.classList.contains("link"))
+        hideSideBar();
+    };
+    const menu = document.querySelector(".global-menu-grid");
+    menu.addEventListener("click", clickOnLink);
+    return () => {
+      menu.removeEventListener("click", clickOnLink);
+    }
+  }, []) ;
+
   return (
     <Sidebar
       className="global-menu"
@@ -14,25 +36,39 @@ const SideBarMenu = ({ visibleSideBar }) => {
       <Grid textAlign="center" className="global-menu-grid">
       <Grid.Row columns={1} className="links">
           <Grid.Column textAlign="left">
-            <Link href="/">HOME</Link>
+            <Link href="/">
+              <a className="link">HOME</a>
+            </Link>
           </Grid.Column>
-          <Grid.Column textAlign="left">FILE CABINET</Grid.Column>
-          <Grid.Column textAlign="left">TIMELINE</Grid.Column>
-          <Grid.Column textAlign="left">PLAYLIST</Grid.Column>
+          <Grid.Column className="link" onClick={handleNotSupportedRoutes} textAlign="left">
+            FILE CABINET
+          </Grid.Column>
+          <Grid.Column className="link" onClick={handleNotSupportedRoutes} textAlign="left">
+            TIMELINE
+          </Grid.Column>
+          <Grid.Column className="link" onClick={handleNotSupportedRoutes} textAlign="left">
+            PLAYLIST
+          </Grid.Column>
         </Grid.Row>
         <Divider />
         <Grid.Row columns={1} className="links">
           <Grid.Column textAlign="left">
-            <Link href="/">NYA TIMES-CONTRARIAN</Link>
+            <Link href="/news/1">
+              <a className="link">NYA TIMES-CONTRARIAN</a>
+            </Link>
           </Grid.Column>
-          <Grid.Column textAlign="left">MOVIE NIGHT</Grid.Column>
+          <Grid.Column className="link" onClick={handleNotSupportedRoutes} textAlign="left">
+            MOVIE NIGHT
+          </Grid.Column>
         </Grid.Row>
         <Divider />
         <Grid.Row columns={1} className="links">
           <Grid.Column textAlign="left">
-            <Link href="/">ABOUT</Link>
+            <Link className="link" href="/about">ABOUT</Link>
           </Grid.Column>
-          <Grid.Column textAlign="left">CONTACT</Grid.Column>
+          <Grid.Column textAlign="left">
+          <Link className="link" href="/contact">CONTACT</Link>
+          </Grid.Column>
         </Grid.Row>
         <Grid.Row columns={1} className="buttons">
           <Grid.Column>
@@ -64,4 +100,7 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps, {})(SideBarMenu);
+export default connect(mapStateToProps, {
+  showPopUp,
+  hideSideBar
+})(SideBarMenu);
