@@ -1,0 +1,45 @@
+.global-menu{
+    width: 288px;
+    background-color: black;
+    color: white;
+    padding: 12px;
+    padding-left: 18px;
+    .global-menu-grid{
+        .row.links{
+            // margin-bottom: 24px;
+            .column{
+                height: 40px;
+                font-family: "DINPro", sans-serif;
+                font-size: 20px;
+                line-height: 40px;
+                color: #E1DAC9;
+                font-weight: bolder;
+                a {
+                    text-decoration: none;
+                    color: #E1DAC9
+                }
+            }
+        }
+        .divider {
+            border-bottom: 1px solid hsla(42,29%,84%,.3)!important;
+        }
+        .row.buttons{
+            .column{
+                height: 60px;
+            }
+            .button {
+                font-family: "DINPro", sans-serif;
+                font-weight: bolder;
+                font-size: 16px;
+                height: 48px;
+                &.primary{
+                    background-color: #035CA7;
+                }
+                &.account-button{
+                    background-color: #4c4c4c;
+                    color: white;
+                }
+            }
+        }
+    }
+}

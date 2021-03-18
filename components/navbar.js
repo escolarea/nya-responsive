@@ -1,18 +1,18 @@
 import {Menu} from 'semantic-ui-react';
 import Link from 'next/link';
+import { connect } from 'react-redux';
+import {hideSideBar, showSideBar } from '../store/sidebar/action'
 
-const NavBar = ({sidebarVisible}) => {
+const NavBar = ({visibleSideBar, hideSideBar, showSideBar}) => {
   const toggleSideBar = () => {
-    sidebarVisible = !sidebarVisible;
-    alert(sidebarVisible);
+    if (!visibleSideBar) showSideBar();
+    else hideSideBar();
   }
 
   return (
     <Menu fixed="top">
-      <Menu.Item>
-        <Link href="/menu">
-          <img src="/static/images/global-menu/global-menu-icon-hl.png"/>
-        </Link>
+      <Menu.Item onClick={toggleSideBar}>
+        <img src="/static/images/global-menu/global-menu-icon-hl.png"/>
       </Menu.Item>
       <Menu.Item>
         Neil Young Archives
@@ -21,4 +21,13 @@ const NavBar = ({sidebarVisible}) => {
   );
 }
 
-export default NavBar;
+const mapStateToProps = (state) => {
+  return {
+    visibleSideBar: state.sidebar.visible,
+  }
+}
+
+export default connect(mapStateToProps, {
+  hideSideBar,
+  showSideBar
+})(NavBar);
