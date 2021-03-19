@@ -110,7 +110,7 @@ class NewsNavbar extends Component {
 
     // return <div className={`news-navbar ${themeAperance} ${fixed ? "fixed": ""}`}> {items} </div>;
     return (
-      <Fragment>
+      <div className="news-navbar-wrapper">
         <Menu
           className={`news-navbar header ${themeAperance} ${
             fixed ? "fixed" : ""
@@ -168,12 +168,12 @@ class NewsNavbar extends Component {
         >
           {items}
         </Menu>
-      </Fragment>
+      </div>
     );
   }
 
   render() {
-    return <div>{this.renderNavBar()}</div>;
+    return this.renderNavBar();
   }
 }
 

@@ -158,45 +158,6 @@ const News = ({routeType, articles, params, pageData, commonValues}) => {
           />
           </React.Fragment>
         );
-      // return(
-      //   <div className="newspaper-page"> 
-      //   {/* <ScrollContainer scrollKey={this.props.location.pathname}> */}
-      //   <div className="page-wrapper">
-      //     {/* <VerticalCenter style={{width:'100%', height:'100%'}}> */}
-      //       <div className="page">
-      //         <div className={`ragged-edge ${themeAperance}` }/>
-      //         <div className="page-contents" style={{backgroundImage:`url(${backgroundImage})`}} >
-      //           <div className={`newspaper-header ${themeAperance} ` }style={{backgroundImage:`url(${backgroundImage})`}} >
-      //             <div className={'title' + ` ${pageStyle}`}  style={{backgroundImage: `url(${headerImage})`}}/>
-      //             <Link href="/news/1"><div className="title-click-area" /></Link>
-      //             <div className={`midline ${themeAperance}`}>
-      //               {/* <div className="volume">{volume}</div> */}
-      //               {/* <div className="today">{today}</div> */}
-      //               {routes && routes.positionRoutes && <Navigation page={params}  maxPage={routes.maxPage} routes={routes.positionRoutes} />}
-      //             </div>
-      //             {/* {leftEl}
-      //             {rightEl} */}
-      //           </div>
-      //               {routes&& routes.existingPages &&<NewsNavbar page={params} pagesData={routes.existingPages}  navBarRoutes={routes.routes} maxPage={routes.maxPage} themeAperance={themeAperance}  params={params} />}
-      //           <div className={`content ${themeAperance}`}>
-      //             <div className={'news-content' + ` news-${params}`}>
-      //                 <NewsWrapper
-      //                             articles={articles} 
-      //                             page = {params}
-      //                             pageData = {pageData}
-      //                             numberOfArticles={numberOfArticles}
-      //                             loaded={loaded}
-      //                             params={params}
-      //                             />
-      //             </div>
-      //           </div>
-      //         </div>
-      //       </div>
-      //     {/* </VerticalCenter> */}
-      //   </div>
-      //   {/* </ScrollContainer> */}
-      // </div>
-      // )
 } 
 
 //renders as static page.
