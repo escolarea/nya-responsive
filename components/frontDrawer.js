@@ -62,7 +62,6 @@ const FrontDrawer = ({ leftSideIcons, postIt, showPopUp }) => {
     ) {
       path = orastreamLink;
     }
-    console.log(path);
     out.push(
       <div
         className={`row ${columnClass} icon-link`}
