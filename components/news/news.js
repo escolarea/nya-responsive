@@ -197,20 +197,8 @@ class NewsWrapper extends Component {
     const parsedColumns = columns.map((side) =>
       this._renderColumn(side, page, layout)
     );
-    // return (
-
-    //         <div className= "main-content">
-    //             <div className="excerpt-wrapper">
-    //                 <div className="ui grid">
-    //                     { parsedColumns }
-    //                     { this._renderColDivs(layout) }
-    //                 </div>
-    //             </div>
-    //             {/* { (layout !== 'column-3-full' && layout !== 'column-4-full' && layout !== 'column-4') && <AdColumn numberOfArticles={this.state.numberOfArticles} page={page} />} */}
-    //         </div>
-    // );
     return (
-      <Container>
+      <Container className="news-content">
         <Grid columns="equal">
           {parsedColumns}
           {this._renderColDivs(layout)}

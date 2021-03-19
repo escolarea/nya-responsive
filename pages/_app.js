@@ -2,7 +2,7 @@ import "semantic-ui-css/semantic.min.css";
 import "../styles/index.scss";
 import { wrapper } from "../store/store";
 import NavBar from "../components/navbar";
-import PopUp from "../components/pop-up-box";
+import PopUpBox from "../components/pop-up-box";
 import { Sidebar} from "semantic-ui-react";
 import { React, Fragment } from "react";
 import SideBarMenu from '../components/sidebar'
@@ -24,10 +24,10 @@ const WrappedApp = ({ Component, pageProps }) => {
               </div>
             </div>
             {/* <TopBar/> */}
-            <PopUp />
           </div>
         </Sidebar.Pusher>
       </Sidebar.Pushable>
+      <PopUpBox />
     </Fragment>
   );
   // return <Component {...pageProps} />
