@@ -22,16 +22,22 @@
 
 
 .content-wrapper {
-    /* must be positioned relative to allow transition animations */
     position:relative;
-    // height: 100vh !important;
+}
+div.ui.container{
+    margin-left:0rem !important;
+    margin-right:0rem !important;
+    padding-top:20px;
+    margin-top: -5px;
 }
 
 @import 'mixins.scss';
+@import 'leftSideIcons.scss';
 @import 'fonts.scss';
 @import 'home.scss';
 @import 'article.scss';
 @import 'sidebar.scss';
+@import 'global-top-bar.scss';
 @import 'user-info.scss';
 @import 'popUp.scss';
 @import 'popUp.scss';

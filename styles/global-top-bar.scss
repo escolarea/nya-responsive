@@ -1,0 +1,8 @@
+div.ui.top.fixed.menu{
+    background-color: #4c311b;
+    border-bottom: solid 2px black;
+    &::after{
+        display: none;
+    }
+
+}
