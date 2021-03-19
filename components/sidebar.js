@@ -14,7 +14,6 @@ const SideBarMenu = ({
 
   useEffect(() => {
     const clickOnLink = (e) => {
-      console.log(e.target.classList);
       if (e.target.classList.contains("link"))
         hideSideBar();
     };
@@ -31,7 +30,6 @@ const SideBarMenu = ({
       animation="push"
       direction="left"
       visible={visibleSideBar}
-      width="normal"
     >
       <Grid textAlign="center" className="global-menu-grid">
       <Grid.Row columns={1} className="links">
@@ -84,7 +82,7 @@ const SideBarMenu = ({
         </Grid.Row>
         <Grid.Row columns={1} className="buttons">
           <Grid.Column>
-            <a class="orastream" target="_blank" rel="nofollow" href="https://www.orastream.com/">
+            <a className="orastream" target="_blank" rel="nofollow" href="https://www.orastream.com/">
               <img className="ui image" src="/static/images/orastream.png" alt="Powered by ORASTREAM"/>
             </a>
           </Grid.Column>

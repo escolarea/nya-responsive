@@ -15,7 +15,6 @@ const News = ({routeType, articles, params, pageData, commonValues}) => {
   const [numberOfArticles, setnumberOfArticles] = useState(5);
   const [loaded, setloaded] = useState(false);
 
-
   useEffect(()=>{
     let newsInterval = false
     if(routeType === 'page'){
@@ -143,7 +142,12 @@ const News = ({routeType, articles, params, pageData, commonValues}) => {
         
         return (
           <React.Fragment>
-          <NavBar />
+          <NewsNavbar 
+            pagesData={pageData}
+            params={params}
+            page={params}
+            themeAperance={themeAperance}
+          />
           <NewsWrapper
             articles={articles} 
             page = {params}

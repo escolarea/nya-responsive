@@ -34,6 +34,8 @@
 @import 'sidebar.scss';
 @import 'user-info.scss';
 @import 'popUp.scss';
+@import 'popUp.scss';
+@import 'newsNavbar.scss';
 
 .overlay {
     position: absolute !important;
@@ -115,6 +117,3 @@
     
 }
 
-#main-wrapper {
-    margin-top: 75px;
-}
