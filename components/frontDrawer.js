@@ -1,18 +1,24 @@
-import React from "react";
+import { React, useEffect } from "react";
 import Link from "next/link";
+import { connect } from "react-redux";
 import { parseOnlyNumbers } from "../helpers/numbers";
 import { parseOnlyLetters, removeHash } from "../helpers/strings";
 import _ from "lodash";
 import marked from "marked";
 import cn from "classnames";
+import { showPopUp } from "../store/notSupportedRoutes/action";
 // import postit01 from '../images/filing-cabinet/postit_01.png'
 // import postit02 from '../images/filing-cabinet/postit_02.png'
 // import postit03 from '../images/filing-cabinet/postit_03.png'
 // import postit04 from '../images/filing-cabinet/postit_04.png'
 // import postit05 from '../images/filing-cabinet/postit_05.png'
 
-const FrontDrawer = ({ leftSideIcons, postIt }) => {
+const FrontDrawer = ({ leftSideIcons, postIt, showPopUp }) => {
+
+  const handleNotSupportedRoutes = () => showPopUp();
+
   const tryParseIcon = (suffix, data, out, prev, columnRow) => {
+    const externalLinkPattern = /(http:\/\/|https:\/\/)/g
     const imageKey = "icon" + suffix;
     const linkKey = "link" + suffix;
     const videoKey = "video" + suffix;
@@ -56,12 +62,25 @@ const FrontDrawer = ({ leftSideIcons, postIt }) => {
     ) {
       path = orastreamLink;
     }
-
+    console.log(path);
     out.push(
-      <div className={`row ${columnClass}`} key={imageKey} style={gridRow} >
-        <a href={path} >
-          <img className="ui medium centered image" src={url} alt={suffix}/>
-        </a>
+      <div
+        className={`row ${columnClass} icon-link`}
+        key={imageKey}
+        style={gridRow}
+      >
+        {externalLinkPattern.test(path) ? (
+          <a href={path} className="icon-link">
+            <img className="ui medium centered image" src={url} alt={suffix} />
+          </a>
+        ) : (
+          <img
+            className="ui medium centered image"
+            src={url}
+            alt={suffix}
+            onClick={handleNotSupportedRoutes}
+          />
+        )}
       </div>
     );
   };
@@ -175,11 +194,15 @@ const FrontDrawer = ({ leftSideIcons, postIt }) => {
     }
   };
   return (
-    <div id="leftside-icons-wrapper"className="ui stackable column grid">
+    <div id="leftside-icons-wrapper" className="ui stackable column grid">
       <div className="eight wide column">{getItems(postIt, "post")}</div>
-      <div className="eight wide column">{getItems(leftSideIcons, "icon")}</div>
+      <div className="eight wide column link-icons">
+        {getItems(leftSideIcons, "icon")}
+      </div>
     </div>
   );
 };
 
-export default FrontDrawer;
+export default connect(null, {
+  showPopUp,
+})(FrontDrawer);
