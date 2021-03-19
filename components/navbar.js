@@ -1,5 +1,4 @@
 import {Menu} from 'semantic-ui-react';
-import Link from 'next/link';
 import { connect } from 'react-redux';
 import {hideSideBar, showSideBar } from '../store/sidebar/action'
 

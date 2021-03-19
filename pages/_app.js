@@ -15,6 +15,7 @@ const WrappedApp = ({ Component, pageProps }) => {
         <SideBarMenu/>
         <Sidebar.Pusher>
           <div id="main-wrapper">
+            <NavBar/>
             <div id="content">
               <div
                 className="content-wrapper"
