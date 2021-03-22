@@ -34,14 +34,15 @@ div.ui.container{
 @import 'mixins.scss';
 @import 'leftSideIcons.scss';
 @import 'account-menu.scss';
-// @import 'news.scss';
-// @import 'newspaper.scss';
+@import 'fonts.scss';
 @import 'home.scss';
 @import 'article.scss';
 @import 'sidebar.scss';
 @import 'global-top-bar.scss';
-// @import 'global-menu-icon.scss';
 @import 'user-info.scss';
+@import 'popUp.scss';
+@import 'popUp.scss';
+@import 'newsNavbar.scss';
 
 .overlay {
     position: absolute !important;
@@ -123,35 +124,3 @@ div.ui.container{
     
 }
 
-.pop__up {
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 1;
-    width: 100%;
-    height: 100%;
-    padding-top: 200px;
-    background-color: rgba($color: #502b00, $alpha: 0.8);
-    padding-left: 12px;
-    padding-right: 12px;
-    .icon img {
-        width: 100%;
-    }
-
-    .content {
-        background: white;
-        padding: 36px;
-        text-align: center;
-        border-radius: 5px;
-    }
-    .close {
-        position: relative;
-        top: 15px;
-        float: right;
-        right: 15px;        
-    }
-}
-
-#main-wrapper {
-    margin-top: 75px;
-}

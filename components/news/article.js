@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import marked from "marked";
 import _ from "lodash";
-import NavBar from '../navbar';
+import NewsNavBar from '../news/news-navbar';
 
 // import VimeoPlayer        from '../components/vimeo-player'
 function getArticleImages(data) {
@@ -60,7 +60,6 @@ export default class NewsArticle extends Component {
     return (
       <div className="news-content">
         <div className="main-content article">
-          <NavBar/>
           <div className="article">
             {bodyHeadline ? (
               <div

@@ -1,0 +1,103 @@
+$borderColor: rgba($color: #000000, $alpha: 0.4);
+.news-content {
+  margin-top: 100px!important;
+}
+.news-navbar-wrapper {
+  position: fixed!important;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  width: 100%;
+}
+.news-navbar {
+  margin-bottom: 0px !important;
+  font-family: Georgia,Times,"Times New Roman" !important;
+  margin-top: 0px !important;
+  border-bottom: 1px solid $borderColor !important;
+  border-radius: 0 !important;
+  background: url("/static/images/news/newspaper-bg-tile.png")!important;
+  .menu-icon{
+    height: 30px;
+  }
+  &.menu{
+    width: 100%;
+    .grid {
+      margin: 0!important;
+      width: 100%;
+    }
+  }
+
+  &.header{
+    padding-top: 6px;
+    padding-bottom: 6px;
+    &::before {
+      content: "";
+      height: 8px;
+      width: 100%;
+      top:0;
+      left: 0;
+      background-size: 25px 8px;
+      background: url("/static/images/news/newspaper-edge-top.png");
+      background-repeat: repeat-x;
+      background-position: top;
+      position: absolute;
+    }
+  }
+
+  &.date {
+    font-size: 11px;
+    // height: 38px;
+    .grid .row{
+      padding-top: 0;
+      padding-bottom: 0;
+    }
+  }
+
+  &.navigation {
+    overflow-x: scroll;
+    max-height: 70px;
+    padding-bottom: 0px;
+    padding-top: 6px;
+    &::-webkit-scrollbar-track {
+      width: 0!important; /* Remove scrollbar space */
+      height: 0!important;
+      background: none !important; /* Optional: just make scrollbar invisible */
+    }
+    &::-webkit-scrollbar-thumb {
+      width: 0; /* Remove scrollbar space */
+      height: 0;
+      background: none !important; /* Optional: just make scrollbar invisible */
+    }
+    &::-webkit-scrollbar{
+      height: 0px;
+    }
+    .item {
+      padding-left: 4px;
+      padding-right: 4px;
+      width: auto;
+      height: 26px;
+      &::before{
+        background: $borderColor;
+      }
+      .link {
+        &.selected{
+          background: rgba($color: #000000, $alpha: 0.5);
+        }
+        p {
+          font-size: 11px;
+          padding: 0;
+          line-height: 16px;
+          margin-bottom: 0px;
+          float: left;
+          margin: 0 8px;
+          &.highlighted {
+            background: yellow;
+          }
+        }
+      }
+    }
+  }
+  .grid {
+    padding: 0px;
+  }
+}

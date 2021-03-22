@@ -8,10 +8,11 @@
         .row.links{
             // margin-bottom: 24px;
             .column{
-                height: 40px;
+                $size: 15px;
+                font-size: $size;
+                height: $size * 2;
+                line-height: $size * 2;
                 font-family: "DINPro", sans-serif;
-                font-size: 20px;
-                line-height: 40px;
                 color: #E1DAC9;
                 font-weight: bolder;
                 a {
