@@ -3,6 +3,7 @@ import marked from "marked";
 import _ from "lodash";
 import NewsNavBar from "../news/news-navbar";
 import { Menu, Grid } from "semantic-ui-react";
+import { useRouter } from 'next/router';
 
 // import VimeoPlayer        from '../components/vimeo-player'
 function getArticleImages(data) {
@@ -37,13 +38,10 @@ function getArticleImages(data) {
   }
 }
 
-export default class NewsArticle extends Component {
-  constructor(props) {
-    super(props);
-  }
-
-  render() {
-    const { data, loaded } = this.props;
+const NewsArticle = props => {
+  const router = useRouter();
+  const render = () => {
+    const { data, loaded } = props;
     if (_.isEmpty(data)) {
       // TODO: 404
       return null;
@@ -68,12 +66,12 @@ export default class NewsArticle extends Component {
                   width="3"
                   textAlign="center"
                   verticalAlign="middle"
-                  onClick={this.toggleMenu}
+                  onClick={()=>router.back()}
                 >
                   {
                     <img
                       className="ui image center aligned menu-icon"
-                      src="/static/images/global-menu/global-menu-icon-hl.png"
+                      src="/static/icons/arrow.svg"
                     />
                   }
                 </Grid.Column>
@@ -99,7 +97,6 @@ export default class NewsArticle extends Component {
               {bodyHeadline ? (
                 <div
                   className={"title " + column + ` news-${page.slice(-1)}`}
-                  ref="content"
                   dangerouslySetInnerHTML={{
                     __html: marked(bodyHeadline || ""),
                   }}
@@ -115,7 +112,6 @@ export default class NewsArticle extends Component {
               </div>
               {getArticleImages(data)}
               <div
-                ref="content"
                 className="article-text"
                 dangerouslySetInnerHTML={{ __html: marked(bodyText || "") }}
               />
@@ -126,4 +122,8 @@ export default class NewsArticle extends Component {
       </React.Fragment>
     );
   }
+
+  return render();
 }
+
+export default NewsArticle;
