@@ -7,7 +7,6 @@
   font-family: Georgia;
   font-size: 12px;
   text-align: justify;
-  padding-top: 150px;
   
   .excerpt, .article {
     a .title.headline p {
@@ -77,11 +76,23 @@
     .article-column .column-title {
         text-align: center;
         font-size: 24px;
+        font-weight: 700;
     }
 }
 
-.viewpoint, .subscribers-news{
+.viewpoint, 
+.subscribers-news,
+.lincvolt,
+.tech{
     font-family: "Yrsa";
-    font-weight: 700;
 }
 
+.left.tech {
+  font-family: "Sixcaps";
+}
+
+.right.tech {
+  font-family: Georgia;
+  font-style: italic;
+  font-weight: 400!important;
+}

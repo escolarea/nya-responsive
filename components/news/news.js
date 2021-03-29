@@ -75,6 +75,7 @@ class NewsWrapper extends Component {
       this.props.pageData.find(
         (p) => parseOnlyNumbers(p.title) === parseInt(page)
       ) || {};
+    console.log(pageData);
     const pageStyle = pageData.styleName ? pageData.styleName : "front-page";
     const headline = pageData[`${side}Headline`];
     if (!headline) return null;
@@ -197,7 +198,7 @@ class NewsWrapper extends Component {
       this._renderColumn(side, page, layout)
     );
     return (
-      <Container className="news-content" style={{ paddingTop:"120px" }}>
+      <Container className="news-content" style={{ paddingTop:"130px" }}>
         <div divided columns="equal" className="scrollable">
           {parsedColumns}
         </div>
