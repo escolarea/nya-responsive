@@ -23,9 +23,7 @@ export function determineUserStatusFromSubscriptionResponse(json) {
         user.userIsFree = true //free
         user.userHasSubscriptionInfo = false
         user.userSubscriptionStatus = null
-
-        setuserData(user)
-        return;
+        return user;
     }
 
     user.userHasSubscriptionInfo = true

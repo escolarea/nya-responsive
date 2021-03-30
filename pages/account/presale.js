@@ -49,6 +49,7 @@ const Presale = ({ticketsData, assignedCodes, ticketsRequestedForCodes}) => {
             <p>If you are not a subscriber, <Link href="/account/plans">CLICK HERE</Link> to become one. For code issues <a href="/contact">contact</a> NYA. For purchase issues please contact the ticket vendor.</p>
         </div>
      </div>
+     <div className="tickets-panel">
      { tickets &&
                     tickets.map((ticket, ind) => (
                         <Ticket
@@ -63,6 +64,7 @@ const Presale = ({ticketsData, assignedCodes, ticketsRequestedForCodes}) => {
                             accountPage={""}
                         />
                     ))}
+       </div>
     </div>
   );
   

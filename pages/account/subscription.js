@@ -1,8 +1,5 @@
 import React, { useEffect,useState } from 'react'
 
-
-
-
 const Subscription = ({}) => {
   return (
     <div id="account-menu-container">

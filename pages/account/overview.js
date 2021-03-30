@@ -1,19 +1,25 @@
 import React, { useEffect,useState } from 'react'
+import template from '../../static/template';
+import PropTypes from 'prop-types';
 
 
-
-
-const Overview = ({}) => {
+const Overview = ({loggedInUser}) => {
+  useEffect(()=>{
+         console.log("loggedInUser", loggedInUser);
+  },[])
+  const {name, nickname} = loggedInUser
+  console.log("name", name)
+  //TODO : add loading 
   return (
     <div id="account-menu-container">
      <div className="one column row links overview">
         <div className="left aligned column overview">
             <span className="header-title">First name</span>
-            <p>name from the store</p>
+            <p>{nickname}</p>
         </div>
         <div className="left aligned column overview">
          <span className="header-title">Email</span>
-         <p>email from the store</p>
+         <p>{name}</p>
         </div>
      </div>
      <div className="one column row links overview-btn">
@@ -29,5 +35,5 @@ const Overview = ({}) => {
   
 } 
 
-export default Overview
+export default template(Overview)
 
