@@ -75,6 +75,7 @@ class NewsWrapper extends Component {
       this.props.pageData.find(
         (p) => parseOnlyNumbers(p.title) === parseInt(page)
       ) || {};
+    console.log(pageData);
     const pageStyle = pageData.styleName ? pageData.styleName : "front-page";
     const headline = pageData[`${side}Headline`];
     if (!headline) return null;
@@ -103,7 +104,7 @@ class NewsWrapper extends Component {
   }
 
   _renderColumn(side, page, layout) {
-    const columnCn = cn("column", side, layout);
+    const columnCn = cn("article-column", side, layout);
     const innerColumns3 =
       layout === "column-3-full" && side === "center"
         ? layoutColumns["column-3-full-inner"]
@@ -114,7 +115,7 @@ class NewsWrapper extends Component {
         : null;
 
     return (
-      <Grid.Column key={`column-${side}-${layout}`} className={columnCn}>
+      <div width="6" key={`column-${side}-${layout}`} className={columnCn}>
         {this._renderColumnTitle(side, page)}
         {this._renderExcerpts(side, page, layout)}
         {layout === "column-3-full-inner" &&
@@ -131,7 +132,7 @@ class NewsWrapper extends Component {
           innerColumns4.map((side) =>
             this._renderColumn(side, page, "column-4-full-inner")
           )}
-      </Grid.Column>
+      </div>
     );
   }
 
@@ -192,17 +193,15 @@ class NewsWrapper extends Component {
         (p) => parseOnlyNumbers(p.title) === parseInt(page)
       ) || {};
     const { layout = "column-3" } = pageData;
-    console.log(JSON.parse(this.props.articles));
     const columns = layoutColumns[layout] || [];
     const parsedColumns = columns.map((side) =>
       this._renderColumn(side, page, layout)
     );
     return (
-      <Container className="news-content">
-        <Grid columns="equal">
+      <Container className="news-content" style={{ paddingTop:"130px" }}>
+        <div divided columns="equal" className="scrollable">
           {parsedColumns}
-          {this._renderColDivs(layout)}
-        </Grid>
+        </div>
       </Container>
     );
   }

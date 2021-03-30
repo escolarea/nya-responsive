@@ -1,7 +1,9 @@
 import React, { Component } from "react";
 import marked from "marked";
 import _ from "lodash";
-import NewsNavBar from '../news/news-navbar';
+import NewsNavBar from "../news/news-navbar";
+import { Menu, Grid } from "semantic-ui-react";
+import { useRouter } from 'next/router';
 
 // import VimeoPlayer        from '../components/vimeo-player'
 function getArticleImages(data) {
@@ -36,13 +38,10 @@ function getArticleImages(data) {
   }
 }
 
-export default class NewsArticle extends Component {
-  constructor(props) {
-    super(props);
-  }
-
-  render() {
-    const { data, loaded } = this.props;
+const NewsArticle = props => {
+  const router = useRouter();
+  const render = () => {
+    const { data, loaded } = props;
     if (_.isEmpty(data)) {
       // TODO: 404
       return null;
@@ -58,34 +57,73 @@ export default class NewsArticle extends Component {
     } = data;
 
     return (
-      <div className="news-content">
-        <div className="main-content article">
-          <div className="article">
-            {bodyHeadline ? (
-              <div
-                className={"title " + column + ` news-${page.slice(-1)}`}
-                ref="content"
-                dangerouslySetInnerHTML={{ __html: marked(bodyHeadline || "") }}
-              />
-            ) : (
-              <div className={"title " + column + ` news-${page.slice(-1)}`}>
-                <h1>{headline}</h1>
-              </div>
-            )}
-            <div className="byline">
-              <span className="author">{author}</span>
-              <span className="date">{dateText}</span>
-            </div>
-            {getArticleImages(data)}
-            <div
-              ref="content"
-              className="article-text"
-              dangerouslySetInnerHTML={{ __html: marked(bodyText || "") }}
-            />
-          </div>
-          {/* <AdColumn /> */}
+      <React.Fragment>
+        <div className="news-navbar-wrapper">
+          <Menu className={`news-navbar header`}>
+            <Grid>
+              <Grid.Row columns={2}>
+                <Grid.Column
+                  width="3"
+                  textAlign="center"
+                  verticalAlign="middle"
+                  onClick={()=>router.back()}
+                >
+                  {
+                    <img
+                      className="ui image center aligned menu-icon"
+                      src="/static/icons/arrow.svg"
+                    />
+                  }
+                </Grid.Column>
+                <Grid.Column
+                  verticalAlign="middle"
+                  textAlign="center"
+                  width="11"
+                >
+                  <img
+                    className="ui image center aligned"
+                    src="/static/images/news/newspaper-header.png"
+                    alt=""
+                  />
+                </Grid.Column>
+                <Grid.Column width="3"></Grid.Column>
+              </Grid.Row>
+            </Grid>
+          </Menu>
         </div>
-      </div>
+        <div className="news-content" style={{paddingTop: "40px"}}>
+          <div className="main-content article">
+            <div className="article">
+              {bodyHeadline ? (
+                <div
+                  className={"title " + column + ` news-${page.slice(-1)}`}
+                  dangerouslySetInnerHTML={{
+                    __html: marked(bodyHeadline || ""),
+                  }}
+                />
+              ) : (
+                <div className={"title " + column + ` news-${page.slice(-1)}`}>
+                  <h1>{headline}</h1>
+                </div>
+              )}
+              <div className="byline">
+                <span className="author">{author}</span>
+                <span className="date">{dateText}</span>
+              </div>
+              {getArticleImages(data)}
+              <div
+                className="article-text"
+                dangerouslySetInnerHTML={{ __html: marked(bodyText || "") }}
+              />
+            </div>
+            {/* <AdColumn /> */}
+          </div>
+        </div>
+      </React.Fragment>
     );
   }
+
+  return render();
 }
+
+export default NewsArticle;
