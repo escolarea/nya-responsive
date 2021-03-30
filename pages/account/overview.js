@@ -7,19 +7,19 @@ const Overview = ({loggedInUser}) => {
   useEffect(()=>{
          console.log("loggedInUser", loggedInUser);
   },[])
-  const {name, nickname} = loggedInUser
-  console.log("name", name)
+  // const {name, nickname} = loggedInUser
+  // console.log("name", name)
   //TODO : add loading 
   return (
     <div id="account-menu-container">
      <div className="one column row links overview">
         <div className="left aligned column overview">
             <span className="header-title">First name</span>
-            <p>{nickname}</p>
+            <p>bianca</p>
         </div>
         <div className="left aligned column overview">
          <span className="header-title">Email</span>
-         <p>{name}</p>
+         <p>bianca@helloiconic.com</p>
         </div>
      </div>
      <div className="one column row links overview-btn">
@@ -35,5 +35,5 @@ const Overview = ({loggedInUser}) => {
   
 } 
 
-export default template(Overview)
+export default Overview
 

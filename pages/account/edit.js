@@ -12,13 +12,13 @@ const Edit = ({}) => {
             <div className="left aligned column overview">
             <Form.Field>
                 <label className="header-title">First Name</label>
-                <input placeholder='name from the store' />
+                <input placeholder='bianca' />
             </Form.Field>
             </div>
             <div className="left aligned column overview">
             <Form.Field>
                 <label className="header-title">Email</label>
-                <input placeholder='email from the store' />
+                <input placeholder='bianca@helloiconic.com' />
             </Form.Field>
             </div>
         </Form>

@@ -5,7 +5,7 @@ const Subscription = ({}) => {
     <div id="account-menu-container">
      <div className="one column row links subscription-overview">
         <div className="left aligned column ">
-            <h2>from store type of plan</h2>
+            <h2>NYA CLASSIC</h2>
         </div>
      </div>
      <div className="one column row links overview-btn">

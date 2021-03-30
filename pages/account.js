@@ -15,7 +15,6 @@ const Account = ({token}) => {
         const data = await res.json() 
         //This brings the subscription info and the jwt for OS
         const userData= determineUserStatusFromSubscriptionResponse(data.subscription);
-        console.log("userData", userData)
         setUser(userData)
       }
    }  
@@ -30,7 +29,7 @@ const Account = ({token}) => {
            <div className="left aligned column"><Link href="/account/overview" >Overview</Link> </div>
             <div className="left aligned column"><Link href="/account/subscription" className="left aligned column"> Subscription </Link></div>
             <div className="left aligned column"><Link href="/account/plans" className="left aligned column"> Plans </Link></div>
-            <div className="left aligned column"><Link href="/account/tickets" className="left aligned column"> Presale Tickets </Link></div>
+            <div className="left aligned column"><Link href="/account/presale" className="left aligned column"> Presale Tickets </Link></div>
             <div className="left aligned column"><Link href="/account/notifications" className="left aligned column"> Notification Settings </Link></div>
           </div>
           
