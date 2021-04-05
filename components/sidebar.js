@@ -25,10 +25,6 @@ const SideBarMenu = ({
     }
   }, []) ;
 
-  // const redirect = (url)=>{
-  //   Router.replace(appState?.returnTo || '/');
-  // }
-
   return (
     <Sidebar
       className="global-menu"
@@ -80,7 +76,7 @@ const SideBarMenu = ({
             </Button>
           </Grid.Column>
           <Grid.Column>
-            <Button fluid className="account-button" onTouchStart={()=>login()}>
+            <Button fluid className="account-button" onTouchStart={()=>login()} >
               ACCOUNT
             </Button>
           </Grid.Column>

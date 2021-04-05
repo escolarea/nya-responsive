@@ -1,7 +1,7 @@
 #account-menu-container{
     height: 100vh;
     width: 100%;
-    background-image: url('../public/static/images/account-info/tab-content-body.jpg');
+    background-image: url('../static/images/account-info/tab-content-body.jpg');
     background-size: 100%;
     background-color: #d6d4d0;
     will-change: background-color,background-image;
@@ -149,7 +149,7 @@
             background-size: 24px;
             background-repeat: no-repeat;
             background-position: 50%;
-            background-image: url('../public/static/images/account-info/arrow.svg');
+            background-image: url('../static/images/account-info/arrow.svg');
             transform: rotate(180deg);
         }
 

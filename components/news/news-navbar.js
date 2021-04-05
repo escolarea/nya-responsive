@@ -127,14 +127,14 @@ class NewsNavbar extends Component {
                 {
                   <img
                     className="ui image center aligned menu-icon"
-                    src="/static/images/global-menu/global-menu-icon-hl.png"
+                    src="../static/images/global-menu/global-menu-icon-hl.png"
                   />
                 }
               </Grid.Column>
               <Grid.Column verticalAlign="middle" textAlign="center" width="11">
                 <img
                   className="ui image center aligned"
-                  src="/static/images/news/newspaper-header.png"
+                  src="../static/images/news/newspaper-header.png"
                   alt=""
                 />
               </Grid.Column>

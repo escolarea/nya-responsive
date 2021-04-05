@@ -11,7 +11,7 @@ const NavBar = ({visibleSideBar, hideSideBar, showSideBar}) => {
   return (
     <Menu fixed="top">
       <Menu.Item onClick={toggleSideBar}>
-        <img src="/static/images/global-menu/global-menu-icon-hl.png"/>
+        <img src="../static/images/global-menu/global-menu-icon-hl.png"/>
       </Menu.Item>
       <Menu.Item>
         Neil Young Archives

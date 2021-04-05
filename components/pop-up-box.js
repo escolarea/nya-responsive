@@ -11,7 +11,7 @@ const PopUpBox = ({ visible, hidePopUp }) => {
     >
       <span className="close" onClick={() => hidePopUp()}>
         <img
-          src="/static/images/video-modal/close.png"
+          src="../static/images/video-modal/close.png"
           alt="clse"
           height="20px"
           width="20px"
@@ -26,7 +26,7 @@ const PopUpBox = ({ visible, hidePopUp }) => {
                 href="https://apps.apple.com/us/app/neil-young-archives/id1444818920"
                 target="blank"
               >
-                <img src="/static/images/email/itunes-badge.png" alt="itunes" />
+                <img src="../static/images/email/itunes-badge.png" alt="itunes" />
               </a>
             </Grid.Column>
             <Grid.Column width="8" className="icon">
@@ -35,7 +35,7 @@ const PopUpBox = ({ visible, hidePopUp }) => {
                 target="blank"
               >
                 <img
-                  src="/static/images/email/google-play-badge.png"
+                  src="../static/images/email/google-play-badge.png"
                   alt="google-play"
                 />
               </a>

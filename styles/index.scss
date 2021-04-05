@@ -119,9 +119,9 @@ div.ui.container{
 .user-info {
     background-color: rgba($color: #000000, $alpha: 0.9);
     .subscribe{
-        background: url("/static/images/global-menu/subscribe-hl.png");
+        background: url("../static/images/global-menu/subscribe-hl.png");
         &.login {
-            background: url("/static/images/global-menu/login-hl.png");
+            background: url("../static/images/global-menu/login-hl.png");
         }
     }
     
