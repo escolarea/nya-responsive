@@ -6,15 +6,31 @@ import PopUpBox from "../components/pop-up-box";
 import { Sidebar} from "semantic-ui-react";
 import { React, Fragment } from "react";
 import SideBarMenu from '../components/sidebar'
+import { Auth0Provider } from '@auth0/auth0-react';
+import PropTypes from 'prop-types';
+
 
 const WrappedApp = ({ Component, pageProps }) => {
   //TODO : add a temporary loaded on route change
+  const onRedirectCallback = (appState) => {
+    Router.replace(appState?.returnTo || '/');
+  };
   return (
+    <Auth0Provider
+        domain={process.env.NEXT_PUBLIC_DOMAIN}
+        clientId={process.env.NEXT_PUBLIC_CLIENT_ID}
+        audience={process.env.NEXT_PUBLIC_AUDIENCE}
+        scope="read:current_user"
+        redirectUri={typeof window !== 'undefined' && window.location.origin}
+        onRedirectCallback={onRedirectCallback}
+      >
     <Fragment>
       <Sidebar.Pushable>
-        <SideBarMenu/>
+        <SideBarMenu
+        />
         <Sidebar.Pusher>
           <div id="main-wrapper">
+            <NavBar/>
             <div id="content">
               <div
                 className="content-wrapper"
@@ -29,8 +45,12 @@ const WrappedApp = ({ Component, pageProps }) => {
       </Sidebar.Pushable>
       <PopUpBox />
     </Fragment>
+    </Auth0Provider>
   );
   // return <Component {...pageProps} />
+};
+WrappedApp.propTypes = {
+  isLoggedIn: PropTypes.bool
 };
 
 export default wrapper.withRedux(WrappedApp);

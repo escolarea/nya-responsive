@@ -1,202 +1,202 @@
 @font-face {
   font-family: 'Microbrew One';
-  src: url('/static/fonts/microbrew-one-webfont.woff2') format('woff2'),
-       url('/static/fonts/microbrew-one-webfont.woff') format('woff');
+  src: url('/public/static/fonts/microbrew-one-webfont.woff2') format('woff2'),
+       url('/public/static/fonts/microbrew-one-webfont.woff') format('woff');
   font-weight: normal;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'Typewriter';
-  src: url('/static/fonts/Bohemian-typewriter.ttf.eot'); /* IE9 */
-  src: url('/static/fonts/Bohemian-typewriter.ttf.woff') format('woff'),
-       url('/static/fonts/Bohemian-typewriter.ttf.svg')  format('svg'),
-       url('/static/fonts/Bohemian-typewriter.ttf')      format('truetype');
+  src: url('/public/static/fonts/Bohemian-typewriter.ttf.eot'); /* IE9 */
+  src: url('/public/static/fonts/Bohemian-typewriter.ttf.woff') format('woff'),
+       url('/public/static/fonts/Bohemian-typewriter.ttf.svg')  format('svg'),
+       url('/public/static/fonts/Bohemian-typewriter.ttf')      format('truetype');
 }
 
 @font-face {
   font-family: 'Veneer';
-  src: url('/static/fonts/veneer.eot');
-  src: url('/static/fonts/veneer.eot?#iefix') format('embedded-opentype'),
-           url('/static/fonts/veneer.woff2') format('woff2'),
-       url('/static/fonts/veneer.woff') format('woff'),
-       url('/static/fonts/veneer.ttf') format('truetype'),
-       url('/static/fonts/veneer.svg#youworkforthem') format('svg');
+  src: url('/public/static/fonts/veneer.eot');
+  src: url('/public/static/fonts/veneer.eot?#iefix') format('embedded-opentype'),
+           url('/public/static/fonts/veneer.woff2') format('woff2'),
+       url('/public/static/fonts/veneer.woff') format('woff'),
+       url('/public/static/fonts/veneer.ttf') format('truetype'),
+       url('/public/static/fonts/veneer.svg#youworkforthem') format('svg');
   font-weight: normal;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'Eveleth Slant Regular';
-  src: url('/static/fonts/eveleth-slant-regular.eot'); /* IE9 */
-  src: url('/static/fonts/eveleth-slant-regular.woff') format('woff'),
-       url('/static/fonts/eveleth-slant-regular.woff2') format('woff2'),
-       url('/static/fonts/eveleth-slant-regular.svg')  format('svg'),
-       url('/static/fonts/eveleth-slant-regular.ttf')  format('truetype');
+  src: url('/public/static/fonts/eveleth-slant-regular.eot'); /* IE9 */
+  src: url('/public/static/fonts/eveleth-slant-regular.woff') format('woff'),
+       url('/public/static/fonts/eveleth-slant-regular.woff2') format('woff2'),
+       url('/public/static/fonts/eveleth-slant-regular.svg')  format('svg'),
+       url('/public/static/fonts/eveleth-slant-regular.ttf')  format('truetype');
 }
 
 @font-face {
   font-family: 'DINPro';
-  src: url('/static/fonts/DINPro.eot'); /* IE9 */
-  src: url('/static/fonts/DINPro.woff') format('woff'),
-       url('/static/fonts/DINPro.svg')  format('svg'),
-       url('/static/fonts/DINPro.ttf')  format('truetype');
+  src: url('/public/static/fonts/DINPro.eot'); /* IE9 */
+  src: url('/public/static/fonts/DINPro.woff') format('woff'),
+       url('/public/static/fonts/DINPro.svg')  format('svg'),
+       url('/public/static/fonts/DINPro.ttf')  format('truetype');
 }
 
 @font-face {
   font-family: 'DINProBold';
-  src: url('/static/fonts/DINProBold.eot'); /* IE9 */
-  src: url('/static/fonts/DINProBold.woff') format('woff'),
-       url('/static/fonts/DINProBold.svg')  format('svg'),
-       url('/static/fonts/DINProBold.ttf')  format('truetype');
+  src: url('/public/static/fonts/DINProBold.eot'); /* IE9 */
+  src: url('/public/static/fonts/DINProBold.woff') format('woff'),
+       url('/public/static/fonts/DINProBold.svg')  format('svg'),
+       url('/public/static/fonts/DINProBold.ttf')  format('truetype');
 }
 
 @font-face {
   font-family: 'DINProCondensed';
-  src: url('/static/fonts/DinProCondensed.eot'); /* IE9 */
-  src: url('/static/fonts/DinProCondensed.woff') format('woff'),
-       url('/static/fonts/DinProCondensed.ttf')  format('truetype');
+  src: url('/public/static/fonts/DinProCondensed.eot'); /* IE9 */
+  src: url('/public/static/fonts/DinProCondensed.woff') format('woff'),
+       url('/public/static/fonts/DinProCondensed.ttf')  format('truetype');
 }
 
 @font-face {
   font-family: 'DINProCondensedBold';
-  src: url('/static/fonts/DIN_Condensed_Bold.woff') format('woff'),
-       url('/static/fonts/DIN_Condensed_Bold.ttf')  format('truetype'),
-       url('/static/fonts/DIN_Condensed_Bold.otf') format('opentype');
+  src: url('/public/static/fonts/DIN_Condensed_Bold.woff') format('woff'),
+       url('/public/static/fonts/DIN_Condensed_Bold.ttf')  format('truetype'),
+       url('/public/static/fonts/DIN_Condensed_Bold.otf') format('opentype');
 }
 
 @font-face {
   font-family: 'Helvetica-Neue-Black-Condensed';
-  src: url('/static/fonts/Helvetica-Neue-Black-Condensed.eot'); /* IE9 */
-  src: url('/static/fonts/Helvetica-Neue-Black-Condensed.woff') format('woff'),
-       url('/static/fonts/Helvetica-Neue-Black-Condensed.ttf')  format('truetype');
+  src: url('/public/static/fonts/Helvetica-Neue-Black-Condensed.eot'); /* IE9 */
+  src: url('/public/static/fonts/Helvetica-Neue-Black-Condensed.woff') format('woff'),
+       url('/public/static/fonts/Helvetica-Neue-Black-Condensed.ttf')  format('truetype');
 }
 
 @font-face {
   font-family: 'Stencil';
-  src: url('/static/fonts/stencil.eot'); /* IE9 */
-  src: url('/static/fonts/stencil.woff') format('woff'),
-       url('/static/fonts/stencil.ttf')  format('truetype');
+  src: url('/public/static/fonts/stencil.eot'); /* IE9 */
+  src: url('/public/static/fonts/stencil.woff') format('woff'),
+       url('/public/static/fonts/stencil.ttf')  format('truetype');
 }
 
 @font-face {
   font-family: 'OpenSansExtraBold';
-  src: url('/static/fonts/OpenSans-ExtraBold.ttf') format('truetype');
+  src: url('/public/static/fonts/OpenSans-ExtraBold.ttf') format('truetype');
 }
 @font-face {
   font-family: 'Georgia';
-  src: url('/static/fonts/Georgia.ttf') format('truetype');
+  src: url('/public/static/fonts/Georgia.ttf') format('truetype');
 }
 
 @font-face {
   font-family: 'Georgia';
-  src: url('/static/fonts/Georgia-Bold.ttf') format('truetype');
+  src: url('/public/static/fonts/Georgia-Bold.ttf') format('truetype');
   font-weight: bold;
 }
 
 @font-face {
   font-family: 'Georgia';
-  src: url('/static/fonts/Georgia-Italic.ttf') format('truetype');
+  src: url('/public/static/fonts/Georgia-Italic.ttf') format('truetype');
   font-style: italic;
 }
 
 @font-face {
   font-family: 'Georgia';
-  src: url('/static/fonts/Georgia-Bold-Italic.ttf') format('truetype');
+  src: url('/public/static/fonts/Georgia-Bold-Italic.ttf') format('truetype');
   font-weight: bold;
   font-style: italic;
 }
 
 @font-face {
   font-family: 'Yrsa';
-  src: url('/static/fonts/Yrsa-Regular.ttf') format('truetype');
+  src: url('/public/static/fonts/Yrsa-Regular.ttf') format('truetype');
 }
 
 @font-face {
   font-family: 'Yrsa';
-  src: url('/static/fonts/Yrsa-Light.ttf') format('truetype');
+  src: url('/public/static/fonts/Yrsa-Light.ttf') format('truetype');
   font-weight: 300;
 }
 
 @font-face {
   font-family: 'Yrsa';
-  src: url('/static/fonts/Yrsa-Semibold.ttf') format('truetype');
+  src: url('/public/static/fonts/Yrsa-Semibold.ttf') format('truetype');
   font-weight: 600;
 }
 
 @font-face {
   font-family: 'Yrsa';
-  src: url('/static/fonts/Yrsa-Bold.ttf') format('truetype');
+  src: url('/public/static/fonts/Yrsa-Bold.ttf') format('truetype');
   font-weight: bold;
 }
 
 @font-face {
   font-family: 'LibreBaskerville';
-  src: url('/static/fonts/LibreBaskerville-Italic.ttf') format('truetype');
+  src: url('/public/static/fonts/LibreBaskerville-Italic.ttf') format('truetype');
   font-style: italic;
 }
 
 @font-face {
   font-family: 'Oswald';
-  src: url('/static/fonts/Oswald-Semibold.ttf') format('truetype');
+  src: url('/public/static/fonts/Oswald-Semibold.ttf') format('truetype');
 }
 
 @font-face {
   font-family: 'Roboto';
-  src: url('/static/fonts/Roboto-Regular.ttf') format('truetype');
+  src: url('/public/static/fonts/Roboto-Regular.ttf') format('truetype');
 }
 
 @font-face {
   font-family: 'Roboto';
-  src: url('/static/fonts/Roboto-Bold.ttf') format('truetype');
+  src: url('/public/static/fonts/Roboto-Bold.ttf') format('truetype');
   font-weight: bold;
 }
 
 @font-face {
   font-family: 'Roboto';
-  src: url('/static/fonts/Roboto-Italic.ttf') format('truetype');
+  src: url('/public/static/fonts/Roboto-Italic.ttf') format('truetype');
   font-style: italic;
 }
 
 @font-face {
   font-family: 'Roboto-Condensed';
-  src: url('/static/fonts/RobotoCondensed-Bold.ttf') format('truetype');
+  src: url('/public/static/fonts/RobotoCondensed-Bold.ttf') format('truetype');
   font-weight: bold;
 }
 
 @font-face {
   font-family: 'Roboto-Condensed';
-  src: url('/static/fonts/RobotoCondensed-Regular.ttf') format('truetype');
+  src: url('/public/static/fonts/RobotoCondensed-Regular.ttf') format('truetype');
 }
 
 @font-face {
   font-family: 'Roboto-Condensed';
-  src: url('/static/fonts/RobotoCondensed-Italic.ttf') format('truetype');
+  src: url('/public/static/fonts/RobotoCondensed-Italic.ttf') format('truetype');
   font-style: italic;
 }
 
 @font-face {
   font-family: 'Galada';
-  src: url('/static/fonts/Galada-Regular.ttf') format('truetype');
+  src: url('/public/static/fonts/Galada-Regular.ttf') format('truetype');
 }
 
 @font-face {
   font-family: 'Benchnine-Bold';
-  src: url('/static/fonts/BenchNine-Bold.ttf') format('truetype');
+  src: url('/public/static/fonts/BenchNine-Bold.ttf') format('truetype');
 }
 
 @font-face {
   font-family: 'Sixcaps';
-  src: url('/static/fonts/SixCaps.ttf') format('truetype');
+  src: url('/public/static/fonts/SixCaps.ttf') format('truetype');
 }
 
 @font-face {
   font-family: 'Microbrew';
-  src: url('/static/fonts/Microbrew.otf') format('opentype');
+  src: url('/public/static/fonts/Microbrew.otf') format('opentype');
 }
 @font-face {
   font-family: 'QHYTSDAKX';
   font-style: normal;
   font-weight: normal;
-  src: url('/static/fonts/qhytsdakx.woff') format('woff');
+  src: url('/public/static/fonts/qhytsdakx.woff') format('woff');
 }

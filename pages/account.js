@@ -1,42 +1,45 @@
-
 import React, { useEffect,useState } from 'react'
+import Link from "next/link";
 import fetchData from '../api/fetch'
-import {hasAuth, getAuth} from '../services/localstorage'
-import Login from '../components/login'
 import {determineUserStatusFromSubscriptionResponse} from '../helpers/parseUser'
+import {setUser} from '../store/userData/action'
+import template from '../static/template';
+import PropTypes from 'prop-types';
 
 
+const Account = ({token}) => {
+    const retrieveUserData = async (token) => {
+      if(token){
+        const header = {'Authorization': 'Bearer ' + token}
+        const res =  await fetchData('GET','api/subscriptions', header )
+        const data = await res.json() 
+        //This brings the subscription info and the jwt for OS
+        const userData= determineUserStatusFromSubscriptionResponse(data.subscription);
+        setUser(userData)
+      }
+   }  
+   useEffect(()=>{
+     retrieveUserData(token)
+   })
 
-const Account = ({}) => {
-    const [type, setType] = useState('menu')
-    useEffect(()=>{
-        // redirect for not logged in
-        if(!hasAuth()){
-            Login()
-        }
-        // /api/subscriptions'
-        // .set('Authorization', 'Bearer ' + getAuth())
-        //HERE CALL THE INFO FOR USER INFO
-        //i nedd to do this on each of the components especificly (invoice )
-        const header = {'Authorization': 'Bearer ' + getAuth()}
-        const test = async () => {
-            const res =  await fetchData('GET','api/subscriptions', header )
-            const data = await res.json() 
-            //This brings the subscription info and the jwt for OS
-            const userData= determineUserStatusFromSubscriptionResponse(data.subscription);
-            console.log('userData', userData)
-            //parse data and se it on redux 
-         }
-      
-        test()
-        // fetch subcription info and update on redux
-    })
   return (
-    <div id="drawer-front-container">
-     
+    <div id="account-menu-container" className="global-menu">
+      <div className="ui center aligned grid global-menu-grid">
+          <div className="one column row links">
+           <div className="left aligned column"><Link href="/account/overview" >Overview</Link> </div>
+            <div className="left aligned column"><Link href="/account/subscription" className="left aligned column"> Subscription </Link></div>
+            <div className="left aligned column"><Link href="/account/plans" className="left aligned column"> Plans </Link></div>
+            <div className="left aligned column"><Link href="/account/presale" className="left aligned column"> Presale Tickets </Link></div>
+            <div className="left aligned column"><Link href="/account/notifications" className="left aligned column"> Notification Settings </Link></div>
+          </div>
+          
+        </div>
     </div>
   );
   
 } 
+Account.propTypes = {
+  isLoggedIn: PropTypes.bool
+}
 
-export default Account
+export default  template(Account)

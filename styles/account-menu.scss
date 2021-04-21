@@ -1,0 +1,157 @@
+#account-menu-container{
+    height: 100vh;
+    width: 100%;
+    background-image: url('../static/images/account-info/tab-content-body.jpg');
+    background-size: 100%;
+    background-color: #d6d4d0;
+    will-change: background-color,background-image;
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+    align-items: end;
+ 
+    padding-top: 2rem;
+    .one.column.row.links{
+        width: 100%;
+        padding-left: 2rem;
+        &.overview,&.overview-btn{
+            padding-left: 0rem;
+        }
+        
+    }
+    .one.column.row.links{
+
+        form{
+            .overview{
+                &::after{
+                    display: none;
+                }
+            }
+        }
+        &.subscription-overview{
+            border-bottom: 1px solid rgba(0,0,0,.5);
+            padding-left: 0rem;
+            .left.aligned.column {
+                text-align: center;
+                padding-right: 0px;
+                h2{
+                    font-family: Roboto,sans-serif;
+                    font-weight: 700;
+                    letter-spacing: .05em;
+                    font-size: 30px;
+                    line-height: 48px;
+                    color: #4b4536;
+                    text-transform: uppercase;
+                }
+                &:after{
+                    display: none;
+                }
+            }
+        }
+        &.overview-btn{
+            padding: 2rem 1rem;
+            button.overview{
+                background-color: hsla(0,0%,100%,.4);
+                color: #000;
+                margin-bottom: 2rem;
+                max-width: 100%;
+                line-height: 24px;
+                text-align: center;
+                vertical-align: middle;
+                user-select: none;
+                border: 1px solid #373635;
+                font-size: 16px;
+                font-family: Roboto,sans-serif;
+                font-weight: 500;
+                text-transform: uppercase;
+                padding: 11px 30px;
+                border-radius: 8px;
+                white-space: nowrap;
+            }
+        }
+    }
+    .left.aligned.column{
+        display: block;
+        position: relative;
+        padding-right: 48px;
+        font-family: Roboto,sans-serif;
+        height: auto;
+        margin-bottom: 10px;
+        padding-bottom: 12px;
+        &.presale{
+            padding: 2rem;
+            padding-right: 2rem;
+            p{
+                font-family: BohemianTypewriter,serif;
+                font-weight: 400;
+                color: #4b4536;
+                font-size: 16px;
+            }
+            a{
+                color: #046bc4;
+                text-decoration: none;
+            }
+           
+        }
+        
+        &.overview{
+            padding-left: 2rem;
+            border-bottom: 1px solid rgba(0,0,0,.5);
+
+            input{
+                background: transparent;
+                border: none; 
+                list-style: none;
+                font-family: Roboto,sans-serif;
+                font-size: 20px;
+                font-weight: 700;
+                line-height: 24px;
+                letter-spacing: .05em;
+                color: #4b4536;
+                padding: 0;
+            }
+        }
+        .header-title{
+            font-family: Roboto,sans-serif;
+            display: block;
+            font-size: 16px;
+            font-weight: 400;
+            line-height: inherit;
+            letter-spacing: inherit;
+            opacity: .5;
+        }
+        p{
+            list-style: none;
+            font-family: Roboto,sans-serif;
+            font-size: 20px;
+            font-weight: 700;
+            line-height: 24px;
+            letter-spacing: .05em;
+            color: #4b4536;
+        }
+
+        a{
+            color: #000;
+            text-decoration: none;
+            font-size: 26px;
+            line-height: 34px;
+            font-weight: 700;
+        }
+        &::after{
+            content: "";
+            display: block;
+            position: absolute;
+            margin-right: 1rem;
+            top: 0;
+            right: 0;
+            width: 34px;
+            height: 34px;
+            background-size: 24px;
+            background-repeat: no-repeat;
+            background-position: 50%;
+            background-image: url('../static/images/account-info/arrow.svg');
+            transform: rotate(180deg);
+        }
+
+    }
+}

@@ -226,4 +226,4 @@ export default class GlobalMenu extends Component {
   }
 }
 
-//TODO : call user info and save it on redux 
+//TODO : check if user is logged in here 

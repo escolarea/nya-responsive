@@ -4,6 +4,7 @@ import {useEffect} from 'react';
 import Link from "next/link";
 import { showPopUp } from '../store/notSupportedRoutes/action';
 import { hideSideBar } from '../store/sidebar/action';
+import { login } from '../static/auth0';
 
 const SideBarMenu = ({ 
   visibleSideBar,
@@ -75,7 +76,7 @@ const SideBarMenu = ({
             </Button>
           </Grid.Column>
           <Grid.Column>
-            <Button fluid className="account-button">
+            <Button fluid className="account-button" onTouchStart={()=>login()} >
               ACCOUNT
             </Button>
           </Grid.Column>

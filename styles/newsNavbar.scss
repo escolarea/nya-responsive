@@ -12,7 +12,7 @@ $borderColor: rgba($color: #000000, $alpha: 0.4);
   margin-top: 0px !important;
   border-bottom: 1px solid $borderColor !important;
   border-radius: 0 !important;
-  background: url("/static/images/news/newspaper-bg-tile.png")!important;
+  background: url("../static/images/news/newspaper-bg-tile.png")!important;
   .menu-icon{
     height: 30px;
   }
@@ -34,7 +34,7 @@ $borderColor: rgba($color: #000000, $alpha: 0.4);
       top:0;
       left: 0;
       background-size: 25px 8px;
-      background: url("/static/images/news/newspaper-edge-top.png");
+      background: url("../static/images/news/newspaper-edge-top.png");
       background-repeat: repeat-x;
       background-position: top;
       position: absolute;

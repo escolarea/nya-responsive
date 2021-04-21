@@ -4,6 +4,7 @@ import thunkMiddleware from 'redux-thunk'
 import commonValues from './commonValues/reducer'
 import notSupportedRoutes from './notSupportedRoutes/reducer'
 import sidebar from './sidebar/reducer'
+import userData from './userData/reducer'
 
 const bindMiddleware = (middleware) => {
   if (process.env.NODE_ENV !== 'production') {
@@ -16,7 +17,8 @@ const bindMiddleware = (middleware) => {
 const combinedReducer = combineReducers({
     commonValues,
     notSupportedRoutes,
-    sidebar
+    sidebar,
+    userData
 })
 
 const reducer = (state, action) => {
