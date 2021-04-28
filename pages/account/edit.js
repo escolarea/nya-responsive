@@ -1,10 +1,13 @@
 import React, { useEffect,useState } from 'react'
-import { Button, Checkbox, Form } from 'semantic-ui-react'
+import {Form } from 'semantic-ui-react'
+import template from '../../static/template';
 
 
 
 
-const Edit = ({}) => {
+const Edit = ({loggedInUser}) => {
+  //TODO add request for editing this on the respective endpoint
+  //TODO Handle value change with hooks
   return (
     <div id="account-menu-container">
      <div className="one column row links overview">
@@ -12,13 +15,13 @@ const Edit = ({}) => {
             <div className="left aligned column overview">
             <Form.Field>
                 <label className="header-title">First Name</label>
-                <input placeholder='bianca' />
+                <input placeholder={loggedInUser.nickname} value={loggedInUser.nickname} />
             </Form.Field>
             </div>
             <div className="left aligned column overview">
             <Form.Field>
                 <label className="header-title">Email</label>
-                <input placeholder='bianca@helloiconic.com' />
+                <input placeholder={loggedInUser.name} value={loggedInUser.name} />
             </Form.Field>
             </div>
         </Form>
@@ -34,5 +37,5 @@ const Edit = ({}) => {
   
 } 
 
-export default Edit
+export default  template(Edit)
 

@@ -71,8 +71,10 @@ const SideBarMenu = ({
         </Grid.Row>
         <Grid.Row columns={1} className="buttons">
           <Grid.Column>
-            <Button primary fluid>
-              SUBSCRIBE
+            <Button primary fluid >
+            <Link href="/account/plans">
+              <a className="link">SUBSCRIBE</a>
+            </Link>
             </Button>
           </Grid.Column>
           <Grid.Column>

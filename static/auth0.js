@@ -16,6 +16,7 @@ const config = {
 const Auth = new auth0.WebAuth(config);
 
 function login() {  
+  console.log("authprizing")
   return Auth.authorize();
 }
 
