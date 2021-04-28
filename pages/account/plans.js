@@ -5,18 +5,18 @@ import PlansPanel from '../../components/user/plans'
 import {getPlanInfo} from '../../helpers/plans'
 import { login } from '../../static/auth0';
 import { withAuth0 } from '@auth0/auth0-react';
-import {getTokenForServer} from '../../static/auth'
+import {getTokenForServer,getjwtToken} from '../../static/auth'
 
-const Presale = ({planPrices, planInformation, user}) => {
+const Presale = ({planPrices, planInformation, user,token}) => {
     const [plansList, setplansList] = useState({})
     const [userPlan, setpurchasedPlan ] = useState({})
     
     
     useEffect(()=>{
-      if(!user){
-        login();
-        return;
-      }
+      // if(!user){
+      //   login();
+      //   return;
+      // }
         //parse plans on componentDidMout 
         parsePlans();
     },[])
@@ -103,22 +103,27 @@ const Presale = ({planPrices, planInformation, user}) => {
         planInformation={planInformation}
         purchasedPlan={userPlan}
         user={user}
+        token={token}
   />
   );
   
 } 
 
 export async function getServerSideProps(props) {
-    const {req } = props
-      // console.log('props', props)
+    const {req} = props
     const res  = await fetchData('GET','api/subscriptions/plan-prices');
     const data = await res.json();
     //get user information from server 
-    const user =  req.headers && req.headers.cookie ?  await getTokenForServer(req) : null
+    let user  =  req.headers && req.headers.cookie ?  await getTokenForServer(req) : null
+    let token =  req.headers && req.headers.cookie ?  await getjwtToken(req) : null
+    if(!user){
+
+        user = null
+    }
 
     const {planPrices, planInformation} = data;
     
-    return { props: {planPrices, planInformation, user } }
+    return { props: {planPrices, planInformation,user ,token} }
   }
 
   export default  withAuth0(Presale);

@@ -64,7 +64,9 @@ async function getJWK() {
   async function getTokenForServer(req) {
     if (req.headers.cookie) {
       const jwtFromCookie = req.headers.cookie.split(';').find(c => c.trim().startsWith('jwtToken='));
-      if (!jwtFromCookie) {
+      console.log("jwtFromCookie", jwtFromCookie)
+      
+      if (!jwtFromCookie || jwtFromCookie === undefined) {
         return undefined;
       }
       const token = jwtFromCookie.split('=')[1];

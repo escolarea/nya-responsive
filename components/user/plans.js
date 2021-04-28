@@ -182,12 +182,7 @@ class PlansPanel extends Component {
   }
   
   componentDidMount() {
-    const {isAuthenticated} = this.props.auth0
-    console.log("isAuthenticated", isAuthenticated)
-    if(!isAuthenticated){
-      // login();
-      return;
-    }
+
     let { plansAvailable } = this.props;
     let planSelected = plansAvailable && plansAvailable[NYA_UNLIMITED];
     if (planSelected) this.setState({ planSelected, planId: NYA_UNLIMITED, singleRadioButtonRendered: false, setAnualRadioButtonData: false });
@@ -305,8 +300,9 @@ class PlansPanel extends Component {
           type= 'stripe'
         } = {},
       } = {},
-    } = this.props.user;
-    const {isAuthenticated} = this.props.auth0
+    } = this.props.user  || {};
+  
+    const isAuthenticated = this.props.user ? true : false;
 
     const isAppleSub = type == 'stripe'? false: true ;
     const planItems = [];
@@ -460,21 +456,30 @@ class PlansPanel extends Component {
 
   sendCodeHandler() {
     const {giftcode,planToBePurchased} = this.state
-   
-      getGiftCode(giftcode).then(planId=>{
+    const {token} = this.props;
+    const header = {'Authorization': 'Bearer ' + token}
+
+    // validate that it's 8 digit 
+    // this.props.token
+    // /api/subscriptions/gift/${code}
+    if(token){
+      fetchData('POST','api/subscriptions/plan-prices', giftcode , header).then((planId, error)=>{
         if(planId === planToBePurchased.product_id){
           this.setState({ state: "paying" }, () => {
-            redeemCode(this.state.giftcode).then(
+            fetchData(`/api/subscriptions/gift/${giftcode}`,'',header).then(
             (res) => this.setState({ state: "paymentOK" }),
-            (err) => this.setState({ state: "paymentFail" })
+            (err) => {
+              this.setState({ state: "paymentFail",codeNotification:'Gift redemption failed, please contact us' })
+            }
             );
           });
         }else{
-            this.setState({tryOtherPlan:true, couponPlan:planId})
-        }        
+            this.setState({tryOtherPlan:true, couponPlan:planId, codeNotification:`Redeem your coupon on plan ${planId}`})
+        }    
+      }).catch(err=>{
+        this.setState({tryOtherPlan:true, codeNotification:'Gift code not found, please contact us'})
       })
-      
-   
+    }   
   }
   async createPurchase(token){
    //TODO: create request to create user and redirect to other views.
@@ -827,7 +832,8 @@ class PlansPanel extends Component {
       planId,
       prorationPreviewPlan,
       tryOtherPlan, 
-      couponPlan
+      couponPlan,
+      codeNotification
     } = this.state;
 
     const {name} = this.props.purchasedPlan
@@ -854,7 +860,7 @@ class PlansPanel extends Component {
               {planId != "NYA-UNLIMITED" ? `${newPlanName} Subscription` : (name != "NYA-FREE" ?  `${newPlanName} Subscription` : "Select Subscription")}
             </div>
             {this.productSelection()}
-            {/* {tryOtherPlan&& <div className ="coupon-redeem" onClick={this.backToPlans}>Redeem your coupon on plan {couponPlan}</div>} */}
+            {tryOtherPlan&& <div className ="coupon-redeem" onClick={this.backToPlans}>{codeNotification}</div>}
             <div className="terms">
               <CheckBox
                 checked={acceptedTerms}

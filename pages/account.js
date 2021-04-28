@@ -20,7 +20,6 @@ const Account = ({token, isLoggedIn}) => {
       }
    }  
    useEffect(()=>{
-     console.log('isLoggedIn', isLoggedIn)
      if(!isLoggedIn){
       window.history.replaceState({}, "", '/login');
       window.location.reload();

@@ -8,16 +8,20 @@ const siteUrl = settings.siteUrl
 const config = {
   clientID,
   domain: domain,
-  redirectUri: `${siteUrl}/redirect`,
-  responseType: "id_token token",
-  scope: 'openid profile email'
+  // redirectUri: `${siteUrl}/redirect`,
+  // responseType: "id_token token",
+  // scope: 'openid profile email'
 };
 
 const Auth = new auth0.WebAuth(config);
 
 function login() {  
-  console.log("authprizing")
-  return Auth.authorize();
+  const options = {
+    responseType: 'id_token',
+    redirectUri: `${siteUrl}/redirect`,
+    scope: 'openid profile email'
+  };
+  return Auth.authorize(options);
 }
 
 function logout(){
