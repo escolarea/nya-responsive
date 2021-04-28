@@ -46,6 +46,7 @@ div.ui.container{
 @import 'presale.scss';
 @import 'plans.scss';
 @import 'news.scss';
+@import 'contact.scss';
 
 .overlay {
     position: absolute !important;
@@ -125,5 +126,9 @@ div.ui.container{
         }
     }
     
+}
+
+.container {
+    height: 100vh;
 }
 

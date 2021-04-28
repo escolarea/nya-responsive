@@ -71,7 +71,7 @@ const NewsArticle = props => {
                   {
                     <img
                       className="ui image center aligned menu-icon"
-                      src="../static/icons/arrow.svg"
+                      src="/static/icons/arrow.svg"
                     />
                   }
                 </Grid.Column>
@@ -82,7 +82,7 @@ const NewsArticle = props => {
                 >
                   <img
                     className="ui image center aligned"
-                    src="../static/images/news/newspaper-header.png"
+                    src="/static/images/news/newspaper-header.png"
                     alt=""
                   />
                 </Grid.Column>

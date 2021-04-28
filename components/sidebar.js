@@ -63,10 +63,14 @@ const SideBarMenu = ({
         <Divider />
         <Grid.Row columns={1} className="links">
           <Grid.Column textAlign="left">
-            <Link className="link" href="/about">ABOUT</Link>
+            <Link className="link" href="/about">
+            <a className="link">ABOUT</a>
+            </Link>
           </Grid.Column>
           <Grid.Column textAlign="left">
-          <Link className="link" href="/contact">CONTACT</Link>
+          <Link className="link" href="/contact">
+            <a className="link">CONTACT</a>
+          </Link>
           </Grid.Column>
         </Grid.Row>
         <Grid.Row columns={1} className="buttons">
