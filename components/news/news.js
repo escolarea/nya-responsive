@@ -199,7 +199,7 @@ class NewsWrapper extends Component {
     );
     return (
       <Container className="news-content" style={{ paddingTop:"130px" }}>
-        <div divided columns="equal" className="scrollable">
+        <div columns="equal" className="scrollable">
           {parsedColumns}
         </div>
       </Container>

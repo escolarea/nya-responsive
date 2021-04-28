@@ -1,7 +1,6 @@
 import "semantic-ui-css/semantic.min.css";
 import "../styles/index.scss";
 import { wrapper } from "../store/store";
-import NavBar from "../components/navbar";
 import PopUpBox from "../components/pop-up-box";
 import { Sidebar} from "semantic-ui-react";
 import { React, Fragment } from "react";
@@ -29,8 +28,7 @@ const WrappedApp = ({ Component, pageProps }) => {
         <SideBarMenu
         />
         <Sidebar.Pusher>
-          <div id="main-wrapper">
-            <NavBar/>
+          <div id="main-wrapper">            
             <div id="content">
               <div
                 className="content-wrapper"

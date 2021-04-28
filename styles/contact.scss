@@ -1,0 +1,46 @@
+.contact-container {
+  padding: 0!important;
+}
+
+.contact-wrapper {
+  background: url("/static/images/paper.png");
+  background-size: 100%;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  height: 100vh;
+  margin: 0;
+  width: 100%;
+  .contact-main-content {
+    margin-top: 40px!important;
+  }
+  .contact.form{
+    .error-message {
+      float: left;
+    }
+  }
+}
+
+.contact-navbar-wrapper {
+  position: fixed!important;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  width: 100%;
+  .contact-navbar {
+    margin-bottom: 0px !important;
+    font-family: Georgia,Times,"Times New Roman" !important;
+    margin-top: 0px !important;
+    border-radius: 0 !important;
+    background: transparent!important;
+  }
+  .menu {
+    height: 62px;
+    border-bottom: 1px solid #4b4536;
+    font-family: "Typewriter", serif;
+    font-size: 16px;
+    .column{
+      height: 100%;
+    }
+  }
+}
