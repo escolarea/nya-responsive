@@ -5,6 +5,7 @@ import commonValues from './commonValues/reducer'
 import notSupportedRoutes from './notSupportedRoutes/reducer'
 import sidebar from './sidebar/reducer'
 import userData from './userData/reducer'
+import contactUs from './contactUs/reducer';
 
 const bindMiddleware = (middleware) => {
   if (process.env.NODE_ENV !== 'production') {
@@ -18,7 +19,8 @@ const combinedReducer = combineReducers({
     commonValues,
     notSupportedRoutes,
     sidebar,
-    userData
+    userData,
+    contactUs
 })
 
 const reducer = (state, action) => {
