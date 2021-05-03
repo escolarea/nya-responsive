@@ -2,7 +2,7 @@
 import getConfig from 'next/config';
 
 //TODO : make the params an object 
-const fetchData =  (method,query, body = {}) => {
+const fetchData =  (method,query, body = {}, headers = {}) => {
   
   const {publicRuntimeConfig:{MANAGEMENT_URL} } = getConfig() || { }
 

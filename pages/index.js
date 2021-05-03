@@ -6,8 +6,6 @@ import NavBar from "../components/navbar";
 import {useAuth0} from "@auth0/auth0-react";
 
 const Home = ({leftSideIcons,postIt }) => {
-  const {user} = useAuth0();
-  console.log(user);
   return (
       <React.Fragment>
         <NavBar/>

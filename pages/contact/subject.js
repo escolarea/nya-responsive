@@ -3,8 +3,9 @@ import { Container } from "semantic-ui-react";
 import { useRouter } from "next/router";
 import {useDispatch, useSelector} from 'react-redux';
 import {setSubject} from '../../store/contactUs/action';
+import { getTokenForServer, getjwtToken } from "../../static/auth";
 
-const ContactSubject = () => {
+const ContactSubject = ({user, token}) => {
   const router = useRouter();
   const subject = useSelector(state=>state.contactUs.subject);
   const dispatch = useDispatch();
@@ -70,3 +71,14 @@ const ContactSubject = () => {
 };
 
 export default ContactSubject;
+
+export async function getServerSideProps(props) {
+  const { req } = props;
+  let user =
+    req.headers && req.headers.cookie ? await getTokenForServer(req) : null;
+  let token = req.headers && req.headers.cookie ? await getjwtToken(req) : null;
+  if (!user) {
+    user = null;
+  }
+  return {props: {user,token}};
+}
