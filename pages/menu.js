@@ -3,7 +3,7 @@ import React, { Component, Suspense } from "react";
 import Link from "next/link";
 import cn from "classnames";
 // import { isFreeUser } from "./user";
-import UserInfo from '../components/globalMenu/userInfo'
+//import UserInfo from '../components/globalMenu/userInfo'
 
 
 
