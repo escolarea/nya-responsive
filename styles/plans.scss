@@ -190,6 +190,9 @@
                         letter-spacing: 2.2px;
                         cursor: pointer;
                         will-change: background-color,color;
+                        &.hidden{
+                            display: none;
+                        }
                     }
                 }
                 .extra-info{

@@ -1,6 +1,7 @@
 import React from 'react'
 import Link from "next/link";
 import fetchData from '../../api/fetch'
+import template from '../../static/template';
 // import {hasAuth, getAuth} from '../services/localstorage'
 import Ticket from '../../components/tikets'
 import moment from 'moment'
@@ -80,6 +81,6 @@ export async function getServerSideProps() {
     return { props: { ticketsData, assignedCodes, ticketsRequestedForCodes} }
   }
 
-export default Presale
+  export default  template(Presale)
 
 // add the props thing for the request

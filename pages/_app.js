@@ -21,7 +21,7 @@ const WrappedApp = ({ Component, pageProps }) => {
         audience={process.env.NEXT_PUBLIC_AUDIENCE}
         scope="read:current_user"
         redirectUri={typeof window !== 'undefined' && window.location.origin}
-        onRedirectCallback={onRedirectCallback}
+        onRedirectCallback={typeof window !== 'undefined' && window.location.origin}
       >
     <Fragment>
       <Sidebar.Pushable>

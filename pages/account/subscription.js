@@ -1,4 +1,5 @@
 import React, { useEffect,useState } from 'react'
+import template from '../../static/template';
 
 const Subscription = ({}) => {
   return (
@@ -18,5 +19,5 @@ const Subscription = ({}) => {
   
 } 
 
-export default Subscription
+export default  template(Subscription)
 

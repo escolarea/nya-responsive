@@ -7,7 +7,7 @@ import template from '../static/template';
 import PropTypes from 'prop-types';
 
 
-const Account = ({token}) => {
+const Account = ({token, isLoggedIn}) => {
     const retrieveUserData = async (token) => {
       if(token){
         const header = {'Authorization': 'Bearer ' + token}
@@ -15,10 +15,15 @@ const Account = ({token}) => {
         const data = await res.json() 
         //This brings the subscription info and the jwt for OS
         const userData= determineUserStatusFromSubscriptionResponse(data.subscription);
+        userData.loggedInUser = isLoggedIn;
         setUser(userData)
       }
    }  
    useEffect(()=>{
+     if(!isLoggedIn){
+      window.history.replaceState({}, "", '/login');
+      window.location.reload();
+     }
      retrieveUserData(token)
    })
 

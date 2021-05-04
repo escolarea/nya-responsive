@@ -1,20 +1,12 @@
 import React, { Component } from "react";
-import _ from "lodash";
-// import StripeCheckout from "react-stripe-checkout";
-// import {
-//   isUserAuthenticated,
-//   isFreeUser,
-//   isAppleSubscription
-// } from "../user";
-// import { getFreeDownloadSong } from "../drawer-items";
-// import {
-//   getAllPlanBenefits,
-//   getPlanProperty,
-//   getPlanInfo,
-//   getBenefitsPerPlan,
-//   sortPlansAccordingPrice,
-// } from "../plans";
-// import spinnerFrame01 from "../../images/loading-indicator/frame_01.png";
+import _, { fromPairs } from "lodash";
+import StripeCheckout from 'react-stripe-checkout';
+import fetchData from '../../api/fetch'
+// import {connect} from 'react-redux';
+import { login } from '../../static/auth0';
+import { withAuth0 } from '@auth0/auth0-react';
+
+// import spinnerFrame01 from "../../static/images/loading-indicator/frame_01.png";
 import Input from "../input";
 // import Login from "../services/login";
 // import { registerButtonClick } from "../services/tracking";
@@ -102,7 +94,55 @@ class CheckBox extends Component {
                           +-----> paymentFail -> initial
 */
 
-export default class PlansPanel extends Component {
+const PlanBtn = (props)=>{
+  const {
+    isFreePlan,
+    userHasThisPlan,
+    plan,
+    planId,
+    checkIfShouldHideButton,
+    initialClickPurchase,
+    topButton = true,
+    userPlanType,
+    userAuthenticated
+  } = props; 
+
+
+
+
+  let buttonText = plan && plan.buyButtonText
+    buttonText = typeof buttonText === "string"  ? buttonText : planId
+    return (
+      <div className={`button-bottom ${topButton ? "plan-button" : "plan-button-bottom"}`}>
+      {!isFreePlan && (
+        <div
+          className={`button get-plan ${
+            !(userHasThisPlan && userAuthenticated) ?   checkIfShouldHideButton(planId, userAuthenticated, userPlanType, ) : "subscribed" 
+          }`}
+         
+          onClick={() =>{
+            if(!userAuthenticated){
+              login();
+              return;
+            }
+            if(userHasThisPlan){
+              window.history.replaceState({}, "", '/account/overview');
+              window.location.reload();
+              return;
+            }
+
+            initialClickPurchase(plan, planId)
+          } }
+        >
+          {userHasThisPlan && userAuthenticated
+            ? "MANAGE"
+            : buttonText }
+        </div>
+      )}
+    </div>
+    );
+}
+class PlansPanel extends Component {
   constructor(props, ctx) {
     super(props, ctx);
     //previous const state = props.view === "select" ? "select" : "initial";
@@ -117,13 +157,14 @@ export default class PlansPanel extends Component {
       acceptedTerms: false,
     //   giftcode: queryCode || "",
       giftcode:  "",
-      tryOtherPlan:false
+      tryOtherPlan:false,
+      planNames : {
+        "NYA-UNLIMITED": "CLASSIC",
+        "NYA-RUST": "RUST",
+        "NYA-PATRON" : "PATRON"
+      }
     };
-    this.planNames = {
-      "NYA-UNLIMITED": "CLASSIC",
-      "NYA-RUST": "RUST",
-      "NYA-PATRON" : "PATRON"
-    }
+    
 
     this.initialClickPurchase = this.initialClickPurchase.bind(this);
     this.planSelectionOnChange = this.planSelectionOnChange.bind(this);
@@ -136,9 +177,12 @@ export default class PlansPanel extends Component {
     this.triggerAuth0 = this.triggerAuth0.bind(this);
     this.triggerConversionEvent = this.triggerConversionEvent.bind(this);
     this.goToSelectionScreen = this.goToSelectionScreen.bind(this);
+    this.createPurchase  = this.createPurchase.bind(this)
+    this.checkIfShouldHideButton = this.checkIfShouldHideButton.bind(this)
   }
+  
   componentDidMount() {
-    if (this.props.view === "select") this.triggerAuth0();
+
     let { plansAvailable } = this.props;
     let planSelected = plansAvailable && plansAvailable[NYA_UNLIMITED];
     if (planSelected) this.setState({ planSelected, planId: NYA_UNLIMITED, singleRadioButtonRendered: false, setAnualRadioButtonData: false });
@@ -170,7 +214,7 @@ export default class PlansPanel extends Component {
     const currency = "USD";
     const value = parseFloat(planSelected.price);
 
-    registerButtonClick({ value, currency });
+    // registerButtonClick({ value, currency });
   }
   fetch() {
     fetchExclusiveEntries().catch(() => {
@@ -186,7 +230,6 @@ export default class PlansPanel extends Component {
     }
   }
   getContent() {
-      console.log('this.state.state', this.state.state)
     return this[this.state.state]();
   }
 
@@ -250,24 +293,29 @@ export default class PlansPanel extends Component {
   }
 
   renderPlans(plans, planInformation) {
-    const {planType: userplanId= NYA_FREE } = this.props.purchasedPlan
-    const userAuthenticated = false;
-    // isUserAuthenticated();
-    const isAppleSub = false;
-    // isAppleSubscription()
+    const {
+      user_metadata: {
+        subscription: {
+          plan: userPlanId = NYA_FREE,
+          type= 'stripe'
+        } = {},
+      } = {},
+    } = this.props.user  || {};
+  
+    const isAuthenticated = this.props.user ? true : false;
+
+    const isAppleSub = type == 'stripe'? false: true ;
     const planItems = [];
     let plansData = [];
     let planIDs = [];
-    //Deleting NYA-FREE --> TEMPORAL, SHOULD BE DELETED FROM DATA BASE INSTEAD
-    if (plans[NYA_FREE]) {
-      delete plans[NYA_FREE];
-    }
+    let userPlanType =  userPlanId.split(/\W|_/g) 
+    userPlanType = `NYA-${userPlanType[userPlanType.length - 1]}`;
+
     let sortedPlans = sortPlansAccordingPrice(plans);
-    const bottomButtons = []
     Object.keys(sortedPlans).forEach((planId) => {
-      let userHasThisPlan = userplanId.includes(planId);
+      let userHasThisPlan = userPlanType.includes(planId);
       let plan = plans[planId];
-      let isFreePlan = planId == NYA_FREE;
+      let isFreePlan = (planId == NYA_FREE);
 
       let planStyle = this.planType(planId)
       let prices = plan["prices"];
@@ -291,12 +339,23 @@ export default class PlansPanel extends Component {
             <p className={`description-text  ${planStyle}`}>
               {plan.planDescription}
             </p>
-            {!isAppleSub &&this.renderGetPlanButtons(isFreePlan, userHasThisPlan, userAuthenticated, plan,planId )}
+            {!isAppleSub && (
+              <PlanBtn
+                isFreePlan={isFreePlan}
+                userHasThisPlan={userHasThisPlan}
+                userAuthenticated={isAuthenticated}
+                plan={plan}
+                planId={planId}
+                checkIfShouldHideButton={this.checkIfShouldHideButton}
+                initialClickPurchase={this.initialClickPurchase}
+                userPlanType={userPlanType}
+              />
+            )}
           </div>
           {this.renderPlanBenefits(plan.planBenefits)}
         </div>
       );
-      bottomButtons.push(this.renderGetPlanButtons(isFreePlan, userHasThisPlan, userAuthenticated, plan,planId, false ));
+      // bottomButtons.push(this.renderGetPlanButtons(isFreePlan, userHasThisPlan, userAuthenticated, plan,planId, false ));
     });
 
 
@@ -309,37 +368,13 @@ export default class PlansPanel extends Component {
     );
   }
 
-  renderGetPlanButtons(isFreePlan,userHasThisPlan,userAuthenticated, plan, planId, topButton = true){
-    let buttonText = plan && plan.buyButtonText
-    buttonText = typeof buttonText === "string"  ? buttonText : planId
-    return (
-      <div className={`button-bottom ${topButton ? "plan-button" : "plan-button-bottom"}`}>
-      {!isFreePlan && (
-        <div
-          className={`button get-plan ${
-            userHasThisPlan && userAuthenticated ? "subscribed" : this.checkIfShouldHideButton(planId) 
-          }`}
-          onClick={() => this.initialClickPurchase(plan, planId)}
-        >
-          {userHasThisPlan && userAuthenticated
-            ? "MANAGE"
-            : buttonText }
-        </div>
-      )}
-    </div>
-    );
-  }
-
-  checkIfShouldHideButton(planID){
-    const {planType} = this.props.purchasedPlan 
-    let currentPlanName = this.planNames[planType] || "NYA-FREE";
-    let buttonPlanName = this.planNames[planID];
-    const userAuthenticated = false
-    // isUserAuthenticated();
+  checkIfShouldHideButton(planID, userAuthenticated, planType){
+    let currentPlanName = this.state.planNames[planType] || "NYA-FREE";
+    let buttonPlanName = this.state.planNames[planID];
     let className = "";
     if (userAuthenticated){
-      if (currentPlanName == "RUST" && (buttonPlanName == "CLASSIC")
-      ||currentPlanName == "PATRON" && (buttonPlanName == "CLASSIC" || buttonPlanName == "RUST")){
+      if ((currentPlanName == "RUST" && (buttonPlanName == "CLASSIC"))
+      ||(currentPlanName == "PATRON" && (buttonPlanName == "CLASSIC" || buttonPlanName == "RUST"))){
         className = "hidden";
       }
     }
@@ -348,8 +383,6 @@ export default class PlansPanel extends Component {
 
   initial() {
     const { plansAvailable, planInformation } = this.props;
-
-    console.log('plansAvailable', plansAvailable)
     /*
             !auth()?        -> Display all plans 
             NYA -Unlimited ? -> Display only Rust and patreon
@@ -376,7 +409,6 @@ export default class PlansPanel extends Component {
         state:'select',screen: "plans", view: "select"
       })
 
-      console.log("plan", plan)
     this.setState({
       planSelected: plan,
       planId,
@@ -424,21 +456,34 @@ export default class PlansPanel extends Component {
 
   sendCodeHandler() {
     const {giftcode,planToBePurchased} = this.state
-   
-      getGiftCode(giftcode).then(planId=>{
+    const {token} = this.props;
+    const header = {'Authorization': 'Bearer ' + token}
+
+    // validate that it's 8 digit 
+    // this.props.token
+    // /api/subscriptions/gift/${code}
+    if(token){
+      fetchData('POST','api/subscriptions/plan-prices', giftcode , header).then((planId, error)=>{
         if(planId === planToBePurchased.product_id){
           this.setState({ state: "paying" }, () => {
-            redeemCode(this.state.giftcode).then(
+            fetchData(`/api/subscriptions/gift/${giftcode}`,'',header).then(
             (res) => this.setState({ state: "paymentOK" }),
-            (err) => this.setState({ state: "paymentFail" })
+            (err) => {
+              this.setState({ state: "paymentFail",codeNotification:'Gift redemption failed, please contact us' })
+            }
             );
           });
         }else{
-            this.setState({tryOtherPlan:true, couponPlan:planId})
-        }        
+            this.setState({tryOtherPlan:true, couponPlan:planId, codeNotification:`Redeem your coupon on plan ${planId}`})
+        }    
+      }).catch(err=>{
+        this.setState({tryOtherPlan:true, codeNotification:'Gift code not found, please contact us'})
       })
-      
-   
+    }   
+  }
+  async createPurchase(token){
+   //TODO: create request to create user and redirect to other views.
+   //add load view when waiting for this.
   }
 
   _getPurchaseButton() {
@@ -450,12 +495,12 @@ export default class PlansPanel extends Component {
       planId,
       chargesPreview
     } = this.state;
+    const {email} = this.props.user
 
     let displayPrice = ""
     if(chargesPreview){
      displayPrice = this.getCopyPrice()
     } 
-
     const planPrice = displayPrice != "" ? displayPrice.replace(/[ ,.]/g, "") : 
       planToBePurchased && planToBePurchased.price.replace(/[ ,.]/g, "");
     // isPaying()
@@ -471,22 +516,21 @@ export default class PlansPanel extends Component {
         );
       } else {
         const price = parseInt(planPrice);
-        const userInfo = getUserInfo();
-        const email =
-          (userInfo.user_metadata && userInfo.user_metadata.customEmail) ||
-          userInfo.email;
+        // const userInfo = getUserInfo();
+        // const email =
+        //   (userInfo.user_metadata && userInfo.user_metadata.customEmail) ||
+        //   userInfo.email;
 
         return (
-        //   <StripeCheckout
-        //     token={this.selectGotToken}
-        //     stripeKey={process.env.STRIPE_KEY}
-        //     email={email}
-        //     billingAddress={true}
-        //     amount={price}
-        //     image={nyaIcon}
-        //   >
+          <StripeCheckout
+          email={email}
+          billingAddress={true}
+          token={this.selectGotToken}
+          amount={price}
+          stripeKey={process.env.NEXT_PUBLIC_STRIPE_KEY}
+          >
             <div className="button">SUBMIT</div>
-        //   </StripeCheckout>
+         </StripeCheckout>
         );
       }
     } else {
@@ -728,8 +772,8 @@ export default class PlansPanel extends Component {
     const {planSelected, planId} = this.state;
     const {planType,interval, price: currentPlanPrice} = this.props.purchasedPlan 
      
-    let currentPlanName = this.planNames[planType] || "NYA-FREE";
-    let newPlanName = this.planNames[planId];
+    let currentPlanName = this.state.planNames[planType] || "NYA-FREE";
+    let newPlanName = this.state.planNames[planId];
     let action = this.checkIfUpgradeOrDowngrade(currentPlanName, newPlanName)
    
     return (  
@@ -788,7 +832,8 @@ export default class PlansPanel extends Component {
       planId,
       prorationPreviewPlan,
       tryOtherPlan, 
-      couponPlan
+      couponPlan,
+      codeNotification
     } = this.state;
 
     const {name} = this.props.purchasedPlan
@@ -798,7 +843,7 @@ export default class PlansPanel extends Component {
     const token = false;
     // freePassToken();
     const hasValidFreePass = token !== null && token.validity ? true : false;
-    let newPlanName = this.planNames[planId];
+    let newPlanName = this.state.planNames[planId];
 
     //TEMP DISABLE TO ALLOW UPGRADE -DOWNGRADE
     // if (hasAuth() && !hasValidFreePass) needSubscriptionPurchase = isFreeUser();
@@ -815,7 +860,7 @@ export default class PlansPanel extends Component {
               {planId != "NYA-UNLIMITED" ? `${newPlanName} Subscription` : (name != "NYA-FREE" ?  `${newPlanName} Subscription` : "Select Subscription")}
             </div>
             {this.productSelection()}
-            {/* {tryOtherPlan&& <div className ="coupon-redeem" onClick={this.backToPlans}>Redeem your coupon on plan {couponPlan}</div>} */}
+            {tryOtherPlan&& <div className ="coupon-redeem" onClick={this.backToPlans}>{codeNotification}</div>}
             <div className="terms">
               <CheckBox
                 checked={acceptedTerms}
@@ -864,20 +909,18 @@ export default class PlansPanel extends Component {
   selectGotToken(token) {
     const {upgrade, productId,chargesPreview} = this.state
     const {planType} = this.props.purchasedPlan 
+    const header = {'Authorization': 'Bearer ' + token}
     let displayPrice = 0
     if(chargesPreview) displayPrice = this.getCopyPrice()
-    let planBeforeUpgrade = this.planNames[planType] || "";
-    this.setState({ state: "paying" }, () => {
-      createOrUpdatePlan(token, productId, upgrade, displayPrice, planBeforeUpgrade).then(
+    let planBeforeUpgrade = this.state.planNames[planType] || "";
+
+    fetchData('POST','api/subscriptions/plan-prices', {token, productId, upgrade, displayPrice, planBeforeUpgrade}, header).then(
         (res) => this.setState({ state: "paymentOK" }),
         (err) => this.setState({ state: "paymentFail" })
       );
-    });
   }
 
   paying() {
-    //
-    setIsPaying();
 
     return (
       <div className="content">
@@ -887,31 +930,16 @@ export default class PlansPanel extends Component {
   }
 
   paymentOK() {
-    const { router } = this.context;
-    let freeSongs = getFreeDownloadSong();
-    this.triggerConversionEvent();
+
     window.history.replaceState({}, "", '/account?screen=overview');
+    window.location.reload();
     
     return (
       <div className="content">
         <div className="message">
           Thank you for purchasing a NYA subscription. <br />
-          Reload in {paymentProcessReloadDelay / 1000} seconds...
-          <img className="spinner" src={spinnerFrame01} alt="spinner" />
+          Reload in {3000 / 1000} seconds...
         </div>
-        
-        {freeSongs && !this.state.giftcode && (
-          <div className="buttons-bottom-150">
-            <div
-              className="button clear"
-              onClick={() => {
-                router.push(`/info-card?track=${freeSongs[0].id}`);
-              }}
-            >
-              FREE TRACK
-            </div>
-          </div>
-        )}
         <div className="buttons-bottom">
           <div className="button" onClick={this.clickExplore}>
             EXPLORE NYA
@@ -942,20 +970,12 @@ export default class PlansPanel extends Component {
 
   clickExplore() {
     document.location.href = "/";
+    
   }
 
   backToPlans(){
-    this.props.router.replace({
-      pathname: "/account",
-      query: { screen: "plans" },
-    });
-    this.setState({
-      state: "initial",
-      annualPlan: "year",
-      acceptedTerms: false,
-      giftcode: "",
-      defaultProration: false
-    });
+    window.history.replaceState({}, "", '/account/plans');
+    window.location.reload();
   }
 
   render() {
@@ -966,3 +986,6 @@ export default class PlansPanel extends Component {
     );
   }
 }
+
+
+export default  withAuth0(PlansPanel)

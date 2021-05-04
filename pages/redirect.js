@@ -13,7 +13,8 @@ export default class extends React.Component {
           verifyToken(result.idToken).then(valid => {
             if (valid) {
               saveToken(result.idToken, result.accessToken);
-              Router.push('/');
+              //TODO: prev location
+              Router.push(window.location.origin);
             } else {
               Router.push('/')
             }

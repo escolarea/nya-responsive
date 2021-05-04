@@ -1,20 +1,24 @@
 import React, {useEffect, useState}from 'react'
-import Link from "next/link";
 import fetchData from '../../api/fetch'
-import moment from 'moment'
 import {NYA_FREE,NYA_YEARLY, NYA_MONTHLY,NYA_UNLIMITED } from '../../utils/url_constants'
 import PlansPanel from '../../components/user/plans'
 import {getPlanInfo} from '../../helpers/plans'
+import { login } from '../../static/auth0';
+import { withAuth0 } from '@auth0/auth0-react';
+import {getTokenForServer,getjwtToken} from '../../static/auth'
 
-
-const Presale = ({planPrices, planInformation}) => {
-
+const Presale = ({planPrices, planInformation, user,token}) => {
     const [plansList, setplansList] = useState({})
     const [userPlan, setpurchasedPlan ] = useState({})
     
+    
     useEffect(()=>{
+      // if(!user){
+      //   login();
+      //   return;
+      // }
         //parse plans on componentDidMout 
-        parsePlans()
+        parsePlans();
     },[])
    
  
@@ -36,7 +40,6 @@ const Presale = ({planPrices, planInformation}) => {
 
         for (let i = 0; i < plans.length; i++) {
           let plan = plans[i];
-          console.log('### plan', plan)
 
           let planType = plan.product_id ? plan.product_id.split(/\W|_/g) : null;
           if (planType || userPlanId == NYA_FREE ) {
@@ -99,18 +102,28 @@ const Presale = ({planPrices, planInformation}) => {
         plansAvailable={plansList}
         planInformation={planInformation}
         purchasedPlan={userPlan}
+        user={user}
+        token={token}
   />
   );
   
 } 
 
-export async function getServerSideProps() {
-    const res = await fetchData('GET','api/subscriptions/plan-prices')
-    const data = await res.json() 
-    const {planPrices, planInformation } = data
-    return { props: {planPrices, planInformation } }
+export async function getServerSideProps(props) {
+    const {req} = props
+    const res  = await fetchData('GET','api/subscriptions/plan-prices');
+    const data = await res.json();
+    //get user information from server 
+    let user  =  req.headers && req.headers.cookie ?  await getTokenForServer(req) : null
+    let token =  req.headers && req.headers.cookie ?  await getjwtToken(req) : null
+    if(!user){
+
+        user = null
+    }
+
+    const {planPrices, planInformation} = data;
+    
+    return { props: {planPrices, planInformation,user ,token} }
   }
 
-export default Presale
-
-// add the props thing for the request
+  export default  withAuth0(Presale);
