@@ -23,6 +23,8 @@ const Contact = ({ user, token }) => {
     if (user) {
       setName(user.name);
       setEmail(user.email);
+    } else {
+      token = null;
     }
   }, []);
 
