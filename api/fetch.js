@@ -1,26 +1,11 @@
-
 import getConfig from 'next/config';
-
-//TODO : make the params an object 
-const fetchData =  (method,query, body = {}) => {
-  
+const fetchData =  (params = {}) => {
+  const {query = ''} = params
   const {publicRuntimeConfig:{MANAGEMENT_URL} } = getConfig() || { }
+  const url = `${MANAGEMENT_URL}/${query}`;
+  // delete params.query;
 
-    switch (method) {
-      case 'GET':
-        return fetch(`${MANAGEMENT_URL}/${query}`,{headers:body})
-      case 'POST':
-        const requestOptions = {
-            method: 'POST',
-            headers,
-            body
-            // JSON.stringify({ title: 'POST Request ' })
-        };
-        return fetch(`${MANAGEMENT_URL}/${query}`, requestOptions )
-      default:
-
-        break
-    }
+  return fetch(url ,params)
   }
 
   export default fetchData

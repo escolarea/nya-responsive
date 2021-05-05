@@ -1,20 +1,29 @@
 import React, {useEffect, useState}from 'react'
-import Link from "next/link";
 import fetchData from '../../api/fetch'
-import moment from 'moment'
 import {NYA_FREE,NYA_YEARLY, NYA_MONTHLY,NYA_UNLIMITED } from '../../utils/url_constants'
 import PlansPanel from '../../components/user/plans'
 import {getPlanInfo} from '../../helpers/plans'
+import { withAuth0 } from '@auth0/auth0-react';
+import {getTokenForServer,getjwtToken} from '../../static/auth'
+import { connect } from "react-redux"
+import {setUser} from '../../store/userData/action'
+import {updateUserInfo} from '../../helpers/getUserData'
 
-
-const Presale = ({planPrices, planInformation}) => {
-
+const Presale = ({planPrices, planInformation, user,token, setUser, userData}) => {
     const [plansList, setplansList] = useState({})
     const [userPlan, setpurchasedPlan ] = useState({})
-    
+    const [loading, setLoading ] = useState(false)
+
+        
     useEffect(()=>{
-        //parse plans on componentDidMout 
-        parsePlans()
+      //DO THIS IN THE WRAPPER THAT SHOW LOADING BEFORE PASSING DOWN THE INFO
+      if(token && (userData.userData && Object.keys(userData.userData).length === 0)){
+          setLoading(true)
+        updateUserInfo(token, setUser).then(data=>{
+          setLoading(false)
+        })
+      }
+      parsePlans();
     },[])
    
  
@@ -26,17 +35,11 @@ const Presale = ({planPrices, planInformation}) => {
             name: NYA_FREE
         }
         //get this info from the store
-                // const {userPlanId,relevantSubscriptionDate} = this.props.userData
-
-
-        const userPlanId = "NYA-FREE"
-        const relevantSubscriptionDate = {}
-
+      const {userPlanId = "NYA-FREE",relevantSubscriptionDate ={}} = userData
         // let sortedPlans = sortPlansAccordingPrice(plans);
 
         for (let i = 0; i < plans.length; i++) {
           let plan = plans[i];
-          console.log('### plan', plan)
 
           let planType = plan.product_id ? plan.product_id.split(/\W|_/g) : null;
           if (planType || userPlanId == NYA_FREE ) {
@@ -93,24 +96,53 @@ const Presale = ({planPrices, planInformation}) => {
         setplansList(plansAvailable)
         setpurchasedPlan(purchasedPlan) 
     }
-
+  if(loading){
+    return<div>Loading</div>
+  }
   return (
     <PlansPanel
         plansAvailable={plansList}
         planInformation={planInformation}
         purchasedPlan={userPlan}
+        user={user}
+        token={token}
+        setUser={setUser}
+        userData={userData.userData}
   />
   );
   
 } 
 
-export async function getServerSideProps() {
-    const res = await fetchData('GET','api/subscriptions/plan-prices')
-    const data = await res.json() 
-    const {planPrices, planInformation } = data
-    return { props: {planPrices, planInformation } }
+export async function getServerSideProps(props) {
+    const {req} = props
+    const request = {
+      method:'GET',
+      query:'api/subscriptions/plan-prices',
+    }
+    const res  = await fetchData(request);
+    const data = await res.json();
+    //get user information from server 
+    let user  =  req && req.headers && req.headers.cookie ?  await getTokenForServer(req) : null;
+    let token =  req && req.headers && req.headers.cookie ?  await getjwtToken(req) : null;
+    if(token === undefined) token = null;
+    if(!user){
+
+        user = null
+    }
+
+    const {planPrices, planInformation} = data;
+    
+    return { props: {planPrices, planInformation,user ,token } }
   }
 
-export default Presale
+  const mapStateToProps = function (state) {
+      return {
+        userData: state.userData,
+      };
+    }
 
-// add the props thing for the request
+  const Plans = connect( mapStateToProps, {
+    setUser,
+  })(Presale);
+
+  export default  withAuth0(Plans);

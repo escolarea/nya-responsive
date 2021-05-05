@@ -1,42 +1,16 @@
 import React, { Component } from "react";
 import _ from "lodash";
-// import StripeCheckout from "react-stripe-checkout";
-// import {
-//   isUserAuthenticated,
-//   isFreeUser,
-//   isAppleSubscription
-// } from "../user";
-// import { getFreeDownloadSong } from "../drawer-items";
-// import {
-//   getAllPlanBenefits,
-//   getPlanProperty,
-//   getPlanInfo,
-//   getBenefitsPerPlan,
-//   sortPlansAccordingPrice,
-// } from "../plans";
-// import spinnerFrame01 from "../../images/loading-indicator/frame_01.png";
+import StripeCheckout from 'react-stripe-checkout';
+import fetchData from '../../api/fetch'
+import { login } from '../../static/auth0';
+import { withAuth0 } from '@auth0/auth0-react';
+import {updateUserInfo} from '../../helpers/getUserData'
 import Input from "../input";
-// import Login from "../services/login";
-// import { registerButtonClick } from "../services/tracking";
-// import { fetchExclusiveEntries } from "../services/fetch";
 // import SplashScreen from "../splash-screen";
 // import checkImg from "../../public/static/images/account-info/check-item.png";
 import {NYA_FREE, NYA_UNLIMITED} from '../../utils/url_constants'
-import {sortPlansAccordingPrice,  getPlanInfo,getAllPlanBenefits,getBenefitsPerPlan} from '../../helpers/plans'
-// import arrowImg from "../../images/account-info/arrow-image.png";
+import {sortPlansAccordingPrice,  getPlanInfo} from '../../helpers/plans'
 
-// import {
-//   getUserInfo,
-//   createOrUpdatePlan,
-//   hasAuth,
-//   redeemCode,
-//   isPaying,
-//   setIsPaying,
-//   paymentProcessReloadDelay,
-//   freePassToken,
-//   checkCustomerNextProrationInvoice,
-//   getGiftCode
-// } from "../services/api";
 
 // TODO: Ensure `paymentFail` returns reletive error msg
 
@@ -102,7 +76,55 @@ class CheckBox extends Component {
                           +-----> paymentFail -> initial
 */
 
-export default class PlansPanel extends Component {
+const PlanBtn = (props)=>{
+  const {
+    isFreePlan,
+    userHasThisPlan,
+    plan,
+    planId,
+    checkIfShouldHideButton,
+    initialClickPurchase,
+    topButton = true,
+    userPlanType,
+    userAuthenticated
+  } = props; 
+
+
+
+
+  let buttonText = plan && plan.buyButtonText
+    buttonText = typeof buttonText === "string"  ? buttonText : planId
+    return (
+      <div className={`button-bottom ${topButton ? "plan-button" : "plan-button-bottom"}`}>
+      {!isFreePlan && (
+        <div
+          className={`button get-plan ${
+            !(userHasThisPlan && userAuthenticated) ?   checkIfShouldHideButton(planId, userAuthenticated, userPlanType, ) : "subscribed" 
+          }`}
+         
+          onClick={() =>{
+            if(!userAuthenticated){
+              login();
+              return;
+            }
+            if(userHasThisPlan){
+              window.history.replaceState({}, "", '/account/overview');
+              window.location.reload();
+              return;
+            }
+
+            initialClickPurchase(plan, planId)
+          } }
+        >
+          {userHasThisPlan && userAuthenticated
+            ? "MANAGE"
+            : buttonText }
+        </div>
+      )}
+    </div>
+    );
+}
+class PlansPanel extends Component {
   constructor(props, ctx) {
     super(props, ctx);
     //previous const state = props.view === "select" ? "select" : "initial";
@@ -117,13 +139,14 @@ export default class PlansPanel extends Component {
       acceptedTerms: false,
     //   giftcode: queryCode || "",
       giftcode:  "",
-      tryOtherPlan:false
+      tryOtherPlan:false,
+      planNames : {
+        "NYA-UNLIMITED": "CLASSIC",
+        "NYA-RUST": "RUST",
+        "NYA-PATRON" : "PATRON"
+      }
     };
-    this.planNames = {
-      "NYA-UNLIMITED": "CLASSIC",
-      "NYA-RUST": "RUST",
-      "NYA-PATRON" : "PATRON"
-    }
+    
 
     this.initialClickPurchase = this.initialClickPurchase.bind(this);
     this.planSelectionOnChange = this.planSelectionOnChange.bind(this);
@@ -133,18 +156,18 @@ export default class PlansPanel extends Component {
     this.backToPlans = this.backToPlans.bind(this);
     this.giftcodeOnChange = this.giftcodeOnChange.bind(this);
     this.sendCodeHandler = this.sendCodeHandler.bind(this);
-    this.triggerAuth0 = this.triggerAuth0.bind(this);
-    this.triggerConversionEvent = this.triggerConversionEvent.bind(this);
     this.goToSelectionScreen = this.goToSelectionScreen.bind(this);
+    this.checkIfShouldHideButton = this.checkIfShouldHideButton.bind(this)
   }
+  
   componentDidMount() {
-    if (this.props.view === "select") this.triggerAuth0();
+
     let { plansAvailable } = this.props;
     let planSelected = plansAvailable && plansAvailable[NYA_UNLIMITED];
     if (planSelected) this.setState({ planSelected, planId: NYA_UNLIMITED, singleRadioButtonRendered: false, setAnualRadioButtonData: false });
   }
   componentWillUpdate(newprops /*, newstate*/) {
-    // if (newprops.view !== this.props.view) {
+    if (newprops.userData !== this.props.userData)return;
     //   let state;
     //   let singleRadioButtonRendered = false
     //   let setAnualRadioButtonData = false
@@ -165,28 +188,7 @@ export default class PlansPanel extends Component {
   componentWillUnmount() {
     clearTimeout(this.emit);
   }
-  triggerConversionEvent() {
-    const { planSelected } = this.state;
-    const currency = "USD";
-    const value = parseFloat(planSelected.price);
-
-    registerButtonClick({ value, currency });
-  }
-  fetch() {
-    fetchExclusiveEntries().catch(() => {
-      document.location.href = "/";
-      document.location.reload();
-    });
-  }
-
-  triggerAuth0() {
-    if (!hasAuth()) {
-      clearTimeout(this.emit);
-      this.emit = setTimeout(Login, 100);
-    }
-  }
   getContent() {
-      console.log('this.state.state', this.state.state)
     return this[this.state.state]();
   }
 
@@ -250,24 +252,21 @@ export default class PlansPanel extends Component {
   }
 
   renderPlans(plans, planInformation) {
-    const {planType: userplanId= NYA_FREE } = this.props.purchasedPlan
-    const userAuthenticated = false;
-    // isUserAuthenticated();
-    const isAppleSub = false;
-    // isAppleSubscription()
+    const user = this.getUserInformation() || {}
+
+    const{ userPlanType, isAppleSub} = user
+
+    const isAuthenticated = this.props.user ? true : false;
+
     const planItems = [];
     let plansData = [];
     let planIDs = [];
-    //Deleting NYA-FREE --> TEMPORAL, SHOULD BE DELETED FROM DATA BASE INSTEAD
-    if (plans[NYA_FREE]) {
-      delete plans[NYA_FREE];
-    }
+    
     let sortedPlans = sortPlansAccordingPrice(plans);
-    const bottomButtons = []
     Object.keys(sortedPlans).forEach((planId) => {
-      let userHasThisPlan = userplanId.includes(planId);
+      let userHasThisPlan = userPlanType.includes(planId);
       let plan = plans[planId];
-      let isFreePlan = planId == NYA_FREE;
+      let isFreePlan = (planId == NYA_FREE);
 
       let planStyle = this.planType(planId)
       let prices = plan["prices"];
@@ -291,12 +290,23 @@ export default class PlansPanel extends Component {
             <p className={`description-text  ${planStyle}`}>
               {plan.planDescription}
             </p>
-            {!isAppleSub &&this.renderGetPlanButtons(isFreePlan, userHasThisPlan, userAuthenticated, plan,planId )}
+            {!isAppleSub && (
+              <PlanBtn
+                isFreePlan={isFreePlan}
+                userHasThisPlan={userHasThisPlan}
+                userAuthenticated={isAuthenticated}
+                plan={plan}
+                planId={planId}
+                checkIfShouldHideButton={this.checkIfShouldHideButton}
+                initialClickPurchase={this.initialClickPurchase}
+                userPlanType={userPlanType}
+              />
+            )}
           </div>
           {this.renderPlanBenefits(plan.planBenefits)}
         </div>
       );
-      bottomButtons.push(this.renderGetPlanButtons(isFreePlan, userHasThisPlan, userAuthenticated, plan,planId, false ));
+      // bottomButtons.push(this.renderGetPlanButtons(isFreePlan, userHasThisPlan, userAuthenticated, plan,planId, false ));
     });
 
 
@@ -309,37 +319,28 @@ export default class PlansPanel extends Component {
     );
   }
 
-  renderGetPlanButtons(isFreePlan,userHasThisPlan,userAuthenticated, plan, planId, topButton = true){
-    let buttonText = plan && plan.buyButtonText
-    buttonText = typeof buttonText === "string"  ? buttonText : planId
-    return (
-      <div className={`button-bottom ${topButton ? "plan-button" : "plan-button-bottom"}`}>
-      {!isFreePlan && (
-        <div
-          className={`button get-plan ${
-            userHasThisPlan && userAuthenticated ? "subscribed" : this.checkIfShouldHideButton(planId) 
-          }`}
-          onClick={() => this.initialClickPurchase(plan, planId)}
-        >
-          {userHasThisPlan && userAuthenticated
-            ? "MANAGE"
-            : buttonText }
-        </div>
-      )}
-    </div>
-    );
+  getUserInformation(){
+    const { userPlanId ="NYA-FREE", isAppleSub=false, userSubscriptionStatus:status =null,  hasPlanExpired=true, userSubType:type='stripe'} = this.props.userData || {}
+
+    const subActive =!hasPlanExpired;
+
+    let userPlanType =  userPlanId.split(/\W|_/g) 
+    userPlanType = `NYA-${userPlanType[userPlanType.length - 1]}`;
+
+    if (userPlanType == 'NYA-YEARLY'|| userPlanType == 'NYA_MONTHLY') {
+      userPlanType = 'NYA-UNLIMITED';
+    }
+
+    return { userPlanType,type ,status, subActive, isAppleSub}
   }
 
-  checkIfShouldHideButton(planID){
-    const {planType} = this.props.purchasedPlan 
-    let currentPlanName = this.planNames[planType] || "NYA-FREE";
-    let buttonPlanName = this.planNames[planID];
-    const userAuthenticated = false
-    // isUserAuthenticated();
+  checkIfShouldHideButton(planID, userAuthenticated, planType){
+    let currentPlanName = this.state.planNames[planType] || "NYA-FREE";
+    let buttonPlanName = this.state.planNames[planID];
     let className = "";
     if (userAuthenticated){
-      if (currentPlanName == "RUST" && (buttonPlanName == "CLASSIC")
-      ||currentPlanName == "PATRON" && (buttonPlanName == "CLASSIC" || buttonPlanName == "RUST")){
+      if ((currentPlanName == "RUST" && (buttonPlanName == "CLASSIC"))
+      ||(currentPlanName == "PATRON" && (buttonPlanName == "CLASSIC" || buttonPlanName == "RUST"))){
         className = "hidden";
       }
     }
@@ -348,8 +349,6 @@ export default class PlansPanel extends Component {
 
   initial() {
     const { plansAvailable, planInformation } = this.props;
-
-    console.log('plansAvailable', plansAvailable)
     /*
             !auth()?        -> Display all plans 
             NYA -Unlimited ? -> Display only Rust and patreon
@@ -371,12 +370,11 @@ export default class PlansPanel extends Component {
 
   initialClickPurchase(plan, planId) {
     let planToBePurchased = plan && plan.plan[0];
-    const {planType, name} = this.props.purchasedPlan
-    this.setState({
-        state:'select',screen: "plans", view: "select"
-      })
+    const user = this.getUserInformation() || {};
+    const {userPlanType}= user
+    const {token} = this.props
 
-      console.log("plan", plan)
+
     this.setState({
       planSelected: plan,
       planId,
@@ -385,60 +383,59 @@ export default class PlansPanel extends Component {
       productId: planToBePurchased.product_id,
     });
 
-    return; 
     // Verify that the plan is different than tha one purchased to enable upgrade/downgrade
-    if (planType !== planId) {
-      // show other view other than vie
-    //   if (hasAuth()) {
-    if (true) {
-        if(planId != "NYA-UNLIMITED"){
-          if (name == "NYA-FREE"){
-              this.setState({
-                state:'select',screen: "plans", view: "select"
-              })
-           
-          }else{
-            this.setState({
-                state:'confirmation',screen: "plans", view: "select"
-              })
-          } 
-        }else{
-          if (name != "NYA-FREE"){
+    if (token) {
+        if(((planId != "NYA-UNLIMITED") && (userPlanType != "NYA-FREE")) && (planId !==userPlanType)){
             this.setState({
                 state:'confirmation',screen: "plans", view: "select"
               })
            
           }else {
             this.setState({
-                state:'confirmation',screen: "plans", view: "select"
-              })
+              state:'select',screen: "plans", view: "select"
+            })
           }
-        }
       } else {
         // Login("/account?screen=plans&view=select");
       }
-    } else {
-        //TODO: redirect to subscription overview
-    }
   }
 
-  sendCodeHandler() {
+  async  sendCodeHandler (){
     const {giftcode,planToBePurchased} = this.state
-   
-      getGiftCode(giftcode).then(planId=>{
+    const {token} = this.props;
+    const headers = {"Authorization": 'Bearer ' + token,"Content-Type": "text/plain"}
+
+    // validate that it's 8 digit 
+    if(token){
+      const request = {
+        method:'GET',
+        query:`api/subscriptions/gift/${giftcode}`,
+        headers
+      }
+
+      const giftRequest = await fetchData(request);
+      const planId = await giftRequest.text();
+      if(planId){
         if(planId === planToBePurchased.product_id){
-          this.setState({ state: "paying" }, () => {
-            redeemCode(this.state.giftcode).then(
-            (res) => this.setState({ state: "paymentOK" }),
-            (err) => this.setState({ state: "paymentFail" })
-            );
+          this.setState({ state: "paying" }, async () => {
+            const params = {
+              method:'PUT',
+              query:`api/subscriptions/gift/${giftcode}`,
+              headers
+            }
+
+            const redemption = await fetchData(params);
+            if(redemption){
+              this.setState({ state: "paymentOK" })
+            }else{
+              this.setState({ state: "paymentFail",codeNotification:'Gift redemption failed, please contact us' })
+            }
           });
-        }else{
-            this.setState({tryOtherPlan:true, couponPlan:planId})
-        }        
-      })
-      
-   
+      }else{
+        this.setState({tryOtherPlan:true, couponPlan:planId, codeNotification:`Redeem your coupon on plan ${planId}`})
+      }
+    }   
+  }
   }
 
   _getPurchaseButton() {
@@ -450,15 +447,13 @@ export default class PlansPanel extends Component {
       planId,
       chargesPreview
     } = this.state;
-
+    const {email} = this.props.user
     let displayPrice = ""
     if(chargesPreview){
      displayPrice = this.getCopyPrice()
     } 
-
     const planPrice = displayPrice != "" ? displayPrice.replace(/[ ,.]/g, "") : 
       planToBePurchased && planToBePurchased.price.replace(/[ ,.]/g, "");
-    // isPaying()
     if (false) {
       return null;
     }
@@ -471,22 +466,17 @@ export default class PlansPanel extends Component {
         );
       } else {
         const price = parseInt(planPrice);
-        const userInfo = getUserInfo();
-        const email =
-          (userInfo.user_metadata && userInfo.user_metadata.customEmail) ||
-          userInfo.email;
 
         return (
-        //   <StripeCheckout
-        //     token={this.selectGotToken}
-        //     stripeKey={process.env.STRIPE_KEY}
-        //     email={email}
-        //     billingAddress={true}
-        //     amount={price}
-        //     image={nyaIcon}
-        //   >
+          <StripeCheckout
+          email={email}
+          billingAddress={true}
+          token={this.selectGotToken}
+          amount={price}
+          stripeKey={process.env.NEXT_PUBLIC_STRIPE_KEY}
+          >
             <div className="button">SUBMIT</div>
-        //   </StripeCheckout>
+         </StripeCheckout>
         );
       }
     } else {
@@ -619,30 +609,51 @@ export default class PlansPanel extends Component {
     this.setState({prorationAvailable:true})
   }
 
-//   checkFutureProration(planSelected){
-//     //Supporting proration preview of an anual subscription
-//     let chargesPreview = []
-//     let plan = planSelected.plan.find(plan => plan.interval == "year")
-//     this.prorationRequestFinished = false
-//     const { product_id, interval } = plan;
-//     checkCustomerNextProrationInvoice(product_id).then(nextInvoice=>{
-//       chargesPreview.push({
-//         interval,
-//         futureCharge: nextInvoice.total,
-//         prorationDate: nextInvoice.subscription_proration_date
-//       }); 
-//       this.setState({chargesPreview, prorationPreviewPlan: planSelected.planName})
-//       this.finishedProrationRequest()
-//     }).catch(err => {
-//       chargesPreview.push({
-//         interval: "year",
-//         futureCharge: plan.price
-//       }); 
-//       this.setState({chargesPreview, prorationPreviewPlan: planSelected.planName, prorationAvailable:true, defaultProration: true})
-//       this.finishedProrationRequest()
-//       console.error("There was an error obtaining the proration charge" + err)
-//     })
-//   }
+  checkFutureProration(planSelected){
+    //Supporting proration preview of an anual subscription
+    let chargesPreview = []
+    let plan = planSelected.plan.find(plan => plan.interval == "year")
+    this.prorationRequestFinished = false
+    const { product_id:planId, interval } = plan;
+    const {token} = this.props
+    const headers= {'Authorization': 'Bearer ' + token, 'Content-Type': 'application/json'}
+
+    //todo : data fetch for this 
+    const request = {
+      method:'POST',
+      query:"api/subscriptions/customer-next-charge",
+      body:JSON.stringify({planId}),
+      headers
+    }
+    fetchData(request).then(nextInvoice =>  nextInvoice.json()).then((nextInvoice) => {
+
+      chargesPreview.push({
+          interval,
+          futureCharge: nextInvoice.total,
+          prorationDate: nextInvoice.subscription_proration_date
+      }); 
+          this.setState({chargesPreview, prorationPreviewPlan: planSelected.planName})
+          this.finishedProrationRequest()
+
+    }).catch(error=>{
+      if (error) {
+        chargesPreview.push({
+          interval: "year",
+          futureCharge: plan.price,
+        });
+        this.setState({
+          chargesPreview,
+          prorationPreviewPlan: planSelected.planName,
+          prorationAvailable: true,
+          defaultProration: true,
+        });
+        this.finishedProrationRequest();
+        console.error(
+          "There was an error obtaining the proration charge" + err
+        );
+      }
+    })
+  }
 
   checkIfUpgradeOrDowngrade(currentPlanName,newPlanName){
     let action = "upgrade";
@@ -718,18 +729,20 @@ export default class PlansPanel extends Component {
 
   goToSelectionScreen(){
     this.setState({upgrade:true})
-    this.props.router.replace({
-      pathname: "/account",
-      query: { screen: "plans", view: "select" },
-    });
+    this.setState({state:'select',screen: "plans", view: "select"})
+    
   }
 
   renderConfirmationScreen(){
     const {planSelected, planId} = this.state;
+    //get this from the user 
+    const user = this.getUserInformation();
+    const {userPlanType, } = user
+
     const {planType,interval, price: currentPlanPrice} = this.props.purchasedPlan 
      
-    let currentPlanName = this.planNames[planType] || "NYA-FREE";
-    let newPlanName = this.planNames[planId];
+    let currentPlanName = this.state.planNames[userPlanType] || "NYA-FREE";
+    let newPlanName = this.state.planNames[planId];
     let action = this.checkIfUpgradeOrDowngrade(currentPlanName, newPlanName)
    
     return (  
@@ -740,7 +753,8 @@ export default class PlansPanel extends Component {
             <div className="plan-name">{currentPlanName ? currentPlanName: "NYA-FREE"}</div>
             <div className="plan-price">{ currentPlanPrice && interval ? `$${currentPlanPrice} /${interval}`: ""}</div> 
           </div>
-          <img className="arrow" src={arrowImg}/>
+          {/* <img className="arrow" src={arrowImg}/> */}
+          {/* <img className="arrow" src={arrowImg}/> */}
           <div className="plan-box new">
             <div className="plan-status">New Subscription</div>
             <div className="plan-name">{newPlanName}</div>
@@ -755,30 +769,29 @@ export default class PlansPanel extends Component {
     );
   }
 
-//   confirmation(){
-//       console.log("confirmation")
-//     const {planSelected, prorationPreviewPlan} = this.state;
-//     planSelected && prorationPreviewPlan != planSelected.planName && this.checkFutureProration(planSelected)
+  confirmation(){
+    const {planSelected, prorationPreviewPlan} = this.state;
+    planSelected && prorationPreviewPlan != planSelected.planName && this.checkFutureProration(planSelected)
 
-//     if (!planSelected ) {
-//       this.setState({ state: "initial" });
-//       return null
-//     }
+    if (!planSelected ) {
+      this.setState({ state: "initial" });
+      return null
+    }
 
-//     if (this.state.prorationAvailable &&  this.prorationRequestFinished){
-//       let confirmationScreen = this.renderConfirmationScreen();
-//       this.state.prorationAvailable = false // FIXME
-//       this.state.prorationPreviewPlan = ""
-//       this.prorationRequestFinished = false
-//       return confirmationScreen;
-//     }else{
-//       return (
-//         <div className="content select confirmation">
-//           <SplashScreen loadState={100} />
-//         </div>
-//       );
-//     }
-//   }
+    if (this.state.prorationAvailable &&  this.prorationRequestFinished){
+      let confirmationScreen = this.renderConfirmationScreen();
+      this.state.prorationAvailable = false // FIXME
+      this.state.prorationPreviewPlan = ""
+      this.prorationRequestFinished = false
+      return confirmationScreen;
+    }else{
+      return (
+        <div className="content select confirmation">
+          loading...
+        </div>
+      );
+    }
+  }
 
   select() {
     const {
@@ -788,7 +801,8 @@ export default class PlansPanel extends Component {
       planId,
       prorationPreviewPlan,
       tryOtherPlan, 
-      couponPlan
+      couponPlan,
+      codeNotification
     } = this.state;
 
     const {name} = this.props.purchasedPlan
@@ -798,7 +812,7 @@ export default class PlansPanel extends Component {
     const token = false;
     // freePassToken();
     const hasValidFreePass = token !== null && token.validity ? true : false;
-    let newPlanName = this.planNames[planId];
+    let newPlanName = this.state.planNames[planId];
 
     //TEMP DISABLE TO ALLOW UPGRADE -DOWNGRADE
     // if (hasAuth() && !hasValidFreePass) needSubscriptionPurchase = isFreeUser();
@@ -815,7 +829,7 @@ export default class PlansPanel extends Component {
               {planId != "NYA-UNLIMITED" ? `${newPlanName} Subscription` : (name != "NYA-FREE" ?  `${newPlanName} Subscription` : "Select Subscription")}
             </div>
             {this.productSelection()}
-            {/* {tryOtherPlan&& <div className ="coupon-redeem" onClick={this.backToPlans}>Redeem your coupon on plan {couponPlan}</div>} */}
+            {tryOtherPlan&& <div className ="coupon-redeem" onClick={this.backToPlans}>{codeNotification}</div>}
             <div className="terms">
               <CheckBox
                 checked={acceptedTerms}
@@ -862,22 +876,29 @@ export default class PlansPanel extends Component {
   }
 
   selectGotToken(token) {
-    const {upgrade, productId,chargesPreview} = this.state
+    const {upgrade, productId:planId,chargesPreview} = this.state
+    //TODO : change this from user info
     const {planType} = this.props.purchasedPlan 
+    const {token:headerToken} = this.props
+    const {id:source} = token
+    const headers = {'Authorization': 'Bearer ' + headerToken,'Content-Type': 'application/json'}
     let displayPrice = 0
     if(chargesPreview) displayPrice = this.getCopyPrice()
-    let planBeforeUpgrade = this.planNames[planType] || "";
-    this.setState({ state: "paying" }, () => {
-      createOrUpdatePlan(token, productId, upgrade, displayPrice, planBeforeUpgrade).then(
+    let planBeforeUpgrade = this.state.planNames[planType] || "";
+    const request = {
+      method:'POST',
+      query:'api/subscriptions',
+      body:JSON.stringify({source, planId, upgrade, displayPrice, planBeforeUpgrade}),
+      headers
+    }
+
+    fetchData(request).then(
         (res) => this.setState({ state: "paymentOK" }),
         (err) => this.setState({ state: "paymentFail" })
       );
-    });
   }
 
   paying() {
-    //
-    setIsPaying();
 
     return (
       <div className="content">
@@ -887,31 +908,22 @@ export default class PlansPanel extends Component {
   }
 
   paymentOK() {
-    const { router } = this.context;
-    let freeSongs = getFreeDownloadSong();
-    this.triggerConversionEvent();
+    const { token,setUser} = this.props
+    // updateInfoHere 
+    if(token){
+    updateUserInfo(token, setUser);
+  }
+
+
     window.history.replaceState({}, "", '/account?screen=overview');
+    window.location.reload();
     
     return (
       <div className="content">
         <div className="message">
           Thank you for purchasing a NYA subscription. <br />
-          Reload in {paymentProcessReloadDelay / 1000} seconds...
-          <img className="spinner" src={spinnerFrame01} alt="spinner" />
+          Reload in {3000 / 1000} seconds...
         </div>
-        
-        {freeSongs && !this.state.giftcode && (
-          <div className="buttons-bottom-150">
-            <div
-              className="button clear"
-              onClick={() => {
-                router.push(`/info-card?track=${freeSongs[0].id}`);
-              }}
-            >
-              FREE TRACK
-            </div>
-          </div>
-        )}
         <div className="buttons-bottom">
           <div className="button" onClick={this.clickExplore}>
             EXPLORE NYA
@@ -942,20 +954,12 @@ export default class PlansPanel extends Component {
 
   clickExplore() {
     document.location.href = "/";
+    
   }
 
   backToPlans(){
-    this.props.router.replace({
-      pathname: "/account",
-      query: { screen: "plans" },
-    });
-    this.setState({
-      state: "initial",
-      annualPlan: "year",
-      acceptedTerms: false,
-      giftcode: "",
-      defaultProration: false
-    });
+    window.history.replaceState({}, "", '/account/plans');
+    window.location.reload();
   }
 
   render() {
@@ -966,3 +970,6 @@ export default class PlansPanel extends Component {
     );
   }
 }
+
+
+export default  withAuth0(PlansPanel)

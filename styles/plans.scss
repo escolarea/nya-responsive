@@ -2,8 +2,106 @@
     .plansContainer{
         overflow: scroll;
     }
+    .header-section{
+        display: flex;
+        flex-direction: column;
+        .plan-box{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            .plan-status{
+                font-family: DINPro;
+                font-size: 32px;
+                margin-left: 50px;
+            }
+            .plan-name{
+                font-family: DINProBold;
+                font-size: 48px;
+                margin-top: 30px;
+                margin-left: 50px
+            }
+            .plan-price{
+                font-family: DINPro;
+                font-size: 32px;
+                margin-left: 50px;
+                margin-top: 2rem;
+            }
+            &.current{
+                background-color: #e5e4e0;
+                width: 540px;
+                height: 336px;
+                border: 2px solid #7d7b77;
+            }
+            &.new{
+                background-color: #035ca7;
+                width: 544px;
+                height: 340px;
+                color: #fff;
+            }
+            
+        }
+    }
+    .description-section{
+        display: flex;
+        flex-direction: column;
+        .confirmation-description{
+                display: flex;
+                flex-direction: column;
+                align-items: flex-start;
+                margin-top: 2rem;
+            .confirmation-title{
+                color: #000;
+                font-family: DINProBold;
+                font-size: 28px;
+                text-decoration: underline;
+            }
+            .explanation{
+                margin-top: 20px;
+                color: #000;
+                font-family: DINPro;
+                font-size: 17px;
+                text-align: left;
+                line-height: 30px;
+                .proration-value{
+                    font-family: DINProBold;
+                }
+            }
+        }
+        .confirmation-buttons{
+
+                display: flex;
+                flex-direction: column;
+                width: 100%;
+                padding: 0rem 2rem;
+                margin-bottom: 2rem;
+
+            .confirm-purchase{
+                background-color: #035ca7;
+                border-radius: 12px;
+                color: #fff;
+                font-family: DINProBold;
+                font-size: 20px;
+                line-height: 55px;
+                text-align: center;
+                cursor: pointer;
+                margin-bottom: 1rem;
+            }
+            .back-purchase{
+                background-color: #e5e4e0;
+                border: 2px solid #7d7b77;
+                color: #4c4c4c;
+                border-radius: 12px;
+                font-family: DINProBold;
+                font-size: 20px;
+                line-height: 55px;
+                text-align: center;
+                
+            }
+        }
+    }
     .select-header{
         margin-bottom: 2rem;
+        text-align: center;
     }
     .terms{
         display: flex;
@@ -190,6 +288,9 @@
                         letter-spacing: 2.2px;
                         cursor: pointer;
                         will-change: background-color,color;
+                        &.hidden{
+                            display: none;
+                        }
                     }
                 }
                 .extra-info{

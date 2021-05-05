@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import marked from "marked";
 import _ from "lodash";
-import NewsNavBar from "../news/news-navbar";
+// import NewsNavBar from "../news/news-navbar";
 import { Menu, Grid } from "semantic-ui-react";
 import { useRouter } from 'next/router';
 

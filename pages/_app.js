@@ -21,7 +21,7 @@ const WrappedApp = ({ Component, pageProps }) => {
         audience={process.env.NEXT_PUBLIC_AUDIENCE}
         scope="read:current_user"
         redirectUri={typeof window !== 'undefined' && window.location.origin}
-        onRedirectCallback={onRedirectCallback}
+        onRedirectCallback={typeof window !== 'undefined' && window.location.origin}
       >
     <Fragment>
       <Sidebar.Pushable>
@@ -37,7 +37,6 @@ const WrappedApp = ({ Component, pageProps }) => {
                 <Component {...pageProps} />
               </div>
             </div>
-            {/* <TopBar/> */}
           </div>
         </Sidebar.Pusher>
       </Sidebar.Pushable>
@@ -45,7 +44,6 @@ const WrappedApp = ({ Component, pageProps }) => {
     </Fragment>
     </Auth0Provider>
   );
-  // return <Component {...pageProps} />
 };
 WrappedApp.propTypes = {
   isLoggedIn: PropTypes.bool
