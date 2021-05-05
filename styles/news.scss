@@ -8,10 +8,34 @@
   font-size: 12px;
   min-height: 900px;
   text-align: justify;
-  
-  .excerpt, .article {
-    a .title.headline p {
-      font-family: Georgia, "Times New Roman", Times, serif !important;
+  .divider {
+    height: 16px;
+  }
+  .excerpt,
+  .article {
+    a .title.headline {
+      p {
+        font-family: Georgia, "Times New Roman", Times, serif !important;
+      }
+      &.left.viewpoint p,
+      &.center.lincvolt p,
+      &.center.tech p,
+      &.right.tech p
+      {
+        font-family: "Yrsa", serif!important;
+      }
+      &.right.viewpoint p {
+        font-family: "Oswald",serif!important;
+      }
+      &.right.lincvolt p {
+        font-family: "Roboto",serif!important;
+      }
+      &.center.subscribers-news p {
+        font-family: "Yrsa",serif!important;
+      }
+      &.left.tech p {
+        font-family: "DINProCondensed",serif!important;
+      }
     }
     &.article,
     & .excerpt {
@@ -22,13 +46,15 @@
           width: 100%;
         }
       }
-      .article-text,      .newsArticle {
+      .article-text,
+      .newsArticle {
         & iframe,
         & img {
           width: 100%;
         }
       }
-    }  }
+    }
+  }
 
   .article-column {
     font-size: 14px;
@@ -56,36 +82,37 @@
 }
 
 .news-content {
-    overflow-x: scroll;
-    $column-width: 250px;
-    $gutter: 16px;
-    .scrollable {
-        min-width: $column-width * 3;
-        max-width: $column-width * 5;
-        width: max-content;
-        .article-column {
-            width: $column-width;
-            // margin-left: $gutter;
-            float: left!important;
-            border-right: 1px solid gray;
-            padding: 0 $gutter;
-        }
+  overflow-x: scroll;
+  $column-width: 250px;
+  $gutter: 16px;
+
+  .scrollable {
+    min-width: $column-width * 3;
+    max-width: $column-width * 5;
+    width: max-content;
+    .article-column {
+      width: $column-width;
+      // margin-left: $gutter;
+      float: left !important;
+      border-right: 1px solid gray;
+      padding: 0 $gutter;
     }
+  }
 }
 
 .news-content {
-    .article-column .column-title {
-        text-align: center;
-        font-size: 24px;
-        font-weight: 700;
-    }
+  .article-column .column-title {
+    text-align: center;
+    font-size: 24px;
+    font-weight: 700;
+  }
 }
 
-.viewpoint, 
+.viewpoint,
 .subscribers-news,
 .lincvolt,
-.tech{
-    font-family: "Yrsa";
+.tech {
+  font-family: "Yrsa";
 }
 
 .left.tech {
@@ -95,5 +122,5 @@
 .right.tech {
   font-family: Georgia;
   font-style: italic;
-  font-weight: 400!important;
+  font-weight: 400 !important;
 }
