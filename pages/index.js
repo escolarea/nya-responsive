@@ -17,7 +17,12 @@ const Home = ({leftSideIcons,postIt }) => {
 } 
 
 export async function getServerSideProps() {
-  const res = await fetchData('GET','api/v2/home')
+  const request = {
+    method:'GET',
+    query:'api/v2/home',
+  }
+
+  const res = await fetchData(request)
   const data = await res.json() 
   const {leftSideIcons ={},postIt ={} } = data.data  || {}
 

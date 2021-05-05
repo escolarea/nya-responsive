@@ -37,7 +37,6 @@ const WrappedApp = ({ Component, pageProps }) => {
                 <Component {...pageProps} />
               </div>
             </div>
-            {/* <TopBar/> */}
           </div>
         </Sidebar.Pusher>
       </Sidebar.Pushable>
@@ -45,7 +44,6 @@ const WrappedApp = ({ Component, pageProps }) => {
     </Fragment>
     </Auth0Provider>
   );
-  // return <Component {...pageProps} />
 };
 WrappedApp.propTypes = {
   isLoggedIn: PropTypes.bool

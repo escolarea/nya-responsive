@@ -1,12 +1,18 @@
-import React, { useEffect,useState } from 'react'
+import React, { useEffect } from 'react'
 import template from '../../static/template';
-
-
+import { useRouter } from "next/router";
 
 const Overview = ({loggedInUser}) => {
+  console.log("loggedInUser", loggedInUser)
+  const router = useRouter();
+  useEffect (()=>{
+    if(!loggedInUser){
+      router.push('/account')
+    }
+   
+  },[])
   const editAccount = () =>{
-    window.history.replaceState({}, "", '/account/edit');
-    window.location.reload();
+    router.push('/account/edit')
   }
   return (
     <div id="account-menu-container">

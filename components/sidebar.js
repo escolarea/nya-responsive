@@ -4,12 +4,14 @@ import {useEffect} from 'react';
 import Link from "next/link";
 import { showPopUp } from '../store/notSupportedRoutes/action';
 import { hideSideBar } from '../store/sidebar/action';
-import { login } from '../static/auth0';
+import {getTokenForServer} from '../static/auth'
+
 
 const SideBarMenu = ({ 
   visibleSideBar,
   showPopUp,
-  hideSideBar
+  hideSideBar,
+  user
 }) => {
   const handleNotSupportedRoutes = () => showPopUp();
 
@@ -82,8 +84,10 @@ const SideBarMenu = ({
             </Button>
           </Grid.Column>
           <Grid.Column>
-            <Button fluid className="account-button" onTouchStart={()=>login()} >
-              ACCOUNT
+            <Button primary fluid >
+            <Link href="/account">
+              <a className="link">ACCOUNT</a>
+            </Link>
             </Button>
           </Grid.Column>
         </Grid.Row>
@@ -99,13 +103,25 @@ const SideBarMenu = ({
   );
 };
 
+export async function getServerSideProps(props) {
+  const {req} = props
+  let user  =  req.headers && req.headers.cookie ?  await getTokenForServer(req) : null
+  if(!user){
+
+      user = null
+  }  
+  return { props: {user} }
+}
+
 const mapStateToProps = (state) => {
   return {
     visibleSideBar: state.sidebar.visible,
   };
 };
 
-export default connect(mapStateToProps, {
+
+
+export default  connect(mapStateToProps, {
   showPopUp,
   hideSideBar
 })(SideBarMenu);
