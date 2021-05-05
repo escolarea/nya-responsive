@@ -1,36 +1,16 @@
 import React, { Component } from "react";
-import _, { fromPairs } from "lodash";
+import _ from "lodash";
 import StripeCheckout from 'react-stripe-checkout';
 import fetchData from '../../api/fetch'
-// import {connect} from 'react-redux';
 import { login } from '../../static/auth0';
 import { withAuth0 } from '@auth0/auth0-react';
 import {updateUserInfo} from '../../helpers/getUserData'
-
-// import spinnerFrame01 from "../../static/images/loading-indicator/frame_01.png";
 import Input from "../input";
-// import Login from "../services/login";
-// import { registerButtonClick } from "../services/tracking";
-// import { fetchExclusiveEntries } from "../services/fetch";
 // import SplashScreen from "../splash-screen";
 // import checkImg from "../../public/static/images/account-info/check-item.png";
 import {NYA_FREE, NYA_UNLIMITED} from '../../utils/url_constants'
-import {sortPlansAccordingPrice,  getPlanInfo,getAllPlanBenefits,getBenefitsPerPlan} from '../../helpers/plans'
-import next from "next";
-// import arrowImg from "../../images/account-info/arrow-image.png";
+import {sortPlansAccordingPrice,  getPlanInfo} from '../../helpers/plans'
 
-// import {
-//   getUserInfo,
-//   createOrUpdatePlan,
-//   hasAuth,
-//   redeemCode,
-//   isPaying,
-//   setIsPaying,
-//   paymentProcessReloadDelay,
-//   freePassToken,
-//   checkCustomerNextProrationInvoice,
-//   getGiftCode
-// } from "../services/api";
 
 // TODO: Ensure `paymentFail` returns reletive error msg
 

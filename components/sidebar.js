@@ -4,14 +4,12 @@ import {useEffect} from 'react';
 import Link from "next/link";
 import { showPopUp } from '../store/notSupportedRoutes/action';
 import { hideSideBar } from '../store/sidebar/action';
-import {getTokenForServer} from '../static/auth'
 
 
 const SideBarMenu = ({ 
   visibleSideBar,
   showPopUp,
-  hideSideBar,
-  user
+  hideSideBar
 }) => {
   const handleNotSupportedRoutes = () => showPopUp();
 
@@ -102,16 +100,6 @@ const SideBarMenu = ({
     </Sidebar>
   );
 };
-
-export async function getServerSideProps(props) {
-  const {req} = props
-  let user  =  req.headers && req.headers.cookie ?  await getTokenForServer(req) : null
-  if(!user){
-
-      user = null
-  }  
-  return { props: {user} }
-}
 
 const mapStateToProps = (state) => {
   return {
