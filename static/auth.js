@@ -46,7 +46,7 @@ async function getJWK() {
     }
   }
   async function getjwtToken (req){
-    if (req.headers.cookie) {
+    if (req && req.headers && req.headers.cookie) {
       const jwtFromCookie = req.headers.cookie.split(';').find(c => c.trim().startsWith('jwtToken='));
       if (!jwtFromCookie) {
         return undefined;
@@ -62,19 +62,18 @@ async function getJWK() {
   }
   
   async function getTokenForServer(req) {
-    if (req.headers.cookie) {
-      const jwtFromCookie = req.headers.cookie.split(';').find(c => c.trim().startsWith('jwtToken='));
-      console.log("jwtFromCookie", jwtFromCookie)
-      
+    if (req && req.headers && req.headers.cookie) {
+      const jwtFromCookie = req.headers.cookie.split(';').find(c => c.trim().startsWith('jwtToken=')) || null;
       if (!jwtFromCookie || jwtFromCookie === undefined) {
-        return undefined;
+        return null;
       }
+      console.log("trying some shit")
       const token = jwtFromCookie.split('=')[1];
       const validToken = await verifyToken(token);
       if (validToken) {
         return jwt.decode(token);
       } else {
-        return undefined;
+        return null;
       }
     }
   }

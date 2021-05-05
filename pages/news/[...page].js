@@ -166,17 +166,18 @@ export async function getServerSideProps(context) {
     const { page }   =  context.query;
     let    params    =  page[0];
     const  routeType =  page.length == 2 ? 'post' : 'page'
+
     const promises   =  [
-      fetchData('GET','api/v2/contrarianPage'),
-      fetchData('GET','api/v2/initialData')
+      fetchData({method:'GET',query:'api/v2/contrarianPage'}),
+      fetchData({method:'GET',query:'api/v2/initialData'})
     ];
 
     if(routeType == 'page'){
-      promises.push(fetchData('GET', `api/v2/news/page-${params}`))
+      promises.push(fetchData({method:'GET',query: `api/v2/news/page-${params}`}))
       
     }else{
       params = page[1];
-      promises.push(fetchData('GET',`api/v2/article/${params}`))
+      promises.push(fetchData({method:'GET',query:`api/v2/article/${params}`}))
     }
 
     //request all promises 

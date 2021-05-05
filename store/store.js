@@ -1,43 +1,18 @@
-import { createStore, applyMiddleware, combineReducers } from 'redux'
-import { HYDRATE, createWrapper } from 'next-redux-wrapper'
-import thunkMiddleware from 'redux-thunk'
-import commonValues from './commonValues/reducer'
-import notSupportedRoutes from './notSupportedRoutes/reducer'
-import sidebar from './sidebar/reducer'
-import userData from './userData/reducer'
-import contactUs from './contactUs/reducer';
+import { createStore, applyMiddleware, compose } from "redux"
+import thunk from "redux-thunk"
+import { createWrapper } from "next-redux-wrapper"
+import rootReducer from "./reducers/rootReducer"
 
-const bindMiddleware = (middleware) => {
-  if (process.env.NODE_ENV !== 'production') {
-    const { composeWithDevTools } = require('redux-devtools-extension')
-    return composeWithDevTools(applyMiddleware(...middleware))
-  }
-  return applyMiddleware(...middleware)
-}
+const middleware = [thunk]
 
-const combinedReducer = combineReducers({
-    commonValues,
-    notSupportedRoutes,
-    sidebar,
-    userData,
-    contactUs
-})
+const composeEnhancers =
+  typeof window === 'object' &&
+  window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ?   
+    window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({}) : compose;
 
-const reducer = (state, action) => {
-  if (action.type === HYDRATE) {
-    const nextState = {
-      ...state, // use previous state
-      ...action.payload, // apply delta from hydration
-    }
-    
-    return nextState
-  } else {
-    return combinedReducer(state, action)
-  }
-}
+const enhancer = composeEnhancers(applyMiddleware(...middleware));
 
-const initStore = () => {
-  return createStore(reducer, bindMiddleware([thunkMiddleware]))
-}
 
-export const wrapper = createWrapper(initStore)
+export const makeStore = () => createStore(rootReducer, enhancer)
+
+export const wrapper = createWrapper(makeStore)

@@ -4,7 +4,7 @@ import {useEffect} from 'react';
 import Link from "next/link";
 import { showPopUp } from '../store/notSupportedRoutes/action';
 import { hideSideBar } from '../store/sidebar/action';
-import { login } from '../static/auth0';
+
 
 const SideBarMenu = ({ 
   visibleSideBar,
@@ -82,8 +82,10 @@ const SideBarMenu = ({
             </Button>
           </Grid.Column>
           <Grid.Column>
-            <Button fluid className="account-button" onTouchStart={()=>login()} >
-              ACCOUNT
+            <Button primary fluid >
+            <Link href="/account">
+              <a className="link">ACCOUNT</a>
+            </Link>
             </Button>
           </Grid.Column>
         </Grid.Row>
@@ -105,7 +107,9 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps, {
+
+
+export default  connect(mapStateToProps, {
   showPopUp,
   hideSideBar
 })(SideBarMenu);

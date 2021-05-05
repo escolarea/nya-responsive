@@ -1,5 +1,6 @@
 import auth0 from 'auth0-js';
 import * as settings from '../settings';
+import {deleteToken} from './auth';
 
 const clientID = settings.clientID;
 const domain = settings.domain;
@@ -18,17 +19,16 @@ const Auth = new auth0.WebAuth(config);
 function login() {  
   const options = {
     responseType: 'id_token',
-    redirectUri: `${siteUrl}/redirect`,
+    redirectUri:  `${siteUrl}/redirect`,
     scope: 'openid profile email'
   };
   return Auth.authorize(options);
 }
 
 function logout(){
-  new auth0.WebAuth({
-    clientID: clientID,
-    domain: domain
-  }).logout({
+  deleteToken();
+
+  Auth.logout({
     returnTo: siteUrl,
     clientID:clientID
   });

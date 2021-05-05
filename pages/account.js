@@ -5,28 +5,40 @@ import {determineUserStatusFromSubscriptionResponse} from '../helpers/parseUser'
 import {setUser} from '../store/userData/action'
 import template from '../static/template';
 import PropTypes from 'prop-types';
+import { connect } from "react-redux"
+import { logout } from '../static/auth0';
+import { useRouter } from 'next/router';
 
 
-const Account = ({token, isLoggedIn}) => {
+const Account = ({token, isLoggedIn,setUser}) => {
+    const router = useRouter();
+    const [pageStatus, setPageStatus ] = useState('loading')
     const retrieveUserData = async (token) => {
       if(token){
-        const header = {'Authorization': 'Bearer ' + token}
-        const res =  await fetchData('GET','api/subscriptions', header )
-        const data = await res.json() 
+        const headers = {'Authorization': 'Bearer ' + token};
+        const res =  await fetchData({method:'GET',query:'api/subscriptions', headers });
+        const data = await res.json();
         //This brings the subscription info and the jwt for OS
         const userData= determineUserStatusFromSubscriptionResponse(data.subscription);
         userData.loggedInUser = isLoggedIn;
-        setUser(userData)
+        setUser(userData);
+    
       }
    }  
    useEffect(()=>{
      if(!isLoggedIn){
-      window.history.replaceState({}, "", '/login');
-      window.location.reload();
+      // localStorage.setItem('prev-url', document.referrer);
+      router.push('/login')
+      return;
      }
-     retrieveUserData(token)
+
+     retrieveUserData(token);
+     setPageStatus('ready');
    })
 
+  if(pageStatus === 'loading'){
+    return<div>loading</div>
+  }
   return (
     <div id="account-menu-container" className="global-menu">
       <div className="ui center aligned grid global-menu-grid">
@@ -36,6 +48,7 @@ const Account = ({token, isLoggedIn}) => {
             <div className="left aligned column"><Link href="/account/plans" className="left aligned column"> Plans </Link></div>
             <div className="left aligned column"><Link href="/account/presale" className="left aligned column"> Presale Tickets </Link></div>
             <div className="left aligned column"><Link href="/account/notifications" className="left aligned column"> Notification Settings </Link></div>
+            <div id="logout-btn"className="left aligned" onTouchStart={logout}>LOG OUT </div>
           </div>
           
         </div>
@@ -47,4 +60,9 @@ Account.propTypes = {
   isLoggedIn: PropTypes.bool
 }
 
-export default  template(Account)
+
+const AccountComponent = connect( null, {
+  setUser,
+})(Account);
+
+export default template(AccountComponent)
