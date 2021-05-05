@@ -57,11 +57,12 @@ const Contact = ({ user, token }) => {
         subject: subject.value,
         to: subject.value,
       };
-      const res = await fetchData(
-        "POST",
-        "api/emails",
-        JSON.stringify(payload),
+      const res = await fetchData({
+        method: "POST",
+        query: "api/emails",
+        body: JSON.stringify(payload),
         headers
+      }
       );
       if (res.ok) {
         setMessageSent(true);
