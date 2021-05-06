@@ -4,12 +4,12 @@ import fetchData from '../../api/fetch'
 import Ticket from '../../components/tikets'
 import moment from 'moment'
 import _ from "lodash";
-const Presale = ({ticketsData, assignedCodes, ticketsRequestedForCodes}) => {
+const Presale = ({ticketsData={}, assignedCodes, ticketsRequestedForCodes}) => {
     const sortDate = (item) => item.sort((a, b) => new Date(b.date) - new Date(a.date))
-    let ticketsBefore = ticketsData.filter(item => item.date && (moment.utc(item.date) < moment.utc().startOf('day')))
+    let ticketsBefore = (ticketsData || []).filter(item => item && (moment.utc(item.date) < moment.utc().startOf('day')))
     if(!_.isEmpty(ticketsBefore))ticketsBefore = sortDate(ticketsBefore);
     
-    let ticketsAfter = ticketsData.filter(item => item.date && (moment.utc(item.date) >= moment.utc().startOf('day')))
+    let ticketsAfter = (ticketsData|| []).filter(item => item && (moment.utc(item.date) >= moment.utc().startOf('day')))
     if(!_.isEmpty(ticketsAfter))ticketsAfter = sortDate(ticketsBefore);
     const tickets = ticketsAfter.concat(ticketsBefore)
 
