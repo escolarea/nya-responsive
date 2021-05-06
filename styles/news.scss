@@ -37,13 +37,14 @@
         font-family: "DINProCondensed",serif!important;
       }
     }
-    &.article,
-    & .excerpt {
+
+
       .title,
       .title-column {
         & iframe,
         & img {
           width: 100%;
+          height: auto;
         }
       }
       .article-text,
@@ -51,9 +52,9 @@
         & iframe,
         & img {
           width: 100%;
+          height: auto;
         }
       }
-    }
   }
 
   .article-column {
