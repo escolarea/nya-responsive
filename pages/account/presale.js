@@ -70,8 +70,10 @@ const Presale = ({ticketsData, assignedCodes, ticketsRequestedForCodes}) => {
 } 
 
 export async function getInitialProps() {
-
-    const headers = {'Authorization': 'Bearer ' + "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Ik4wSTBORU5GT0VWQ016UXhRa05ETmprNE0wWXdSVFpFTURKRE5UVkdNVE5DTmpRM1JVTXpSQSJ9.eyJpc3MiOiJodHRwczovL2xvZ2luLW55YS53ZWFkZS5jby8iLCJzdWIiOiJhdXRoMHw2MDUzYzg2ZjZlYjE2MzAwNzBjMTA2ZWIiLCJhdWQiOiJCaGpVc0VGV0xyblFEMUFrT09VRjl6WTFVQXEwWEt2OCIsImlhdCI6MTYxNjE4OTQzNSwiZXhwIjoxNjIzOTY1NDM1LCJhdF9oYXNoIjoiWWtHWmExaGFWbVJGYzdvb29JUjBtUSIsIm5vbmNlIjoiQW9hUUlSRzluVjNQdzhYZEw5NFg5dVFyNVF5Ty10NG4ifQ.VeE4TOtOC9GP4ussDDg3qLoLyQzMfQRB1Lm9au_hqdZAdQEI4_gpEwBwnJyxaEbFCeCbKzNPw_8t0M0zDs73sZCiNuP-xoF5h9xCt9AZ0jZQLXA_cszL58Af6MWeh4OMhCu8bcTG-mi3hizvpjNynoZSfo-ORT9Qn4l2McDkBdLfyDPBb4Gi9KK9GUofVio0_vYY_XH8H8p5oiTADPp3gX6pm1j-kKy1SC0V-4MY34BFKxq5aRafy7WUiSXKzoWw_gJfQEac2fE2h68ZDtg4YBN6vns_58nsyyX20qQfz6ZhgEywc80_9uAlYnItkMpfyAcG8zENLlyPheEL9cGzyQ"}
+  const { req } = props;
+  let token = req.headers && req.headers.cookie ? await getjwtToken(req) : null;
+  if(token === undefined) token = null
+    const headers = {'Authorization': 'Bearer ' + token}
     const request = {
         method:'GET',
         query:'api/tickets',
@@ -85,6 +87,4 @@ export async function getInitialProps() {
     return { props: { ticketsData, assignedCodes, ticketsRequestedForCodes} }
   }
 
-  export default  Presale
-
-// add the props thing for the request
+  export default  Presale;
