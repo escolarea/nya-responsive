@@ -5,6 +5,7 @@ import { hideSideBar, showSideBar } from "../../store/sidebar/action";
 import Link from "next/link";
 import { getTokenForServer, getjwtToken } from "../../static/auth";
 import fetchData from "../../api/fetch";
+import lodash from "lodash";
 
 const Contact = ({ user, token }) => {
   // Redux state
@@ -12,18 +13,20 @@ const Contact = ({ user, token }) => {
   const subject = useSelector((state) => state.contactUs.subject);
   const dispatch = useDispatch();
   // ----
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [message, setMessage] = useState("");
-  const [errors, setErrors] = useState({});
-  const [messageSent, setMessageSent] = useState(false);
-  const [resultMessage, setResultMessage] = useState("");
+  const [state, setState] = useState({
+    name: "",
+    email: "",
+    message: "",
+    errors: "",
+    messageSent: false,
+    resultMessage: "",
+  });
   //---
   useEffect(() => {
     if (user) {
-      setName(user.name);
-      setEmail(user.email);
+      setState({ ...state, name: user.name, email: user.email });
     } else {
+      user = null;
       token = null;
     }
   }, []);
@@ -34,13 +37,13 @@ const Contact = ({ user, token }) => {
   };
 
   const validate = () => {
-    let error = {};
+    let errors = {};
     const regexp = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    if (email.length === 0) error["email"] = "Required";
-    else if (!regexp.test(email)) error["email"] = "Invalid email";
-    if (name.length === 0) error["name"] = "Required";
-    setErrors(error);
-    return !!error;
+    if (state.email.length === 0) errors["email"] = "Required";
+    else if (!regexp.test(state.email)) errors["email"] = "Invalid email";
+    if (state.name.length === 0) errors["name"] = "Required";
+    setState({ ...state, errors });
+    return _.isEmpty(errors);
   };
 
   const sendEmail = async () => {
@@ -51,9 +54,9 @@ const Contact = ({ user, token }) => {
         "Content-Type": "application/json",
       };
       const payload = {
-        name: name,
-        from: email,
-        body: message,
+        name: state.name,
+        from: state.email,
+        body: state.message,
         subject: subject.value,
         to: subject.value,
       };
@@ -61,15 +64,20 @@ const Contact = ({ user, token }) => {
         method: "POST",
         query: "api/emails",
         body: JSON.stringify(payload),
-        headers
-      }
-      );
+        headers,
+      });
       if (res.ok) {
-        setMessageSent(true);
-        setResultMessage("Thank you. Your email has been sent.");
+        setState({
+          ...state,
+          messageSent: true,
+          resultMessage: "Thank you. Your email has been sent.",
+        });
       } else {
-        setMessageSent(true);
-        setResultMessage("Something went wrong.");
+        setState({
+          ...state,
+          messageSent: true,
+          resultMessage: "Something went wrong.",
+        });
       }
     }
   };
@@ -104,9 +112,9 @@ const Contact = ({ user, token }) => {
               <div className="column">
                 <label>First name</label>
               </div>
-              {errors.name && (
+              {state.errors.name && (
                 <div className="error-message right aligned column">
-                  {errors.name}
+                  {state.errors.name}
                 </div>
               )}
             </div>
@@ -116,13 +124,13 @@ const Contact = ({ user, token }) => {
               type="text"
               className="contact-input"
               name="first-name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
+              value={state.name}
+              onChange={(e) => setState({ ...state, name: e.target.value })}
             />
             <i
-              onClick={() => setName("")}
+              onClick={() => setState({ ...state, name: "" })}
               className={`circle close link icon ${
-                name.length > 0 ? "" : "invisible"
+                state.name.length > 0 ? "" : "invisible"
               }`}
             ></i>
           </div>
@@ -133,9 +141,9 @@ const Contact = ({ user, token }) => {
               <div className="column">
                 <label>Email</label>
               </div>
-              {errors.email && (
+              {state.errors.email && (
                 <div className="error-message right aligned column">
-                  {errors.email}
+                  {state.errors.email}
                 </div>
               )}
             </div>
@@ -145,13 +153,13 @@ const Contact = ({ user, token }) => {
               type="text"
               className="contact-input"
               name="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              value={state.email}
+              onChange={(e) => setState({ ...state, email: e.target.value })}
             />
             <i
-              onClick={() => setEmail("")}
+              onClick={() => setState({ ...state, email: "" })}
               className={`circle close link icon ${
-                email.length > 0 ? "" : "invisible"
+                state.email.length > 0 ? "" : "invisible"
               }`}
             ></i>
           </div>
@@ -184,14 +192,14 @@ const Contact = ({ user, token }) => {
             className="message contact-input"
             name="email"
             placeholder="Write your text here"
-            value={message}
-            onChange={(e) => setMessage(e.target.value)}
+            value={state.message}
+            onChange={(e) => setState({ ...state, message: e.target.value })}
           ></textarea>
         </div>
         <div style={{ padding: "16px" }}>
           <button
             className={`ui fluid primary ${
-              message.length === 0 ? "disabled" : ""
+              state.message.length === 0 ? "disabled" : ""
             } button`}
             type="button"
             onClick={async () => await sendEmail()}
@@ -208,9 +216,9 @@ const Contact = ({ user, token }) => {
       {renderTopBar()}
       <div className="contact-wrapper">
         <Container className="container contact-main-content">
-          {messageSent ? (
-            <div className="result-message" >
-              {resultMessage}
+          {state.messageSent ? (
+            <div className="result-message">
+              {state.resultMessage}
               <div style={{ padding: "16px" }}>
                 <Link href="/">
                   <button className="ui fluid primary button">Back</button>
@@ -235,6 +243,7 @@ export async function getServerSideProps(props) {
   let token = req.headers && req.headers.cookie ? await getjwtToken(req) : null;
   if (!user) {
     user = null;
+    token = null;
   }
   return { props: { user, token } };
 }
