@@ -7,7 +7,6 @@ const Subscription = ({userData}) => {
   const router = useRouter();
   useEffect (()=>{
     if(userData.userData&& Object.keys(userData.userData).length == 0){
-      router.
       router.push('/account')
     }
    

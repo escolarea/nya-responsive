@@ -1,6 +1,6 @@
 import React, {Component}            from 'react';
 import {hasAuth}        from '../../services/localstorage';
-import Login                         from '../login';
+// import Login                         from '../login';
 
 export default class UserInfo extends Component {
     constructor(props, context){
@@ -22,11 +22,11 @@ export default class UserInfo extends Component {
     render(){
         let {onMouseEnter, showSubscribe} = this.props
 
-            return (
-                <div className="user-info">
-                    {!hasAuth()&& <div className="subscribe login" onMouseEnter={onMouseEnter} onTouchStart={Login} />}
-                    <div className="subscribe" onMouseEnter={onMouseEnter} onTouchStart={this.onSubscribeClick} />
-                </div>
+            return (null
+                // <div className="user-info">
+                //     {!hasAuth()&& <div className="subscribe login" onMouseEnter={onMouseEnter} onTouchStart={Login} />}
+                //     <div className="subscribe" onMouseEnter={onMouseEnter} onTouchStart={this.onSubscribeClick} />
+                // </div>
             )
        
     }
