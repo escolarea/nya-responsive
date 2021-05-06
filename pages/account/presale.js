@@ -3,10 +3,14 @@ import Link from "next/link";
 import fetchData from '../../api/fetch'
 import Ticket from '../../components/tikets'
 import moment from 'moment'
+import _ from "lodash";
 const Presale = ({ticketsData, assignedCodes, ticketsRequestedForCodes}) => {
-
-    const ticketsBefore = ticketsData.filter(item => moment.utc(item.date) < moment.utc().startOf('day')).sort((a, b) => new Date(b.date) - new Date(a.date))
-    const ticketsAfter = ticketsData.filter(item => moment.utc(item.date) >= moment.utc().startOf('day')).sort((a, b) => new Date(b.date) - new Date(a.date))
+    const sortDate = (item) => item.sort((a, b) => new Date(b.date) - new Date(a.date))
+    let ticketsBefore = ticketsData.filter(item => item.date && (moment.utc(item.date) < moment.utc().startOf('day')))
+    if(!_.isEmpty(ticketsBefore))ticketsBefore = sortDate(ticketsBefore);
+    
+    let ticketsAfter = ticketsData.filter(item => item.date && (moment.utc(item.date) >= moment.utc().startOf('day')))
+    if(!_.isEmpty(ticketsAfter))ticketsAfter = sortDate(ticketsBefore);
     const tickets = ticketsAfter.concat(ticketsBefore)
 
      const onCopy = (code) => {
@@ -82,7 +86,7 @@ export async function getInitialProps() {
       }
     const res = await fetchData(request)
     const data = await res.json() 
-    const {tickets: ticketsData = [], assignedCodes,ticketsRequestedForCodes } = data
+    const {tickets: ticketsData = {}, assignedCodes,ticketsRequestedForCodes } = data
     
     return { props: { ticketsData, assignedCodes, ticketsRequestedForCodes} }
   }
