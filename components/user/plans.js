@@ -1,34 +1,16 @@
 import React, { Component } from "react";
-import _, { fromPairs } from "lodash";
+import _ from "lodash";
 import StripeCheckout from 'react-stripe-checkout';
 import fetchData from '../../api/fetch'
-// import {connect} from 'react-redux';
 import { login } from '../../static/auth0';
 import { withAuth0 } from '@auth0/auth0-react';
-
-// import spinnerFrame01 from "../../static/images/loading-indicator/frame_01.png";
+import {updateUserInfo} from '../../helpers/getUserData'
 import Input from "../input";
-// import Login from "../services/login";
-// import { registerButtonClick } from "../services/tracking";
-// import { fetchExclusiveEntries } from "../services/fetch";
 // import SplashScreen from "../splash-screen";
 // import checkImg from "../../public/static/images/account-info/check-item.png";
 import {NYA_FREE, NYA_UNLIMITED} from '../../utils/url_constants'
-import {sortPlansAccordingPrice,  getPlanInfo,getAllPlanBenefits,getBenefitsPerPlan} from '../../helpers/plans'
-// import arrowImg from "../../images/account-info/arrow-image.png";
+import {sortPlansAccordingPrice,  getPlanInfo} from '../../helpers/plans'
 
-// import {
-//   getUserInfo,
-//   createOrUpdatePlan,
-//   hasAuth,
-//   redeemCode,
-//   isPaying,
-//   setIsPaying,
-//   paymentProcessReloadDelay,
-//   freePassToken,
-//   checkCustomerNextProrationInvoice,
-//   getGiftCode
-// } from "../services/api";
 
 // TODO: Ensure `paymentFail` returns reletive error msg
 
@@ -174,10 +156,7 @@ class PlansPanel extends Component {
     this.backToPlans = this.backToPlans.bind(this);
     this.giftcodeOnChange = this.giftcodeOnChange.bind(this);
     this.sendCodeHandler = this.sendCodeHandler.bind(this);
-    this.triggerAuth0 = this.triggerAuth0.bind(this);
-    this.triggerConversionEvent = this.triggerConversionEvent.bind(this);
     this.goToSelectionScreen = this.goToSelectionScreen.bind(this);
-    this.createPurchase  = this.createPurchase.bind(this)
     this.checkIfShouldHideButton = this.checkIfShouldHideButton.bind(this)
   }
   
@@ -188,7 +167,7 @@ class PlansPanel extends Component {
     if (planSelected) this.setState({ planSelected, planId: NYA_UNLIMITED, singleRadioButtonRendered: false, setAnualRadioButtonData: false });
   }
   componentWillUpdate(newprops /*, newstate*/) {
-    // if (newprops.view !== this.props.view) {
+    if (newprops.userData !== this.props.userData)return;
     //   let state;
     //   let singleRadioButtonRendered = false
     //   let setAnualRadioButtonData = false
@@ -208,26 +187,6 @@ class PlansPanel extends Component {
   }
   componentWillUnmount() {
     clearTimeout(this.emit);
-  }
-  triggerConversionEvent() {
-    const { planSelected } = this.state;
-    const currency = "USD";
-    const value = parseFloat(planSelected.price);
-
-    // registerButtonClick({ value, currency });
-  }
-  fetch() {
-    fetchExclusiveEntries().catch(() => {
-      document.location.href = "/";
-      document.location.reload();
-    });
-  }
-
-  triggerAuth0() {
-    if (!hasAuth()) {
-      clearTimeout(this.emit);
-      this.emit = setTimeout(Login, 100);
-    }
   }
   getContent() {
     return this[this.state.state]();
@@ -293,24 +252,16 @@ class PlansPanel extends Component {
   }
 
   renderPlans(plans, planInformation) {
-    const {
-      user_metadata: {
-        subscription: {
-          plan: userPlanId = NYA_FREE,
-          type= 'stripe'
-        } = {},
-      } = {},
-    } = this.props.user  || {};
-  
+    const user = this.getUserInformation() || {}
+
+    const{ userPlanType, isAppleSub} = user
+
     const isAuthenticated = this.props.user ? true : false;
 
-    const isAppleSub = type == 'stripe'? false: true ;
     const planItems = [];
     let plansData = [];
     let planIDs = [];
-    let userPlanType =  userPlanId.split(/\W|_/g) 
-    userPlanType = `NYA-${userPlanType[userPlanType.length - 1]}`;
-
+    
     let sortedPlans = sortPlansAccordingPrice(plans);
     Object.keys(sortedPlans).forEach((planId) => {
       let userHasThisPlan = userPlanType.includes(planId);
@@ -368,6 +319,21 @@ class PlansPanel extends Component {
     );
   }
 
+  getUserInformation(){
+    const { userPlanId ="NYA-FREE", isAppleSub=false, userSubscriptionStatus:status =null,  hasPlanExpired=true, userSubType:type='stripe'} = this.props.userData || {}
+
+    const subActive =!hasPlanExpired;
+
+    let userPlanType =  userPlanId.split(/\W|_/g) 
+    userPlanType = `NYA-${userPlanType[userPlanType.length - 1]}`;
+
+    if (userPlanType == 'NYA-YEARLY'|| userPlanType == 'NYA_MONTHLY') {
+      userPlanType = 'NYA-UNLIMITED';
+    }
+
+    return { userPlanType,type ,status, subActive, isAppleSub}
+  }
+
   checkIfShouldHideButton(planID, userAuthenticated, planType){
     let currentPlanName = this.state.planNames[planType] || "NYA-FREE";
     let buttonPlanName = this.state.planNames[planID];
@@ -404,10 +370,10 @@ class PlansPanel extends Component {
 
   initialClickPurchase(plan, planId) {
     let planToBePurchased = plan && plan.plan[0];
-    const {planType, name} = this.props.purchasedPlan
-    this.setState({
-        state:'select',screen: "plans", view: "select"
-      })
+    const user = this.getUserInformation() || {};
+    const {userPlanType}= user
+    const {token} = this.props
+
 
     this.setState({
       planSelected: plan,
@@ -417,73 +383,59 @@ class PlansPanel extends Component {
       productId: planToBePurchased.product_id,
     });
 
-    return; 
     // Verify that the plan is different than tha one purchased to enable upgrade/downgrade
-    if (planType !== planId) {
-      // show other view other than vie
-    //   if (hasAuth()) {
-    if (true) {
-        if(planId != "NYA-UNLIMITED"){
-          if (name == "NYA-FREE"){
-              this.setState({
-                state:'select',screen: "plans", view: "select"
-              })
-           
-          }else{
-            this.setState({
-                state:'confirmation',screen: "plans", view: "select"
-              })
-          } 
-        }else{
-          if (name != "NYA-FREE"){
+    if (token) {
+        if(((planId != "NYA-UNLIMITED") && (userPlanType != "NYA-FREE")) && (planId !==userPlanType)){
             this.setState({
                 state:'confirmation',screen: "plans", view: "select"
               })
            
           }else {
             this.setState({
-                state:'confirmation',screen: "plans", view: "select"
-              })
+              state:'select',screen: "plans", view: "select"
+            })
           }
-        }
       } else {
         // Login("/account?screen=plans&view=select");
       }
-    } else {
-        //TODO: redirect to subscription overview
-    }
   }
 
-  sendCodeHandler() {
+  async  sendCodeHandler (){
     const {giftcode,planToBePurchased} = this.state
     const {token} = this.props;
-    const header = {'Authorization': 'Bearer ' + token}
+    const headers = {"Authorization": 'Bearer ' + token,"Content-Type": "text/plain"}
 
     // validate that it's 8 digit 
-    // this.props.token
-    // /api/subscriptions/gift/${code}
     if(token){
-      fetchData('POST','api/subscriptions/plan-prices', giftcode , header).then((planId, error)=>{
+      const request = {
+        method:'GET',
+        query:`api/subscriptions/gift/${giftcode}`,
+        headers
+      }
+
+      const giftRequest = await fetchData(request);
+      const planId = await giftRequest.text();
+      if(planId){
         if(planId === planToBePurchased.product_id){
-          this.setState({ state: "paying" }, () => {
-            fetchData(`/api/subscriptions/gift/${giftcode}`,'',header).then(
-            (res) => this.setState({ state: "paymentOK" }),
-            (err) => {
+          this.setState({ state: "paying" }, async () => {
+            const params = {
+              method:'PUT',
+              query:`api/subscriptions/gift/${giftcode}`,
+              headers
+            }
+
+            const redemption = await fetchData(params);
+            if(redemption){
+              this.setState({ state: "paymentOK" })
+            }else{
               this.setState({ state: "paymentFail",codeNotification:'Gift redemption failed, please contact us' })
             }
-            );
           });
-        }else{
-            this.setState({tryOtherPlan:true, couponPlan:planId, codeNotification:`Redeem your coupon on plan ${planId}`})
-        }    
-      }).catch(err=>{
-        this.setState({tryOtherPlan:true, codeNotification:'Gift code not found, please contact us'})
-      })
+      }else{
+        this.setState({tryOtherPlan:true, couponPlan:planId, codeNotification:`Redeem your coupon on plan ${planId}`})
+      }
     }   
   }
-  async createPurchase(token){
-   //TODO: create request to create user and redirect to other views.
-   //add load view when waiting for this.
   }
 
   _getPurchaseButton() {
@@ -496,14 +448,12 @@ class PlansPanel extends Component {
       chargesPreview
     } = this.state;
     const {email} = this.props.user
-
     let displayPrice = ""
     if(chargesPreview){
      displayPrice = this.getCopyPrice()
     } 
     const planPrice = displayPrice != "" ? displayPrice.replace(/[ ,.]/g, "") : 
       planToBePurchased && planToBePurchased.price.replace(/[ ,.]/g, "");
-    // isPaying()
     if (false) {
       return null;
     }
@@ -516,10 +466,6 @@ class PlansPanel extends Component {
         );
       } else {
         const price = parseInt(planPrice);
-        // const userInfo = getUserInfo();
-        // const email =
-        //   (userInfo.user_metadata && userInfo.user_metadata.customEmail) ||
-        //   userInfo.email;
 
         return (
           <StripeCheckout
@@ -663,30 +609,51 @@ class PlansPanel extends Component {
     this.setState({prorationAvailable:true})
   }
 
-//   checkFutureProration(planSelected){
-//     //Supporting proration preview of an anual subscription
-//     let chargesPreview = []
-//     let plan = planSelected.plan.find(plan => plan.interval == "year")
-//     this.prorationRequestFinished = false
-//     const { product_id, interval } = plan;
-//     checkCustomerNextProrationInvoice(product_id).then(nextInvoice=>{
-//       chargesPreview.push({
-//         interval,
-//         futureCharge: nextInvoice.total,
-//         prorationDate: nextInvoice.subscription_proration_date
-//       }); 
-//       this.setState({chargesPreview, prorationPreviewPlan: planSelected.planName})
-//       this.finishedProrationRequest()
-//     }).catch(err => {
-//       chargesPreview.push({
-//         interval: "year",
-//         futureCharge: plan.price
-//       }); 
-//       this.setState({chargesPreview, prorationPreviewPlan: planSelected.planName, prorationAvailable:true, defaultProration: true})
-//       this.finishedProrationRequest()
-//       console.error("There was an error obtaining the proration charge" + err)
-//     })
-//   }
+  checkFutureProration(planSelected){
+    //Supporting proration preview of an anual subscription
+    let chargesPreview = []
+    let plan = planSelected.plan.find(plan => plan.interval == "year")
+    this.prorationRequestFinished = false
+    const { product_id:planId, interval } = plan;
+    const {token} = this.props
+    const headers= {'Authorization': 'Bearer ' + token, 'Content-Type': 'application/json'}
+
+    //todo : data fetch for this 
+    const request = {
+      method:'POST',
+      query:"api/subscriptions/customer-next-charge",
+      body:JSON.stringify({planId}),
+      headers
+    }
+    fetchData(request).then(nextInvoice =>  nextInvoice.json()).then((nextInvoice) => {
+
+      chargesPreview.push({
+          interval,
+          futureCharge: nextInvoice.total,
+          prorationDate: nextInvoice.subscription_proration_date
+      }); 
+          this.setState({chargesPreview, prorationPreviewPlan: planSelected.planName})
+          this.finishedProrationRequest()
+
+    }).catch(error=>{
+      if (error) {
+        chargesPreview.push({
+          interval: "year",
+          futureCharge: plan.price,
+        });
+        this.setState({
+          chargesPreview,
+          prorationPreviewPlan: planSelected.planName,
+          prorationAvailable: true,
+          defaultProration: true,
+        });
+        this.finishedProrationRequest();
+        console.error(
+          "There was an error obtaining the proration charge" + err
+        );
+      }
+    })
+  }
 
   checkIfUpgradeOrDowngrade(currentPlanName,newPlanName){
     let action = "upgrade";
@@ -762,17 +729,19 @@ class PlansPanel extends Component {
 
   goToSelectionScreen(){
     this.setState({upgrade:true})
-    this.props.router.replace({
-      pathname: "/account",
-      query: { screen: "plans", view: "select" },
-    });
+    this.setState({state:'select',screen: "plans", view: "select"})
+    
   }
 
   renderConfirmationScreen(){
     const {planSelected, planId} = this.state;
+    //get this from the user 
+    const user = this.getUserInformation();
+    const {userPlanType, } = user
+
     const {planType,interval, price: currentPlanPrice} = this.props.purchasedPlan 
      
-    let currentPlanName = this.state.planNames[planType] || "NYA-FREE";
+    let currentPlanName = this.state.planNames[userPlanType] || "NYA-FREE";
     let newPlanName = this.state.planNames[planId];
     let action = this.checkIfUpgradeOrDowngrade(currentPlanName, newPlanName)
    
@@ -784,7 +753,8 @@ class PlansPanel extends Component {
             <div className="plan-name">{currentPlanName ? currentPlanName: "NYA-FREE"}</div>
             <div className="plan-price">{ currentPlanPrice && interval ? `$${currentPlanPrice} /${interval}`: ""}</div> 
           </div>
-          <img className="arrow" src={arrowImg}/>
+          {/* <img className="arrow" src={arrowImg}/> */}
+          {/* <img className="arrow" src={arrowImg}/> */}
           <div className="plan-box new">
             <div className="plan-status">New Subscription</div>
             <div className="plan-name">{newPlanName}</div>
@@ -799,30 +769,29 @@ class PlansPanel extends Component {
     );
   }
 
-//   confirmation(){
-//       console.log("confirmation")
-//     const {planSelected, prorationPreviewPlan} = this.state;
-//     planSelected && prorationPreviewPlan != planSelected.planName && this.checkFutureProration(planSelected)
+  confirmation(){
+    const {planSelected, prorationPreviewPlan} = this.state;
+    planSelected && prorationPreviewPlan != planSelected.planName && this.checkFutureProration(planSelected)
 
-//     if (!planSelected ) {
-//       this.setState({ state: "initial" });
-//       return null
-//     }
+    if (!planSelected ) {
+      this.setState({ state: "initial" });
+      return null
+    }
 
-//     if (this.state.prorationAvailable &&  this.prorationRequestFinished){
-//       let confirmationScreen = this.renderConfirmationScreen();
-//       this.state.prorationAvailable = false // FIXME
-//       this.state.prorationPreviewPlan = ""
-//       this.prorationRequestFinished = false
-//       return confirmationScreen;
-//     }else{
-//       return (
-//         <div className="content select confirmation">
-//           <SplashScreen loadState={100} />
-//         </div>
-//       );
-//     }
-//   }
+    if (this.state.prorationAvailable &&  this.prorationRequestFinished){
+      let confirmationScreen = this.renderConfirmationScreen();
+      this.state.prorationAvailable = false // FIXME
+      this.state.prorationPreviewPlan = ""
+      this.prorationRequestFinished = false
+      return confirmationScreen;
+    }else{
+      return (
+        <div className="content select confirmation">
+          loading...
+        </div>
+      );
+    }
+  }
 
   select() {
     const {
@@ -907,14 +876,23 @@ class PlansPanel extends Component {
   }
 
   selectGotToken(token) {
-    const {upgrade, productId,chargesPreview} = this.state
+    const {upgrade, productId:planId,chargesPreview} = this.state
+    //TODO : change this from user info
     const {planType} = this.props.purchasedPlan 
-    const header = {'Authorization': 'Bearer ' + token}
+    const {token:headerToken} = this.props
+    const {id:source} = token
+    const headers = {'Authorization': 'Bearer ' + headerToken,'Content-Type': 'application/json'}
     let displayPrice = 0
     if(chargesPreview) displayPrice = this.getCopyPrice()
     let planBeforeUpgrade = this.state.planNames[planType] || "";
+    const request = {
+      method:'POST',
+      query:'api/subscriptions',
+      body:JSON.stringify({source, planId, upgrade, displayPrice, planBeforeUpgrade}),
+      headers
+    }
 
-    fetchData('POST','api/subscriptions/plan-prices', {token, productId, upgrade, displayPrice, planBeforeUpgrade}, header).then(
+    fetchData(request).then(
         (res) => this.setState({ state: "paymentOK" }),
         (err) => this.setState({ state: "paymentFail" })
       );
@@ -930,6 +908,12 @@ class PlansPanel extends Component {
   }
 
   paymentOK() {
+    const { token,setUser} = this.props
+    // updateInfoHere 
+    if(token){
+    updateUserInfo(token, setUser);
+  }
+
 
     window.history.replaceState({}, "", '/account?screen=overview');
     window.location.reload();

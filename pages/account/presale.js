@@ -1,15 +1,20 @@
 import React from 'react'
 import Link from "next/link";
 import fetchData from '../../api/fetch'
-import template from '../../static/template';
-// import {hasAuth, getAuth} from '../services/localstorage'
 import Ticket from '../../components/tikets'
 import moment from 'moment'
-const Presale = ({ticketsData, assignedCodes, ticketsRequestedForCodes}) => {
+import _ from "lodash";
+import {getjwtToken} from '../../static/auth'
+const Presale = ({ticketsData =[], assignedCodes}) => {
+    const sortDate = (item) => item.sort((a, b) => new Date(b.date) - new Date(a.date));
 
-    const ticketsBefore = ticketsData.filter(item => moment.utc(item.date) < moment.utc().startOf('day')).sort((a, b) => new Date(b.date) - new Date(a.date))
-    const ticketsAfter = ticketsData.filter(item => moment.utc(item.date) >= moment.utc().startOf('day')).sort((a, b) => new Date(b.date) - new Date(a.date))
+    let ticketsBefore = ticketsData.filter(item => item && (moment.utc(item.date) < moment.utc().startOf('day')))
+    if(!_.isEmpty(ticketsBefore))ticketsBefore = sortDate(ticketsBefore);
+    
+    let ticketsAfter = ticketsData.filter(item => item && (moment.utc(item.date) >= moment.utc().startOf('day')))
+    if(!_.isEmpty(ticketsAfter))ticketsAfter = sortDate(ticketsBefore);
     const tickets = ticketsAfter.concat(ticketsBefore)
+    console.log('tickets', tickets)
 
      const onCopy = (code) => {
             const targetId = "_hiddenCopyText_"
@@ -71,16 +76,23 @@ const Presale = ({ticketsData, assignedCodes, ticketsRequestedForCodes}) => {
   
 } 
 
-export async function getInitialProps() {
+export async function getServerSideProps(props) {
+  const { req } = props;
+  let token = req.headers && req.headers.cookie ? await getjwtToken(req) : null;
 
-    const header = {'Authorization': 'Bearer ' + "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Ik4wSTBORU5GT0VWQ016UXhRa05ETmprNE0wWXdSVFpFTURKRE5UVkdNVE5DTmpRM1JVTXpSQSJ9.eyJpc3MiOiJodHRwczovL2xvZ2luLW55YS53ZWFkZS5jby8iLCJzdWIiOiJhdXRoMHw2MDUzYzg2ZjZlYjE2MzAwNzBjMTA2ZWIiLCJhdWQiOiJCaGpVc0VGV0xyblFEMUFrT09VRjl6WTFVQXEwWEt2OCIsImlhdCI6MTYxNjE4OTQzNSwiZXhwIjoxNjIzOTY1NDM1LCJhdF9oYXNoIjoiWWtHWmExaGFWbVJGYzdvb29JUjBtUSIsIm5vbmNlIjoiQW9hUUlSRzluVjNQdzhYZEw5NFg5dVFyNVF5Ty10NG4ifQ.VeE4TOtOC9GP4ussDDg3qLoLyQzMfQRB1Lm9au_hqdZAdQEI4_gpEwBwnJyxaEbFCeCbKzNPw_8t0M0zDs73sZCiNuP-xoF5h9xCt9AZ0jZQLXA_cszL58Af6MWeh4OMhCu8bcTG-mi3hizvpjNynoZSfo-ORT9Qn4l2McDkBdLfyDPBb4Gi9KK9GUofVio0_vYY_XH8H8p5oiTADPp3gX6pm1j-kKy1SC0V-4MY34BFKxq5aRafy7WUiSXKzoWw_gJfQEac2fE2h68ZDtg4YBN6vns_58nsyyX20qQfz6ZhgEywc80_9uAlYnItkMpfyAcG8zENLlyPheEL9cGzyQ"}
-    const res = await fetchData('GET','api/tickets', header)
+  if(token === undefined) token = null
+    const headers = {'Authorization': 'Bearer ' + token}
+    const request = {
+        method:'GET',
+        query:'api/tickets',
+        headers
+
+      }
+    const res = await fetchData(request)
     const data = await res.json() 
     const {tickets: ticketsData, assignedCodes,ticketsRequestedForCodes } = data
-    console.log("ticketsData", ticketsData)
+    
     return { props: { ticketsData, assignedCodes, ticketsRequestedForCodes} }
   }
 
-  export default  template(Presale)
-
-// add the props thing for the request
+  export default  Presale;

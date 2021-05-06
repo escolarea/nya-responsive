@@ -57,8 +57,5 @@ export function determineUserStatusFromSubscriptionResponse(json) {
         }
     } 
     user.relevantSubscriptionDate =  moment(user.relevantSubscriptionDate * 1000).calendar()
-    console.log('user', user)
-    //TODO SET IT ON REDUX 
-    // setuserData(user)
     return user
 }
