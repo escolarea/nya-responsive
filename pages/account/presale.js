@@ -4,7 +4,8 @@ import fetchData from '../../api/fetch'
 import Ticket from '../../components/tikets'
 import moment from 'moment'
 import _ from "lodash";
-const Presale = ({ticketsData =[], assignedCodes, ticketsRequestedForCodes}) => {
+import {getjwtToken} from '../../static/auth'
+const Presale = ({ticketsData =[], assignedCodes}) => {
     const sortDate = (item) => item.sort((a, b) => new Date(b.date) - new Date(a.date));
 
     let ticketsBefore = ticketsData.filter(item => item && (moment.utc(item.date) < moment.utc().startOf('day')))
@@ -13,6 +14,7 @@ const Presale = ({ticketsData =[], assignedCodes, ticketsRequestedForCodes}) => 
     let ticketsAfter = ticketsData.filter(item => item && (moment.utc(item.date) >= moment.utc().startOf('day')))
     if(!_.isEmpty(ticketsAfter))ticketsAfter = sortDate(ticketsBefore);
     const tickets = ticketsAfter.concat(ticketsBefore)
+    console.log('tickets', tickets)
 
      const onCopy = (code) => {
             const targetId = "_hiddenCopyText_"
@@ -74,9 +76,10 @@ const Presale = ({ticketsData =[], assignedCodes, ticketsRequestedForCodes}) => 
   
 } 
 
-export async function getInitialProps() {
+export async function getServerSideProps(props) {
   const { req } = props;
   let token = req.headers && req.headers.cookie ? await getjwtToken(req) : null;
+
   if(token === undefined) token = null
     const headers = {'Authorization': 'Bearer ' + token}
     const request = {
