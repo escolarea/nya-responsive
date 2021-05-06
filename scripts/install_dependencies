@@ -1,5 +1,7 @@
 #!/bin/bash
 #yum install -y httpd
+node --version
+npm install --global yarn
 npm i -S && npm i -D
 aws s3 cp s3://awscodepipeline-nya-demobucket/.env ./
 yarn build
