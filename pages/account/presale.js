@@ -1,7 +1,6 @@
 import React from 'react'
 import Link from "next/link";
 import fetchData from '../../api/fetch'
-import template from '../../static/template';
 import Ticket from '../../components/tikets'
 import moment from 'moment'
 const Presale = ({ticketsData, assignedCodes, ticketsRequestedForCodes}) => {
@@ -81,7 +80,8 @@ export async function getInitialProps() {
       }
     const res = await fetchData(request)
     const data = await res.json() 
-    const {tickets: ticketsData, assignedCodes,ticketsRequestedForCodes } = data
+    const {tickets: ticketsData = [], assignedCodes,ticketsRequestedForCodes } = data
+    
     return { props: { ticketsData, assignedCodes, ticketsRequestedForCodes} }
   }
 
