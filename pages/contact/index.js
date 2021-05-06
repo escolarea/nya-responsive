@@ -233,6 +233,7 @@ export async function getServerSideProps(props) {
   let user =
     req.headers && req.headers.cookie ? await getTokenForServer(req) : null;
   let token = req.headers && req.headers.cookie ? await getjwtToken(req) : null;
+  if(token === undefined) token = null
   if (!user) {
     user = null;
   }
