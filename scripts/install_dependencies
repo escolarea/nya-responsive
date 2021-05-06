@@ -2,3 +2,5 @@
 #yum install -y httpd
 pwd
 ls
+cd /usr/share/nginx/html
+ls
