@@ -1,6 +1,5 @@
 #!/bin/bash
 #yum install -y httpd
-pwd
-ls
-cd /usr/share/nginx/html
+set -e
+cd /home/ec2-user
 ls
