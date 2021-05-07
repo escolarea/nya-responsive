@@ -1,5 +1,6 @@
 #!/bin/bash
 #yum install -y httpd
-set -e
-cd /home/ec2-user
-ls
+#set -e
+#cd /home/ec2-user
+#ls
+echo "install server script"

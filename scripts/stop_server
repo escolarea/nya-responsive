@@ -3,5 +3,5 @@
 #if [[ -n  $isExistApp ]]; then
 #    service httpd stop        
 #fi
-ls
+echo "stop server script"
 
