@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import Link from "next/link";
 import cn from "classnames";
 import marked from "marked";
+import parseMarkdown from "../../static/markdown";
 // import VimeoPlayer                   from '../components/vimeo-player'
 // import VimeoHelper                   from '../util/vimeo-helper'
 
@@ -196,7 +197,7 @@ class Excerpt extends Component {
                   "title headline ui header " + column + ` ${pageStyle}`
                 }
                 ref="content"
-                dangerouslySetInnerHTML={{ __html: marked(headlineText || "") }}
+                dangerouslySetInnerHTML={{ __html: parseMarkdown(headlineText || "") }}
               />
               {titleDivider !== 0 && (
                 <div
@@ -236,7 +237,7 @@ class Excerpt extends Component {
                 <div
                   className={"title subtitle" + column + ` ${pageStyle}`}
                   ref="content"
-                  dangerouslySetInnerHTML={{ __html: marked(subtitle || "") }}
+                  dangerouslySetInnerHTML={{ __html: parseMarkdown(subtitle || "") }}
                 />
                 {subtitleDivider !== 0 && (
                   <div
@@ -253,7 +254,7 @@ class Excerpt extends Component {
                 <div
                   className={"title callout " + column + ` ${pageStyle}`}
                   ref="content"
-                  dangerouslySetInnerHTML={{ __html: marked(callout || "") }}
+                  dangerouslySetInnerHTML={{ __html: parseMarkdown(callout || "") }}
                 />
                 {calloutDivider !== 0 && (
                   <div
@@ -279,7 +280,7 @@ class Excerpt extends Component {
             className={cx}
             ref="content"
             dangerouslySetInnerHTML={{
-              __html: marked(showContent && bodyText ? bodyText : ""),
+              __html: parseMarkdown(showContent && bodyText ? bodyText : ""),
             }}
           />
         </div>
