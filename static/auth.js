@@ -67,7 +67,6 @@ async function getJWK() {
       if (!jwtFromCookie || jwtFromCookie === undefined) {
         return null;
       }
-      console.log("trying some shit")
       const token = jwtFromCookie.split('=')[1];
       const validToken = await verifyToken(token);
       if (validToken) {
