@@ -10,6 +10,7 @@ import Input from "../input";
 // import checkImg from "../../public/static/images/account-info/check-item.png";
 import {NYA_FREE, NYA_UNLIMITED} from '../../utils/url_constants'
 import {sortPlansAccordingPrice,  getPlanInfo} from '../../helpers/plans'
+import RadioButton from '../radioButton'
 
 
 // TODO: Ensure `paymentFail` returns reletive error msg
@@ -26,34 +27,6 @@ class Line extends Component {
     );
   }
 }
-
-class RadioButton extends Component {
-  render() {
-    const {
-      id,
-      checked,
-      value,
-      onChange,
-      disabled,
-      product,
-    } = this.props;
-    return (
-      <div className="custom-radio">
-        <input
-          type="radio"
-          id={id}
-          disabled={disabled}
-          checked={checked}
-          onChange={onChange}
-          value={value}
-          name={value}
-        />
-        <div className="toggle" />
-      </div>
-    );
-  }
-}
-
 class CheckBox extends Component {
   render() {
     const { checked, onChange, name } = this.props;

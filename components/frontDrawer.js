@@ -15,7 +15,7 @@ import { showPopUp } from "../store/notSupportedRoutes/action";
 
 const FrontDrawer = ({ leftSideIcons, postIt, showPopUp }) => {
 
-  const handleNotSupportedRoutes = () => showPopUp();
+  const handleNotSupportedRoutes = () => showPopUp('download');
 
   const tryParseIcon = (suffix, data, out, prev, columnRow) => {
     const externalLinkPattern = /(http:\/\/|https:\/\/)/g

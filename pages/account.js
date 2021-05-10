@@ -7,10 +7,11 @@ import template from '../static/template';
 import PropTypes from 'prop-types';
 import { connect } from "react-redux"
 import { logout } from '../static/auth0';
+import {removeToken} from '../store/token/actions'
 import { useRouter } from 'next/router';
 
 
-const Account = ({token, isLoggedIn,setUser}) => {
+const Account = ({token, isLoggedIn,setUser,removeToken}) => {
     const router = useRouter();
     const [pageStatus, setPageStatus ] = useState('loading')
     const retrieveUserData = async (token) => {
@@ -27,7 +28,8 @@ const Account = ({token, isLoggedIn,setUser}) => {
    }  
    useEffect(()=>{
      if(!isLoggedIn){
-      // localStorage.setItem('prev-url', document.referrer);
+      const path = window.location.pathname;
+      localStorage.setItem('path', path);
       router.push('/login')
       return;
      }
@@ -48,7 +50,11 @@ const Account = ({token, isLoggedIn,setUser}) => {
             <div className="left aligned column"><Link href="/account/plans" className="left aligned column"> Plans </Link></div>
             <div className="left aligned column"><Link href="/account/presale" className="left aligned column"> Presale Tickets </Link></div>
             <div className="left aligned column"><Link href="/account/notifications" className="left aligned column"> Notification Settings </Link></div>
-            <div id="logout-btn"className="left aligned" onTouchStart={logout}>LOG OUT </div>
+            <div id="logout-btn"className="left aligned" onTouchStart={()=>{
+              removeToken();
+              localStorage.removeItem('newsletter-pref-seen');
+              logout();
+            }}>LOG OUT </div>
           </div>
           
         </div>
@@ -63,6 +69,7 @@ Account.propTypes = {
 
 const AccountComponent = connect( null, {
   setUser,
+  removeToken
 })(Account);
 
 export default template(AccountComponent)
