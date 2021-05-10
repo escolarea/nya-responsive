@@ -12,11 +12,16 @@ import { Auth0Provider } from '@auth0/auth0-react';
 import PropTypes from 'prop-types';
 import {showPopUp} from '../store/notSupportedRoutes/action'
 import {hasSeenNewsletterPreference} from '../helpers/modalState'
+import { useRouter } from 'next/router';
+import NavBar from "../components/navbar";
 
 
 const WrappedApp = ({ Component, pageProps, visible, modalType, showPopUp, userToken}) => {
-
+  const router = useRouter();
   const {loggedInUser} = pageProps
+  const currentPath = router.asPath
+  const renderNavBar = currentPath && (currentPath.includes('news') || currentPath.includes('login') || currentPath.includes('redirect'));
+  console.log('renderNavBar', renderNavBar);
 
   useEffect(()=>{
     if(loggedInUser && loggedInUser.user_metadata){
@@ -27,6 +32,10 @@ const WrappedApp = ({ Component, pageProps, visible, modalType, showPopUp, userT
       }
     }
   },[pageProps])
+
+  // router.events.on('routeChangeComplete', (url) => {
+  //   console.log("changing route")
+  // });
 
   const renderModal = () =>{
     switch (modalType){
@@ -66,6 +75,9 @@ const WrappedApp = ({ Component, pageProps, visible, modalType, showPopUp, userT
                 className="content-wrapper"
                 style={{ width: "100%", height: "100%" }}
               >
+                {!renderNavBar && <NavBar 
+                path={currentPath}
+                />}
                 <Component {...pageProps} />
               </div>
             </div>

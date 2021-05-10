@@ -213,7 +213,6 @@ const Contact = ({ user, token }) => {
 
   return (
     <Container className="contact-container">
-      {renderTopBar()}
       <div className="contact-wrapper">
         <Container className="container contact-main-content">
           {state.messageSent ? (
