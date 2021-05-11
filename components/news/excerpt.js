@@ -21,7 +21,6 @@ function externalizeHrefs(el) {
 }
 
 function getExcerptImages(data, page) {
-  console.log("@@@@ page", page);
   const { id, column, vimeoId } = data;
   const link = `/news/${page}/${encodeURIComponent(id)}`;
   if (vimeoId) {

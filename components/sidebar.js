@@ -82,8 +82,11 @@ const SideBarMenu = ({
             </Button>
           </Grid.Column>
           <Grid.Column>
-            <Button primary fluid >
-            <Link href="/account">
+            <Button primary fluid onTouchStart={()=>{      
+              const path = window.location.pathname;
+              localStorage.setItem('path', path);
+              }} >
+            <Link href="/account" >
               <a className="link">ACCOUNT</a>
             </Link>
             </Button>
