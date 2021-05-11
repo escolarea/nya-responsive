@@ -4,13 +4,15 @@ import notSupportedRoutes from '../notSupportedRoutes/reducer'
 import sidebar from '../sidebar/reducer'
 import userData from '../userData/reducer'
 import contactUs from '../contactUs/reducer';
+import userToken from '../token/reducer'
 
 const rootReducer = combineReducers({
     commonValues:commonValues,
     notSupportedRoutes:notSupportedRoutes,
     sidebar:sidebar,
     userData:userData,
-    contactUs: contactUs
+    contactUs: contactUs,
+    userToken:userToken
 })
 
 export default rootReducer;

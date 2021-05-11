@@ -11,12 +11,12 @@ const SideBarMenu = ({
   showPopUp,
   hideSideBar
 }) => {
-  const handleNotSupportedRoutes = () => showPopUp();
+  const handleNotSupportedRoutes = () => showPopUp('download');
 
   useEffect(() => {
     const clickOnLink = (e) => {
       if (e.target.classList.contains("link"))
-        hideSideBar();
+        hideSideBar('download');
     };
     const menu = document.querySelector(".global-menu-grid");
     menu.addEventListener("click", clickOnLink);

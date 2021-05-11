@@ -64,7 +64,7 @@ class NewsNavbar extends Component {
     const MovietoneLink = (
       <Fragment key="movietone">
         <Menu.Item>
-          <div className="link" onClick={(e) => this.props.showPopUp()}>
+          <div className="link" onClick={(e) => this.props.showPopUp('download')}>
             <p className="highlighted">Movietone</p>
           </div>
         </Menu.Item>
