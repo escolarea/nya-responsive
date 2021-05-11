@@ -11,9 +11,12 @@ import {removeToken} from '../store/token/actions'
 import { useRouter } from 'next/router';
 
 
-const Account = ({token, isLoggedIn,setUser,removeToken}) => {
+const Account = ({ isLoggedIn, setUser, removeToken, userInfo}) => {
     const router = useRouter();
-    const [pageStatus, setPageStatus ] = useState('loading')
+    const { token } = userInfo;
+
+    const [ pageStatus, setPageStatus ] = useState('loading');
+    
     const retrieveUserData = async (token) => {
       if(token){
         const headers = {'Authorization': 'Bearer ' + token};
@@ -28,15 +31,13 @@ const Account = ({token, isLoggedIn,setUser,removeToken}) => {
    }  
    useEffect(()=>{
      if(!isLoggedIn){
-      const path = window.location.pathname;
-      localStorage.setItem('path', path);
       router.push('/login')
       return;
      }
 
      retrieveUserData(token);
      setPageStatus('ready');
-   })
+   },[])
 
   if(pageStatus === 'loading'){
     return<div>loading</div>
@@ -67,7 +68,12 @@ Account.propTypes = {
 }
 
 
-const AccountComponent = connect( null, {
+const mapStateToProps = (state) => {
+  return {
+    userInfo : state.userToken.userToken
+  };
+};
+const AccountComponent = connect( mapStateToProps, {
   setUser,
   removeToken
 })(Account);

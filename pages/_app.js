@@ -17,9 +17,8 @@ import NavBar from "../components/navbar";
 
 
 const WrappedApp = ({ Component, pageProps, visible, modalType, showPopUp, userToken}) => {
-
   const router = useRouter();
-  const {loggedInUser} = pageProps
+  const { token, user } = userToken;
 
   const currentPath = router.asPath || '';
   const path = currentPath && currentPath.split("/").pop();
@@ -28,26 +27,24 @@ const WrappedApp = ({ Component, pageProps, visible, modalType, showPopUp, userT
 
 
   useEffect(()=>{
-    if(loggedInUser && loggedInUser.user_metadata){
-      const {firstLogin} = loggedInUser.user_metadata
+    if(user && user.user_metadata){
+      const { firstLogin } = user.user_metadata;
+
       if(firstLogin && !hasSeenNewsletterPreference()){
         showPopUp('first-login');
         localStorage.setItem('newsletter-pref-seen', true)
       }
     }
-  },[pageProps])
+  },[userToken])
 
-  // router.events.on('routeChangeComplete', (url) => {
-  //   console.log("changing route")
-  // });
 
   const renderModal = () =>{
     switch (modalType){
       case 'first-login':
-        if(userToken){
+        if(token){
           return(
             <Notification
-              token={userToken}
+              token={token}
             />)
         }else{
           break;
