@@ -174,7 +174,6 @@ class PlansPanel extends Component {
   }
 
   renderPlanBenefits(patronBenefits, planBenefitsArr) {
-    console.log(patronBenefits, planBenefitsArr);
     return (
       <div className="details section">
         {patronBenefits &&
@@ -219,7 +218,6 @@ class PlansPanel extends Component {
         );
       }
     });
-    console.log(checkItemsUI);
     return checkItemsUI;
   }
 
