@@ -1,6 +1,56 @@
+div.ui.top.fixed.light-back.menu{
+    height: 70px;
+    background-color: #d6d4d0;
+    border-bottom: 1px solid rgba(0,0,0,.5);
+    background-image: url('../static/images/account-info/tab-content-body.jpg');
+    background-size: 100%;
+    background-color: transparent;
+
+    .item{
+        img{
+            width: 1em;
+        }
+        &::before{
+            background-color: transparent;
+        }
+    }
+    .item.title{
+        width: 23rem;
+        text-align: center;
+        justify-content: center;
+        margin: 0;
+        font-size: 20px;
+        font-family: Roboto,sans-serif;
+        font-weight: 700;
+        line-height: 38px;
+        user-select: none;
+        pointer-events: none;
+        color: #4b4536;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+    }
+}
+
 div.ui.top.fixed.menu{
     background-color: #4c311b;
     border-bottom: solid 2px black;
+    .item{
+        &.title{
+            .nya-log{
+                background: url('../static/images/account-info/nya-logo.png') no-repeat;
+                height: 2.5rem;
+                width: 20rem;
+                background-position: center;
+                background-size: contain;
+                border: none;
+            }
+        }
+        img{
+            width: 2.5em;
+        }
+    }
+
     &::after{
         display: none;
     }
