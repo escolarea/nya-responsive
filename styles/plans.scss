@@ -1,333 +1,353 @@
-.plans-panel{   
-    .plansContainer{
-        overflow: scroll;
-    }
-    .header-section{
-        display: flex;
-        flex-direction: column;
-        .plan-box{
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            .plan-status{
-                font-family: DINPro;
-                font-size: 32px;
-                margin-left: 50px;
-            }
-            .plan-name{
-                font-family: DINProBold;
-                font-size: 48px;
-                margin-top: 30px;
-                margin-left: 50px
-            }
-            .plan-price{
-                font-family: DINPro;
-                font-size: 32px;
-                margin-left: 50px;
-                margin-top: 2rem;
-            }
-            &.current{
-                background-color: #e5e4e0;
-                width: 540px;
-                height: 336px;
-                border: 2px solid #7d7b77;
-            }
-            &.new{
-                background-color: #035ca7;
-                width: 544px;
-                height: 340px;
-                color: #fff;
-            }
-            
-        }
-    }
-    .description-section{
-        display: flex;
-        flex-direction: column;
-        .confirmation-description{
-                display: flex;
-                flex-direction: column;
-                align-items: flex-start;
-                margin-top: 2rem;
-            .confirmation-title{
-                color: #000;
-                font-family: DINProBold;
-                font-size: 28px;
-                text-decoration: underline;
-            }
-            .explanation{
-                margin-top: 20px;
-                color: #000;
-                font-family: DINPro;
-                font-size: 17px;
-                text-align: left;
-                line-height: 30px;
-                .proration-value{
-                    font-family: DINProBold;
-                }
-            }
-        }
-        .confirmation-buttons{
-
-                display: flex;
-                flex-direction: column;
-                width: 100%;
-                padding: 0rem 2rem;
-                margin-bottom: 2rem;
-
-            .confirm-purchase{
-                background-color: #035ca7;
-                border-radius: 12px;
-                color: #fff;
-                font-family: DINProBold;
-                font-size: 20px;
-                line-height: 55px;
-                text-align: center;
-                cursor: pointer;
-                margin-bottom: 1rem;
-            }
-            .back-purchase{
-                background-color: #e5e4e0;
-                border: 2px solid #7d7b77;
-                color: #4c4c4c;
-                border-radius: 12px;
-                font-family: DINProBold;
-                font-size: 20px;
-                line-height: 55px;
-                text-align: center;
-                
-            }
-        }
-    }
-    .select-header{
-        margin-bottom: 2rem;
-        text-align: center;
-    }
-    .terms{
-        display: flex;
-        flex-direction: row;
+.plans-panel {
+  background: url("/static/images/paper.png");
+  .plansContainer {
+    overflow: scroll;
+  }
+  .header-section {
+    display: flex;
+    flex-direction: column;
+    .plan-box {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      .plan-status {
+        font-family: DINPro;
+        font-size: 32px;
+        margin-left: 50px;
+      }
+      .plan-name {
+        font-family: DINProBold;
+        font-size: 48px;
+        margin-top: 30px;
+        margin-left: 50px;
+      }
+      .plan-price {
+        font-family: DINPro;
+        font-size: 32px;
+        margin-left: 50px;
         margin-top: 2rem;
-        .terms-blurb{
-            font-size: 10px;
-            line-height: 24px;
-            color: #3d382e;
-            display: inline-block;
-            vertical-align: top;
-            position: relative;
-            top: -14px;
-            width: 694px;
-            text-align: left;
-            padding-right: 2rem;
-        }
-        input{
-            width: 2rem;
-            height: 2rem;
-            margin: 1rem;
-        }
+      }
+      &.current {
+        background-color: #e5e4e0;
+        width: 540px;
+        height: 336px;
+        border: 2px solid #7d7b77;
+      }
+      &.new {
+        background-color: #035ca7;
+        width: 544px;
+        height: 340px;
+        color: #fff;
+      }
     }
-    .content{
-        .buttons-bottom{
-            bottom: 40px;
-            text-align: center;
-            position: relative;
-            width: 100%;
-            left: 0;
-            font-family: DINPro;
-            margin-top: 6rem;
-            .button{
-                color: #fff;
-                background-color: #035ca7;
-                display: inline-block;
-                min-width: 360px;
-                max-width: 100%;
-                text-align: center;
-                border-radius: 10px;
-                box-sizing: border-box;
-                border: 2px solid transparent;
-                font-size: 22px;
-                line-height: 32px;
-                font-family: DINProBold!important;
-                padding: 14px 14px 12px;
-                letter-spacing: 2.2px;
-                cursor: pointer;
-                will-change: background-color,color;
-            } 
+  }
+  .description-section {
+    display: flex;
+    flex-direction: column;
+    .confirmation-description {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      margin-top: 2rem;
+      .confirmation-title {
+        color: #000;
+        font-family: DINProBold;
+        font-size: 28px;
+        text-decoration: underline;
+      }
+      .explanation {
+        margin-top: 20px;
+        color: #000;
+        font-family: DINPro;
+        font-size: 17px;
+        text-align: left;
+        line-height: 30px;
+        .proration-value {
+          font-family: DINProBold;
         }
+      }
     }
+    .confirmation-buttons {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      padding: 0rem 2rem;
+      margin-bottom: 2rem;
 
-    .productSelection{
+      .confirm-purchase {
+        background-color: #035ca7;
+        border-radius: 12px;
+        color: #fff;
+        font-family: DINProBold;
+        font-size: 20px;
+        line-height: 55px;
+        text-align: center;
+        cursor: pointer;
+        margin-bottom: 1rem;
+      }
+      .back-purchase {
+        background-color: #e5e4e0;
+        border: 2px solid #7d7b77;
+        color: #4c4c4c;
+        border-radius: 12px;
+        font-family: DINProBold;
+        font-size: 20px;
+        line-height: 55px;
+        text-align: center;
+      }
+    }
+  }
+  .select-header {
+    margin-bottom: 2rem;
+    text-align: center;
+  }
+  .terms {
+    display: flex;
+    flex-direction: row;
+    margin-top: 2rem;
+    .terms-blurb {
+      font-size: 10px;
+      line-height: 24px;
+      color: #3d382e;
+      display: inline-block;
+      vertical-align: top;
+      position: relative;
+      top: -14px;
+      width: 694px;
+      text-align: left;
+      padding-right: 2rem;
+    }
+    input {
+      width: 2rem;
+      height: 2rem;
+      margin: 1rem;
+    }
+  }
+  .content {
+    .buttons-bottom {
+      bottom: 40px;
+      text-align: center;
+      position: relative;
+      width: 100%;
+      left: 0;
+      font-family: DINPro;
+      margin-top: 6rem;
+      .button {
+        color: #fff;
+        background-color: #035ca7;
+        display: inline-block;
+        min-width: 360px;
+        max-width: 100%;
+        text-align: center;
+        border-radius: 10px;
+        box-sizing: border-box;
+        border: 2px solid transparent;
+        font-size: 22px;
+        line-height: 32px;
+        font-family: DINProBold !important;
+        padding: 14px 14px 12px;
+        letter-spacing: 2.2px;
+        cursor: pointer;
+        will-change: background-color, color;
+      }
+    }
+  }
+
+  .productSelection {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    .radio-left,
+    .radio-right {
+      display: flex;
+      flex-direction: row;
+      padding: 2rem;
+      width: 100%;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.5);
+      .custom-radio {
+        vertical-align: top;
+        margin-right: 20px;
+        // .toggle{
+        //     pointer-events: none;
+        //     position: relative;
+        //     top: 0;
+        //     left: 1rem;
+        //     height: 28px;
+        //     width: 28px;
+        //     box-sizing: border-box;
+        //     border-radius: 50%;
+        //     border: 2px solid #7f7d7a;
+        //     margin-left: -16px;
+        //     &:after{
+        //         pointer-events: none;
+        //     content: "";
+        //     position: absolute;
+        //     display: none;
+        //     top: 5px;
+        //     left: 5px;
+        //     width: 14px;
+        //     height: 14px;
+        //     border-radius: 50%;
+        //     background: #000;
+        //     }
+        // }
+        input {
+          height: 2rem;
+          width: 2rem;
+        }
+      }
+    }
+    .search-bar {
+      margin: 2rem 0rem;
+      position: static;
+      height: auto;
+      padding: 12px 80px 12px 18px;
+      border-radius: 10px;
+      box-sizing: border-box;
+      font-family: Typewriter;
+      font-size: 22px;
+      letter-spacing: normal;
+      line-height: 32px;
+      border: 2px solid rgba(40, 36, 30, 0.5);
+      background-color: rgba(242, 240, 234, 0.6);
+      margin-left: -7rem;
+      width: 23rem;
+    }
+    .radio-description {
+      font-family: Roboto, sans-serif;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      margin-left: 2rem;
+      .input--giftcode {
         display: flex;
-        flex-direction: column;
+        justify-content: end;
+        align-items: center;
+      }
+      .term {
+        font-size: 30px;
+        margin-bottom: 2rem;
+      }
+      .price {
+        font-size: 12px;
+        line-height: 12px;
+      }
+    }
+  }
+  .initial {
+    display: flex;
+    // ############### Plan description #######################
+    .pane {
+      margin: 2rem;
+      border-right: solid black 0.1em;
+      padding: 0rem 2rem;
+      div.details.section {
+        max-width: 360px;
+        width: 85%;
+        font-size: 18px;
+        line-height: 32px;
+        color: #3d382e;
+        letter-spacing: -1.7px;
+        margin: 20px 0;
+        border-top: 1px solid black;
+        width: 100%;
+        padding: 0px;
+        .description-line {
+          .line {
+            margin-top: 2rem;
+            font-family: "Roboto" serif;
+            text-align: left;
+            letter-spacing: normal;
+            line-height: 1.25;
+            font-size: 14px;
+            color: #7d7b77;
+            .plan-checks {
+              position: relative;
+              bottom: -28px;
+              left: -35px;
+              width: 32px;
+              height: 100%;
+            }
+          }
+          &.available {
+            .line {
+              color: black;
+            }
+          }
+        }
+      }
+      .plan-description {
+        display: flex;
         justify-content: center;
         align-items: center;
-        .radio-left, .radio-right{
-            display: flex;
-            flex-direction: row;
-            padding: 2rem;
-            width: 100%;
-            border-bottom: 1px solid rgba(0, 0, 0, 0.5);
-            .custom-radio{
-                vertical-align: top;
-                margin-right: 20px;
-                // .toggle{
-                //     pointer-events: none;
-                //     position: relative;
-                //     top: 0;
-                //     left: 1rem;
-                //     height: 28px;
-                //     width: 28px;
-                //     box-sizing: border-box;
-                //     border-radius: 50%;
-                //     border: 2px solid #7f7d7a;
-                //     margin-left: -16px;
-                //     &:after{
-                //         pointer-events: none;
-                //     content: "";
-                //     position: absolute;
-                //     display: none;
-                //     top: 5px;
-                //     left: 5px;
-                //     width: 14px;
-                //     height: 14px;
-                //     border-radius: 50%;
-                //     background: #000;
-                //     }
-                // }
-                input{
-                    height: 2rem;
-                    width: 2rem;
-                }
-            }
+        flex-direction: column;
+        .plan-price {
+          font-size: 32px;
+          line-height: 60px;
+          color: #010101;
+          margin-top: 30px;
         }
-        .search-bar{
-            margin: 2rem 0rem;
-            position: static;
-            height: auto;
-            padding: 12px 80px 12px 18px;
+        .plan-button {
+          width: 100%;
+          bottom: 25px;
+          left: 0;
+          text-align: center;
+          .get-plan {
+            min-width: 240px;
+            color: #fff;
+            background-color: #035ca7;
+            outline: 0;
+            text-align: center;
             border-radius: 10px;
             box-sizing: border-box;
-            font-family: Typewriter;
+            border: 2px solid transparent;
             font-size: 22px;
-            letter-spacing: normal;
             line-height: 32px;
-            border: 2px solid rgba(40,36,30,.5);
-            background-color: rgba(242,240,234,.6);
-            margin-left: -7rem;
-            width: 23rem;
-        
+            font-family: DINProBold !important;
+            padding: 14px 14px 12px;
+            letter-spacing: 2.2px;
+            cursor: pointer;
+            will-change: background-color, color;
+            &.hidden {
+              display: none;
+            }
+          }
         }
-        .radio-description{
-            font-family: Roboto,sans-serif;
-            font-weight: 700;
-            letter-spacing: .05em;
-            margin-left: 2rem;
-            .input--giftcode{
-                display: flex;
-                justify-content: end;
-                align-items: center;
-            }
-            .term{
-                font-size: 30px;
-                margin-bottom: 2rem;
-            }
-            .price{
-                font-size: 12px;
-                line-height: 12px;
-            }
-          
+        .extra-info {
+          font-family: DINPro;
+          font-size: 14px;
+          color: #403630;
+          margin-top: -8px;
         }
+        .description-text {
+          font-family: DINPro;
+          font-size: 18px;
+          color: #403630;
+          line-height: 22px;
+          letter-spacing: -1px;
+          margin-top: 30px;
+        }
+      }
     }
-    .initial{
-        display: flex;
-        // ############### Plan description #######################
-        .pane{
-            margin: 2rem;
-            border-right: solid black .1em;
-            padding: 0rem 2rem;
-            div.details.section{
-                max-width: 360px;
-                width: 85%;
-                font-size: 18px;
-                line-height: 32px;
-                color: #3d382e;
-                letter-spacing: -1.7px;
-                margin: 20px 0;
-                .line{
-                    margin-top: 2rem;
-                }
-            }
-            .plan-description{
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                flex-direction: column;
-                .plan-price{
-                    font-size: 32px;
-                    line-height: 60px;
-                    color: #010101;
-                    margin-top: 30px;
-                }
-                .plan-button{
-                    width: 100%;
-                    bottom: 25px;
-                    left: 0;
-                    text-align: center;
-                    .get-plan{
-                        min-width: 240px;
-                        color: #fff;
-                        background-color: #035ca7;
-                        outline: 0;
-                        text-align: center;
-                        border-radius: 10px;
-                        box-sizing: border-box;
-                        border: 2px solid transparent;
-                        font-size: 22px;
-                        line-height: 32px;
-                        font-family: DINProBold!important;
-                        padding: 14px 14px 12px;
-                        letter-spacing: 2.2px;
-                        cursor: pointer;
-                        will-change: background-color,color;
-                        &.hidden{
-                            display: none;
-                        }
-                    }
-                }
-                .extra-info{
-                    font-family: DINPro;
-                    font-size: 14px;
-                    color: #403630;
-                    margin-top: -8px
-                }
-                .description-text{
-                    font-family: DINPro;
-                    font-size: 18px;
-                    color: #403630;
-                    line-height: 22px;
-                    letter-spacing: -1px;
-                    margin-top: 30px;
-                }
-                
-            }
+    // ############ Plan header #####################
+    .rust,
+    .patron {
+      .header {
+        .plan-title {
+          color: #fff;
         }
-        // ############ Plan header #####################
-        .rust, .patron{
-            .header{
-                .plan-title{
-                    color: #fff;
-                }
-            }  
-        }
-        .header{
-            height: 90px;
-            text-align: center;
-            .plan-title{
-                font-family: DINProBold;
-                color: #4c4c4c;
-                font-size: 28px;
-                padding: 6px 0;
-                margin-top: -65px;
-            }
-        }
+      }
     }
+    .header {
+      height: 90px;
+      text-align: center;
+      .plan-title {
+        font-family: DINProBold;
+        color: #4c4c4c;
+        font-size: 28px;
+        padding: 6px 0;
+        margin-top: -65px;
+      }
+    }
+  }
 }
