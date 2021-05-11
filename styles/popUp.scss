@@ -47,6 +47,10 @@
     border-image:none;
     border:none;
     background: transparent;
+    .center.aligned.column{
+      display: flex;
+      justify-content: center;
+    }
 
   }
 }

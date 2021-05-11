@@ -17,11 +17,15 @@ import NavBar from "../components/navbar";
 
 
 const WrappedApp = ({ Component, pageProps, visible, modalType, showPopUp, userToken}) => {
+
   const router = useRouter();
   const {loggedInUser} = pageProps
-  const currentPath = router.asPath
-  const renderNavBar = currentPath && (currentPath.includes('news') || currentPath.includes('login') || currentPath.includes('redirect'));
-  console.log('renderNavBar', renderNavBar);
+
+  const currentPath = router.asPath || '';
+  const path = currentPath && currentPath.split("/").pop();
+  const noNavRoutes = ['news', 'login', 'redirect'] 
+  const renderNavBar = (noNavRoutes.includes(path) || !(typeof parseInt(path) === 'number') );
+
 
   useEffect(()=>{
     if(loggedInUser && loggedInUser.user_metadata){
@@ -76,7 +80,7 @@ const WrappedApp = ({ Component, pageProps, visible, modalType, showPopUp, userT
                 style={{ width: "100%", height: "100%" }}
               >
                 {!renderNavBar && <NavBar 
-                path={currentPath}
+                path={path}
                 />}
                 <Component {...pageProps} />
               </div>

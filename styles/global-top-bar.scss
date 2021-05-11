@@ -1,5 +1,5 @@
 div.ui.top.fixed.light-back.menu{
-    height: 62px;
+    height: 70px;
     background-color: #d6d4d0;
     border-bottom: 1px solid rgba(0,0,0,.5);
     background-image: url('../static/images/account-info/tab-content-body.jpg');
@@ -15,7 +15,7 @@ div.ui.top.fixed.light-back.menu{
         }
     }
     .item.title{
-        width: 17rem;
+        width: 23rem;
         text-align: center;
         justify-content: center;
         margin: 0;
@@ -36,6 +36,16 @@ div.ui.top.fixed.menu{
     background-color: #4c311b;
     border-bottom: solid 2px black;
     .item{
+        &.title{
+            .nya-log{
+                background: url('../static/images/account-info/nya-logo.png') no-repeat;
+                height: 2.5rem;
+                width: 20rem;
+                background-position: center;
+                background-size: contain;
+                border: none;
+            }
+        }
         img{
             width: 2.5em;
         }

@@ -6,7 +6,7 @@ import { useRouter } from 'next/router';
 // import regularIcon from '../static/images/global-menu/global-menu-icon-hl.png'
 
 const NavBar = ({visibleSideBar, hideSideBar, showSideBar, path =''}) => {
-  const currentPath = path.split("/").pop();
+
   const router = useRouter();
 
   const toggleSideBar = () => {
@@ -27,9 +27,9 @@ const NavBar = ({visibleSideBar, hideSideBar, showSideBar, path =''}) => {
   }
 
 
-  const styleInfo = styleType[currentPath] || {}
+  const styleInfo = styleType[path] || {}
 
-  const {style = "regular", title='Neil Young Archives', backUrl=false} = styleInfo;
+  const {style = "regular", title=false, backUrl=false} = styleInfo;
   const icon = style === 'light-back' ? '../static/images/ppv/arrow-left.png' : '../static/images/global-menu/global-menu-icon-hl.png'
   
   return (
@@ -38,7 +38,7 @@ const NavBar = ({visibleSideBar, hideSideBar, showSideBar, path =''}) => {
         <img src={icon}/>
       </Menu.Item>
       <Menu.Item className="title">
-        {title}
+        {title ? title : <div className="nya-log"/>}
       </Menu.Item>
     </Menu>
   );
