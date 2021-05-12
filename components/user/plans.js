@@ -888,7 +888,7 @@ class PlansPanel extends Component {
   }
 
 
-    window.history.replaceState({}, "", '/account/overview');
+    window.history.replaceState({}, "", '/account/subscription');
     window.location.reload();
     
     return (
