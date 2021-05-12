@@ -9,6 +9,7 @@ import { connect } from "react-redux"
 import { logout } from '../static/auth0';
 import {removeToken} from '../store/token/actions'
 import { useRouter } from 'next/router';
+import LoadingIndicator from '../components/loading'
 
 
 const Account = ({ isLoggedIn, setUser, removeToken, userInfo}) => {
@@ -40,7 +41,12 @@ const Account = ({ isLoggedIn, setUser, removeToken, userInfo}) => {
    },[])
 
   if(pageStatus === 'loading'){
-    return<div>loading</div>
+    return(
+    <div className="loading">
+      <center>
+        <LoadingIndicator/>
+      </center>
+    </div>)
   }
   return (
     <div id="account-menu-container" className="global-menu">

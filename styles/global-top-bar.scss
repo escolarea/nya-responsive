@@ -15,7 +15,7 @@ div.ui.top.fixed.light-back.menu{
         }
     }
     .item.title{
-        width: 23rem;
+        width: 75%;
         text-align: center;
         justify-content: center;
         margin: 0;
@@ -37,10 +37,11 @@ div.ui.top.fixed.menu{
     border-bottom: solid 2px black;
     .item{
         &.title{
+            width: 75%;
             .nya-log{
+                width: 100%;
                 background: url('../static/images/account-info/nya-logo.png') no-repeat;
                 height: 2.5rem;
-                width: 20rem;
                 background-position: center;
                 background-size: contain;
                 border: none;

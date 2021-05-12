@@ -126,6 +126,13 @@
         }
     }
     .content{
+        .message{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin-top: 5rem;
+        }
         .buttons-bottom{
             bottom: 40px;
             text-align: center;

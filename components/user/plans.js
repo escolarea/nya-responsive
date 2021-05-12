@@ -6,11 +6,10 @@ import { login } from '../../static/auth0';
 import { withAuth0 } from '@auth0/auth0-react';
 import {updateUserInfo} from '../../helpers/getUserData'
 import Input from "../input";
-// import SplashScreen from "../splash-screen";
-// import checkImg from "../../public/static/images/account-info/check-item.png";
 import {NYA_FREE, NYA_UNLIMITED} from '../../utils/url_constants'
 import {sortPlansAccordingPrice,  getPlanInfo} from '../../helpers/plans'
 import RadioButton from '../radioButton'
+import LoadingIndicator from '../loading'
 
 
 // TODO: Ensure `paymentFail` returns reletive error msg
@@ -131,6 +130,7 @@ class PlansPanel extends Component {
     this.sendCodeHandler = this.sendCodeHandler.bind(this);
     this.goToSelectionScreen = this.goToSelectionScreen.bind(this);
     this.checkIfShouldHideButton = this.checkIfShouldHideButton.bind(this)
+    this.loading = this.loading.bind(this)
   }
   
   componentDidMount() {
@@ -141,23 +141,8 @@ class PlansPanel extends Component {
   }
   componentWillUpdate(newprops /*, newstate*/) {
     if (newprops.userData !== this.props.userData)return;
-    //   let state;
-    //   let singleRadioButtonRendered = false
-    //   let setAnualRadioButtonData = false
-    //   if (newprops.view === "select") state = "select";
-    //   if (newprops.view === "confirmation") state = "confirmation";
-    //   if (newprops.view === undefined) state = "initial";
-
-    //   if (state) this.setState({ state,
-    //                             singleRadioButtonRendered, 
-    //                             setAnualRadioButtonData, 
-    //                             tryOtherPlan:false, 
-    //                             acceptedTerms:false });
-
-    // }
-
-    // if (newprops.view === "select") this.triggerAuth0();
   }
+
   componentWillUnmount() {
     clearTimeout(this.emit);
   }
@@ -319,6 +304,15 @@ class PlansPanel extends Component {
     }
     return className
   }
+  loading(){
+    return(
+      <div className="loading">
+      <center>
+       <LoadingIndicator/>
+      </center>
+      </div>
+    )
+  }
 
   initial() {
     const { plansAvailable, planInformation } = this.props;
@@ -331,9 +325,10 @@ class PlansPanel extends Component {
         */
     if (_.isEmpty(plansAvailable)) {
       return (
-        <div className="content initial">
-            loading
-          {/* <SplashScreen loadState={100} /> */}
+        <div className="loading">
+        <center>
+         <LoadingIndicator/>
+        </center>
         </div>
       );
     } else {
@@ -388,6 +383,7 @@ class PlansPanel extends Component {
 
       const giftRequest = await fetchData(request);
       const planId = await giftRequest.text();
+
       if(planId){
         if(planId === planToBePurchased.product_id){
           this.setState({ state: "paying" }, async () => {
@@ -448,7 +444,7 @@ class PlansPanel extends Component {
           amount={price}
           stripeKey={process.env.NEXT_PUBLIC_STRIPE_KEY}
           >
-            <div className="button">SUBMIT</div>
+            <div className="button" >SUBMIT</div>
          </StripeCheckout>
         );
       }
@@ -759,8 +755,10 @@ class PlansPanel extends Component {
       return confirmationScreen;
     }else{
       return (
-        <div className="content select confirmation">
-          loading...
+        <div className="loading">
+          <center>
+            <LoadingIndicator/>
+          </center>
         </div>
       );
     }
@@ -850,12 +848,15 @@ class PlansPanel extends Component {
 
   selectGotToken(token) {
     const {upgrade, productId:planId,chargesPreview} = this.state
-    //TODO : change this from user info
+
     const {planType} = this.props.purchasedPlan 
     const {token:headerToken} = this.props
     const {id:source} = token
     const headers = {'Authorization': 'Bearer ' + headerToken,'Content-Type': 'application/json'}
+
     let displayPrice = 0
+    this.setState({ state: "loading" })
+
     if(chargesPreview) displayPrice = this.getCopyPrice()
     let planBeforeUpgrade = this.state.planNames[planType] || "";
     const request = {
@@ -882,18 +883,18 @@ class PlansPanel extends Component {
 
   paymentOK() {
     const { token,setUser} = this.props
-    // updateInfoHere 
     if(token){
     updateUserInfo(token, setUser);
   }
 
 
-    window.history.replaceState({}, "", '/account?screen=overview');
+    window.history.replaceState({}, "", '/account/overview');
     window.location.reload();
     
     return (
       <div className="content">
         <div className="message">
+          <LoadingIndicator/>
           Thank you for purchasing a NYA subscription. <br />
           Reload in {3000 / 1000} seconds...
         </div>
