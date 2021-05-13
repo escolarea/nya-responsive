@@ -17,7 +17,11 @@ class Redirect extends React.Component {
             if (valid) {
               saveToken(result.idToken, result.accessToken);
               //save in redux 
-              this.props.setToken(result.idToken);
+              const userData = {
+                token:result.idToken,
+                user:result.idTokenPayload
+              }
+              this.props.setToken(userData);
 
             }
              const path = getPath();

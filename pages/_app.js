@@ -1,7 +1,7 @@
 import "semantic-ui-css/semantic.min.css";
 import "../styles/index.scss";
 import { wrapper } from "../store/store";
-import {useEffect} from 'react';
+import {useEffect, useState} from 'react';
 import { connect } from "react-redux";
 import PopUpBox from "../components/pop-up-box";
 import Notification from '../components/notifications'
@@ -12,29 +12,65 @@ import { Auth0Provider } from '@auth0/auth0-react';
 import PropTypes from 'prop-types';
 import {showPopUp} from '../store/notSupportedRoutes/action'
 import {hasSeenNewsletterPreference} from '../helpers/modalState'
+import { useRouter } from 'next/router';
+import NavBar from "../components/navbar";
+import Router from 'next/router';
+import LoadingIndicator from '../components/loading'
 
 
 const WrappedApp = ({ Component, pageProps, visible, modalType, showPopUp, userToken}) => {
+  const router = useRouter();
+  const { token, user } = userToken;
+  const [isLoading, setLoading] = useState(false)
 
-  const {loggedInUser} = pageProps
+  const pathExceptions = (path,query) =>{
+
+    if(path && path.includes(query) ){
+      return query;
+    }else{
+      return path;
+    }
+  } 
+
+  let currentPath = router.asPath || '';
+  let path;
+  currentPath = pathExceptions(currentPath,'redirect')
+  currentPath = pathExceptions(currentPath,'news');
+
+  path = currentPath && currentPath.split("/").pop();
+ 
+  const noNavRoutes = ['news', 'login', 'redirect'];
+  const renderNavBar = (noNavRoutes.includes(path) || !(typeof parseInt(path) === 'number') );
+
 
   useEffect(()=>{
-    if(loggedInUser && loggedInUser.user_metadata){
-      const {firstLogin} = loggedInUser.user_metadata
+    Router.events.on('routeChangeStart', () => {
+
+      setLoading(true)
+
+    });
+    Router.events.on('routeChangeComplete', () => {
+      setLoading(false)
+    })
+
+    if(user && user.user_metadata){
+      const { firstLogin } = user.user_metadata;
+
       if(firstLogin && !hasSeenNewsletterPreference()){
         showPopUp('first-login');
         localStorage.setItem('newsletter-pref-seen', true)
       }
     }
-  },[pageProps])
+  },[userToken])
+
 
   const renderModal = () =>{
     switch (modalType){
       case 'first-login':
-        if(userToken){
+        if(token){
           return(
             <Notification
-              token={userToken}
+              token={token}
             />)
         }else{
           break;
@@ -55,25 +91,37 @@ const WrappedApp = ({ Component, pageProps, visible, modalType, showPopUp, userT
         redirectUri={typeof window !== 'undefined' && window.location.origin}
         onRedirectCallback={typeof window !== 'undefined' && window.location.origin}
       >
-    <Fragment>
-      <Sidebar.Pushable>
-        <SideBarMenu
-        />
-        <Sidebar.Pusher>
-          <div id="main-wrapper">            
-            <div id="content">
-              <div
-                className="content-wrapper"
-                style={{ width: "100%", height: "100%" }}
-              >
-                <Component {...pageProps} />
-              </div>
-            </div>
+        {isLoading?(
+          <div className="loading">
+          <center>
+           <LoadingIndicator/>
+          </center>
           </div>
-        </Sidebar.Pusher>
-      </Sidebar.Pushable>
-       {visible && renderModal()}
-    </Fragment>
+        ):(
+          <Fragment>
+          <Sidebar.Pushable>
+            <SideBarMenu
+            />
+            <Sidebar.Pusher>
+              <div id="main-wrapper">            
+                <div id="content">
+                  <div
+                    className="content-wrapper"
+                    style={{ width: "100%", height: "100%" }}
+                  >
+                   
+                    {!renderNavBar && <NavBar 
+                    path={path}
+                    />}
+                    <Component {...pageProps} />
+                  </div>
+                </div>
+              </div>
+            </Sidebar.Pusher>
+          </Sidebar.Pushable>
+           {visible && renderModal()}
+        </Fragment>
+        )}
     </Auth0Provider>
   );
 };

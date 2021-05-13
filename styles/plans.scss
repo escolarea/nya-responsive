@@ -234,6 +234,42 @@
       }
     }
   }
+  .content{
+    .message{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        margin-top: 5rem;
+    }
+    .buttons-bottom{
+        bottom: 40px;
+        text-align: center;
+        position: relative;
+        width: 100%;
+        left: 0;
+        font-family: DINPro;
+        margin-top: 6rem;
+        .button{
+            color: #fff;
+            background-color: #035ca7;
+            display: inline-block;
+            min-width: 360px;
+            max-width: 100%;
+            text-align: center;
+            border-radius: 10px;
+            box-sizing: border-box;
+            border: 2px solid transparent;
+            font-size: 22px;
+            line-height: 32px;
+            font-family: DINProBold!important;
+            padding: 14px 14px 12px;
+            letter-spacing: 2.2px;
+            cursor: pointer;
+            will-change: background-color,color;
+        } 
+    }
+  }
   .initial {
     display: flex;
     // ############### Plan description #######################

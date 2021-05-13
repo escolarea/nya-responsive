@@ -9,11 +9,15 @@ import { connect } from "react-redux"
 import { logout } from '../static/auth0';
 import {removeToken} from '../store/token/actions'
 import { useRouter } from 'next/router';
+import LoadingIndicator from '../components/loading'
 
 
-const Account = ({token, isLoggedIn,setUser,removeToken}) => {
+const Account = ({ isLoggedIn, setUser, removeToken, userInfo, userData}) => {
     const router = useRouter();
-    const [pageStatus, setPageStatus ] = useState('loading')
+    const { token } = userInfo;
+
+    const [ pageStatus, setPageStatus ] = useState('loading');
+    
     const retrieveUserData = async (token) => {
       if(token){
         const headers = {'Authorization': 'Bearer ' + token};
@@ -27,19 +31,24 @@ const Account = ({token, isLoggedIn,setUser,removeToken}) => {
       }
    }  
    useEffect(()=>{
+
      if(!isLoggedIn){
-      const path = window.location.pathname;
-      localStorage.setItem('path', path);
       router.push('/login')
       return;
      }
-
-     retrieveUserData(token);
+     if(userData.userData&& Object.keys(userData.userData).length == 0){
+      retrieveUserData(token);
+     }
      setPageStatus('ready');
-   })
+   },[])
 
   if(pageStatus === 'loading'){
-    return<div>loading</div>
+    return(
+    <div className="loading">
+      <center>
+        <LoadingIndicator/>
+      </center>
+    </div>)
   }
   return (
     <div id="account-menu-container" className="global-menu">
@@ -67,7 +76,14 @@ Account.propTypes = {
 }
 
 
-const AccountComponent = connect( null, {
+const mapStateToProps = (state) => {
+
+  return {
+    userInfo : state.userToken.userToken,
+    userData : state.userData
+  };
+};
+const AccountComponent = connect( mapStateToProps, {
   setUser,
   removeToken
 })(Account);

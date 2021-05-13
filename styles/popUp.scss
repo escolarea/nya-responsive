@@ -3,6 +3,10 @@
     border-image:none;
     border:none;
     border-radius:0px;
+    .center.aligned.column{
+      display: flex;
+      justify-content: center;
+    }
   }
 }
 .pop__up.modal,.pop__up.account{
@@ -31,7 +35,7 @@
       display: flex;
       justify-content: space-around;
       .custom-radio{
-        height: 2rem;
+        height: 3rem;
       }
       input{
         transform: scale(3);
@@ -47,6 +51,10 @@
     border-image:none;
     border:none;
     background: transparent;
+    .center.aligned.column{
+      display: flex;
+      justify-content: center;
+    }
 
   }
 }

@@ -6,12 +6,21 @@ import { login } from "../../static/auth0";
 import { withAuth0 } from "@auth0/auth0-react";
 import { updateUserInfo } from "../../helpers/getUserData";
 import Input from "../input";
+<<<<<<< HEAD
 // import SplashScreen from "../splash-screen";
 // import checkImg from "../../public/static/images/account-info/check-item.png";
 import { NYA_FREE, NYA_UNLIMITED } from "../../utils/url_constants";
 import { sortPlansAccordingPrice, getPlanInfo } from "../../helpers/plans";
 import RadioButton from "../radioButton";
 import { PATRON } from "../../utils/url_constants";
+=======
+import {NYA_FREE, NYA_UNLIMITED} from '../../utils/url_constants'
+import {sortPlansAccordingPrice,  getPlanInfo} from '../../helpers/plans'
+import RadioButton from '../radioButton'
+import LoadingIndicator from '../loading'
+import { useRouter } from 'next/router'
+
+>>>>>>> bcbca8f85cc4779943b422c16d5661334b76bee8
 
 // TODO: Ensure `paymentFail` returns reletive error msg
 
@@ -85,9 +94,14 @@ const PlanBtn = (props) => {
               login();
               return;
             }
+<<<<<<< HEAD
             if (userHasThisPlan) {
               window.history.replaceState({}, "", "/account/overview");
               window.location.reload();
+=======
+            if(userHasThisPlan){
+              this.props.router.push('/account/subscription')
+>>>>>>> bcbca8f85cc4779943b422c16d5661334b76bee8
               return;
             }
 
@@ -133,7 +147,12 @@ class PlansPanel extends Component {
     this.giftcodeOnChange = this.giftcodeOnChange.bind(this);
     this.sendCodeHandler = this.sendCodeHandler.bind(this);
     this.goToSelectionScreen = this.goToSelectionScreen.bind(this);
+<<<<<<< HEAD
     this.checkIfShouldHideButton = this.checkIfShouldHideButton.bind(this);
+=======
+    this.checkIfShouldHideButton = this.checkIfShouldHideButton.bind(this)
+    this.loading = this.loading.bind(this)
+>>>>>>> bcbca8f85cc4779943b422c16d5661334b76bee8
   }
 
   componentDidMount() {
@@ -148,6 +167,7 @@ class PlansPanel extends Component {
       });
   }
   componentWillUpdate(newprops /*, newstate*/) {
+<<<<<<< HEAD
     if (newprops.userData !== this.props.userData) return;
     //   let state;
     //   let singleRadioButtonRendered = false
@@ -165,7 +185,11 @@ class PlansPanel extends Component {
     // }
 
     // if (newprops.view === "select") this.triggerAuth0();
+=======
+    if (newprops.userData !== this.props.userData)return;
+>>>>>>> bcbca8f85cc4779943b422c16d5661334b76bee8
   }
+
   componentWillUnmount() {
     clearTimeout(this.emit);
   }
@@ -340,6 +364,15 @@ class PlansPanel extends Component {
     }
     return className;
   }
+  loading(){
+    return(
+      <div className="loading">
+      <center>
+       <LoadingIndicator/>
+      </center>
+      </div>
+    )
+  }
 
   initial() {
     const { plansAvailable, planInformation } = this.props;
@@ -352,9 +385,16 @@ class PlansPanel extends Component {
         */
     if (_.isEmpty(plansAvailable)) {
       return (
+<<<<<<< HEAD
         <div className="content initial">
           loading
           {/* <SplashScreen loadState={100} /> */}
+=======
+        <div className="loading">
+        <center>
+         <LoadingIndicator/>
+        </center>
+>>>>>>> bcbca8f85cc4779943b422c16d5661334b76bee8
         </div>
       );
     } else {
@@ -418,8 +458,14 @@ class PlansPanel extends Component {
 
       const giftRequest = await fetchData(request);
       const planId = await giftRequest.text();
+<<<<<<< HEAD
       if (planId) {
         if (planId === planToBePurchased.product_id) {
+=======
+
+      if(planId){
+        if(planId === planToBePurchased.product_id){
+>>>>>>> bcbca8f85cc4779943b422c16d5661334b76bee8
           this.setState({ state: "paying" }, async () => {
             const params = {
               method: "PUT",
@@ -487,8 +533,13 @@ class PlansPanel extends Component {
             amount={price}
             stripeKey={process.env.NEXT_PUBLIC_STRIPE_KEY}
           >
+<<<<<<< HEAD
             <div className="button">SUBMIT</div>
           </StripeCheckout>
+=======
+            <div className="button" >SUBMIT</div>
+         </StripeCheckout>
+>>>>>>> bcbca8f85cc4779943b422c16d5661334b76bee8
         );
       }
     } else {
@@ -876,8 +927,19 @@ class PlansPanel extends Component {
       this.state.prorationPreviewPlan = "";
       this.prorationRequestFinished = false;
       return confirmationScreen;
+<<<<<<< HEAD
     } else {
       return <div className="content select confirmation">loading...</div>;
+=======
+    }else{
+      return (
+        <div className="loading">
+          <center>
+            <LoadingIndicator/>
+          </center>
+        </div>
+      );
+>>>>>>> bcbca8f85cc4779943b422c16d5661334b76bee8
     }
   }
 
@@ -972,6 +1034,7 @@ class PlansPanel extends Component {
   }
 
   selectGotToken(token) {
+<<<<<<< HEAD
     const { upgrade, productId: planId, chargesPreview } = this.state;
     //TODO : change this from user info
     const { planType } = this.props.purchasedPlan;
@@ -983,6 +1046,19 @@ class PlansPanel extends Component {
     };
     let displayPrice = 0;
     if (chargesPreview) displayPrice = this.getCopyPrice();
+=======
+    const {upgrade, productId:planId,chargesPreview} = this.state
+
+    const {planType} = this.props.purchasedPlan 
+    const {token:headerToken} = this.props
+    const {id:source} = token
+    const headers = {'Authorization': 'Bearer ' + headerToken,'Content-Type': 'application/json'}
+
+    let displayPrice = 0
+    this.setState({ state: "loading" })
+
+    if(chargesPreview) displayPrice = this.getCopyPrice()
+>>>>>>> bcbca8f85cc4779943b422c16d5661334b76bee8
     let planBeforeUpgrade = this.state.planNames[planType] || "";
     const request = {
       method: "POST",
@@ -1012,6 +1088,7 @@ class PlansPanel extends Component {
   }
 
   paymentOK() {
+<<<<<<< HEAD
     const { token, setUser } = this.props;
     // updateInfoHere
     if (token) {
@@ -1021,9 +1098,21 @@ class PlansPanel extends Component {
     window.history.replaceState({}, "", "/account?screen=overview");
     window.location.reload();
 
+=======
+  
+    const { token,setUser, router} = this.props
+    console.log("token", token)
+    if(token){
+    updateUserInfo(token, setUser);
+    }
+
+    router.push('/account/subscription')
+        
+>>>>>>> bcbca8f85cc4779943b422c16d5661334b76bee8
     return (
       <div className="content">
         <div className="message">
+          <LoadingIndicator/>
           Thank you for purchasing a NYA subscription. <br />
           Reload in {3000 / 1000} seconds...
         </div>
@@ -1059,9 +1148,14 @@ class PlansPanel extends Component {
     document.location.href = "/";
   }
 
+<<<<<<< HEAD
   backToPlans() {
     window.history.replaceState({}, "", "/account/plans");
     window.location.reload();
+=======
+  backToPlans(){
+    this.props.router.push('/account/plans')
+>>>>>>> bcbca8f85cc4779943b422c16d5661334b76bee8
   }
 
   render() {
@@ -1069,4 +1163,13 @@ class PlansPanel extends Component {
   }
 }
 
+<<<<<<< HEAD
 export default withAuth0(PlansPanel);
+=======
+const PlansWithRouter = (props) => {
+  const router = useRouter()
+  return <PlansPanel {...props} router={router} />
+}
+
+export default  withAuth0(PlansWithRouter)
+>>>>>>> bcbca8f85cc4779943b422c16d5661334b76bee8
