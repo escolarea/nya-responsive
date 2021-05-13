@@ -12,7 +12,7 @@ import { useRouter } from 'next/router';
 import LoadingIndicator from '../components/loading'
 
 
-const Account = ({ isLoggedIn, setUser, removeToken, userInfo}) => {
+const Account = ({ isLoggedIn, setUser, removeToken, userInfo, userData}) => {
     const router = useRouter();
     const { token } = userInfo;
 
@@ -31,12 +31,14 @@ const Account = ({ isLoggedIn, setUser, removeToken, userInfo}) => {
       }
    }  
    useEffect(()=>{
+
      if(!isLoggedIn){
       router.push('/login')
       return;
      }
-
-     retrieveUserData(token);
+     if(userData.userData&& Object.keys(userData.userData).length == 0){
+      retrieveUserData(token);
+     }
      setPageStatus('ready');
    },[])
 
@@ -75,8 +77,10 @@ Account.propTypes = {
 
 
 const mapStateToProps = (state) => {
+
   return {
-    userInfo : state.userToken.userToken
+    userInfo : state.userToken.userToken,
+    userData : state.userData
   };
 };
 const AccountComponent = connect( mapStateToProps, {

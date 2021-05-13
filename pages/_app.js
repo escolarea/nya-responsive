@@ -23,8 +23,22 @@ const WrappedApp = ({ Component, pageProps, visible, modalType, showPopUp, userT
   const { token, user } = userToken;
   const [isLoading, setLoading] = useState(false)
 
-  const currentPath = router.asPath || '';
-  const path = currentPath && currentPath.split("/").pop();
+  const pathExceptions = (path,query) =>{
+
+    if(path && path.includes(query) ){
+      return query;
+    }else{
+      return path;
+    }
+  } 
+
+  let currentPath = router.asPath || '';
+  let path;
+  currentPath = pathExceptions(currentPath,'redirect')
+  currentPath = pathExceptions(currentPath,'news');
+
+  path = currentPath && currentPath.split("/").pop();
+ 
   const noNavRoutes = ['news', 'login', 'redirect'];
   const renderNavBar = (noNavRoutes.includes(path) || !(typeof parseInt(path) === 'number') );
 

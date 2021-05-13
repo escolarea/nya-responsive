@@ -125,10 +125,7 @@ export async function getServerSideProps(props) {
     let user  =  req && req.headers && req.headers.cookie ?  await getTokenForServer(req) : null;
     let token =  req && req.headers && req.headers.cookie ?  await getjwtToken(req) : null;
     if(token === undefined) token = null;
-    if(!user){
-
-        user = null
-    }
+    if(!user) user = null
 
     const {planPrices, planInformation} = data;
     
@@ -136,6 +133,7 @@ export async function getServerSideProps(props) {
   }
 
   const mapStateToProps = function (state) {
+
       return {
         userData: state.userData,
       };
@@ -144,5 +142,6 @@ export async function getServerSideProps(props) {
   const Plans = connect( mapStateToProps, {
     setUser,
   })(Presale);
+
 
   export default  withAuth0(Plans);

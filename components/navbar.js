@@ -31,7 +31,6 @@ const NavBar = ({visibleSideBar, hideSideBar, showSideBar, path =''}) => {
 
   const {style = "regular", title=false, backUrl=false} = styleInfo;
   const icon = style === 'light-back' ? '../static/images/ppv/arrow-left.png' : '../static/images/global-menu/global-menu-icon-hl.png'
-  
   return (
     <Menu fixed="top" className={style}>
       <Menu.Item onClick={()=>{backUrl ? router.push(backUrl) : toggleSideBar()}} >

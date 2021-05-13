@@ -10,6 +10,7 @@ import {NYA_FREE, NYA_UNLIMITED} from '../../utils/url_constants'
 import {sortPlansAccordingPrice,  getPlanInfo} from '../../helpers/plans'
 import RadioButton from '../radioButton'
 import LoadingIndicator from '../loading'
+import { useRouter } from 'next/router'
 
 
 // TODO: Ensure `paymentFail` returns reletive error msg
@@ -80,8 +81,7 @@ const PlanBtn = (props)=>{
               return;
             }
             if(userHasThisPlan){
-              window.history.replaceState({}, "", '/account/overview');
-              window.location.reload();
+              this.props.router.push('/account/subscription')
               return;
             }
 
@@ -882,15 +882,15 @@ class PlansPanel extends Component {
   }
 
   paymentOK() {
-    const { token,setUser} = this.props
+  
+    const { token,setUser, router} = this.props
+    console.log("token", token)
     if(token){
     updateUserInfo(token, setUser);
-  }
+    }
 
-
-    window.history.replaceState({}, "", '/account/subscription');
-    window.location.reload();
-    
+    router.push('/account/subscription')
+        
     return (
       <div className="content">
         <div className="message">
@@ -932,8 +932,7 @@ class PlansPanel extends Component {
   }
 
   backToPlans(){
-    window.history.replaceState({}, "", '/account/plans');
-    window.location.reload();
+    this.props.router.push('/account/plans')
   }
 
   render() {
@@ -945,5 +944,9 @@ class PlansPanel extends Component {
   }
 }
 
+const PlansWithRouter = (props) => {
+  const router = useRouter()
+  return <PlansPanel {...props} router={router} />
+}
 
-export default  withAuth0(PlansPanel)
+export default  withAuth0(PlansWithRouter)
