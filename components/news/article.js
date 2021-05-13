@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import marked from "marked";
+import parseMarkdown from '../../static/markdown';
 import _ from "lodash";
 // import NewsNavBar from "../news/news-navbar";
 import { Menu, Grid } from "semantic-ui-react";
@@ -98,7 +99,7 @@ const NewsArticle = props => {
                 <div
                   className={"title " + column + ` news-${page.slice(-1)}`}
                   dangerouslySetInnerHTML={{
-                    __html: marked(bodyHeadline || ""),
+                    __html: parseMarkdown(bodyHeadline || ""),
                   }}
                 />
               ) : (
@@ -113,7 +114,7 @@ const NewsArticle = props => {
               {getArticleImages(data)}
               <div
                 className="article-text"
-                dangerouslySetInnerHTML={{ __html: marked(bodyText || "") }}
+                dangerouslySetInnerHTML={{ __html: parseMarkdown(bodyText || "") }}
               />
             </div>
             {/* <AdColumn /> */}
