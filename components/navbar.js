@@ -17,6 +17,7 @@ const NavBar = ({visibleSideBar, hideSideBar, showSideBar, path =''}) => {
   const styleType ={
     'contact':{'style':'light-back','backUrl':false, 'title':'Contact'},
     'edit':{'style':'light-back','backUrl':'/account/overview', 'title':'Edit'},
+    'delete':{'style':'light-back','backUrl':'/account/overview', 'title':'Delete Account'},
     'account':{'style':'light-back','backUrl':false, 'title':'Account'},
     'overview':{'style':'light-back','backUrl':'/account', 'title':'Account Overview'},
     'plans':{'style':'light-back','backUrl':'/account', 'title':'Plans'},
