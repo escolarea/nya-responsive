@@ -2,16 +2,15 @@
 // import SplashScreen from "../splash-screen";
 import _ from "lodash";
 import { login } from "../../static/auth0";
-import { PATRON } from "../../utils/url_constants";
-import { sortPlansAccordingPrice, getPlanInfo } from "../../helpers/plans";
 import { updateUserInfo } from "../../helpers/getUserData";
 import { useRouter } from 'next/router'
 import { withAuth0 } from "@auth0/auth0-react";
-import { NYA_FREE, NYA_UNLIMITED } from "../../utils/url_constants";
 import fetchData from "../../api/fetch";
 import Input from "../input";
-import LoadingIndicator from '../loading'
+import {NYA_FREE, NYA_UNLIMITED, NYA_YEARLY, NYA_MONTHLY} from '../../utils/url_constants'
+import {sortPlansAccordingPrice,  getPlanInfo} from '../../helpers/plans'
 import RadioButton from '../radioButton'
+import LoadingIndicator from '../loading'
 import React, { Component } from "react";
 import StripeCheckout from "react-stripe-checkout";
 
@@ -237,6 +236,8 @@ class PlansPanel extends Component {
 
     let sortedPlans = sortPlansAccordingPrice(plans);
     Object.keys(sortedPlans).forEach((planId) => {
+      console.log("userPlanType", userPlanType)
+      console.log("planId", planId)
       let userHasThisPlan = userPlanType.includes(planId);
       let plan = plans[planId];
       let isFreePlan = planId == NYA_FREE;
@@ -292,29 +293,23 @@ class PlansPanel extends Component {
     );
   }
 
-  getUserInformation() {
-    const {
-      userPlanId = "NYA-FREE",
-      isAppleSub = false,
-      userSubscriptionStatus: status = null,
-      hasPlanExpired = true,
-      userSubType: type = "stripe",
-    } = this.props.userData || {};
+  getUserInformation(){
+    const { userPlanId = NYA_FREE, isAppleSub=false, userSubscriptionStatus:status =null,  hasPlanExpired=true, userSubType:type='stripe'} = this.props.userData || {}
 
     const subActive = !hasPlanExpired;
 
     let userPlanType = userPlanId.split(/\W|_/g);
     userPlanType = `NYA-${userPlanType[userPlanType.length - 1]}`;
 
-    if (userPlanType == "NYA-YEARLY" || userPlanType == "NYA_MONTHLY") {
-      userPlanType = "NYA-UNLIMITED";
+    if (userPlanType == NYA_YEARLY|| userPlanType == NYA_MONTHLY) {
+      userPlanType = NYA_UNLIMITED;
     }
 
     return { userPlanType, type, status, subActive, isAppleSub };
   }
 
-  checkIfShouldHideButton(planID, userAuthenticated, planType) {
-    let currentPlanName = this.state.planNames[planType] || "NYA-FREE";
+  checkIfShouldHideButton(planID, userAuthenticated, planType){
+    let currentPlanName = this.state.planNames[planType] || NYA_FREE;
     let buttonPlanName = this.state.planNames[planID];
     let className = "";
     if (userAuthenticated) {
@@ -376,16 +371,16 @@ class PlansPanel extends Component {
 
     // Verify that the plan is different than tha one purchased to enable upgrade/downgrade
     if (token) {
-      if (
-        planId != "NYA-UNLIMITED" &&
-        userPlanType != "NYA-FREE" &&
-        planId !== userPlanType
-      ) {
-        this.setState({
-          state: "confirmation",
-          screen: "plans",
-          view: "select",
-        });
+        if(((planId != NYA_UNLIMITED) && (userPlanType != NYA_FREE)) && (planId !==userPlanType)){
+            this.setState({
+                state:'confirmation',screen: "plans", view: "select"
+              })
+           
+          }else {
+            this.setState({
+              state:'select',screen: "plans", view: "select"
+            })
+          }
       } else {
         this.setState({
           state: "select",
@@ -393,9 +388,6 @@ class PlansPanel extends Component {
           view: "select",
         });
       }
-    } else {
-      // Login("/account?screen=plans&view=select");
-    }
   }
 
   async sendCodeHandler() {
@@ -540,17 +532,10 @@ class PlansPanel extends Component {
     return config;
   }
 
-  renderRadioButton(config, automaticallyChecked) {
-    const {
-      interval,
-      price,
-      productPosition,
-      productIntervalOption,
-      giftcodeDisplay,
-      preSaleTickets,
-      product,
-      annualPlan,
-    } = config;
+  renderRadioButton(config, automaticallyChecked){
+    const {interval, price, productPosition, productIntervalOption, 
+           giftcodeDisplay, preSaleTickets, product, annualPlan } = config
+    const {upgrade} = this.state
 
     //This is necessary for set yearly option as default whenever montly option is available too.
     if (
@@ -597,7 +582,7 @@ class PlansPanel extends Component {
               </span>
             )}
           </div>
-          {giftcodeDisplay && (
+          {(giftcodeDisplay && !upgrade) && (
             <Input
               className="input--giftcode input"
               placeholder="Enter Gift Code"
@@ -617,12 +602,9 @@ class PlansPanel extends Component {
     const { planSelected, planId } = this.state;
     const { name } = this.props.purchasedPlan;
 
-    if (planSelected) {
-      if (
-        planId != "NYA-UNLIMITED" ||
-        (planId == "NYA-UNLIMITED" && name != "NYA-FREE")
-      ) {
-        let anualRadioButton = this.renderSingleAnualRadioButton();
+    if(planSelected){
+      if (planId != NYA_UNLIMITED || (planId == NYA_UNLIMITED && name != NYA_FREE)){
+        let anualRadioButton = this.renderSingleAnualRadioButton()
         productSelection.push(anualRadioButton);
       } else {
         planSelected.plan.forEach((product) => {
@@ -824,7 +806,8 @@ class PlansPanel extends Component {
       price: currentPlanPrice,
     } = this.props.purchasedPlan;
 
-    let currentPlanName = this.state.planNames[userPlanType] || "NYA-FREE";
+     
+    let currentPlanName = this.state.planNames[userPlanType] || NYA_FREE;
     let newPlanName = this.state.planNames[planId];
     let action = this.checkIfUpgradeOrDowngrade(currentPlanName, newPlanName);
 
@@ -834,7 +817,7 @@ class PlansPanel extends Component {
           <div className="plan-box current">
             <div className="plan-status">Current Subscription</div>
             <div className="plan-name">
-              {currentPlanName ? currentPlanName : "NYA-FREE"}
+              {currentPlanName ? currentPlanName : NYA_FREE}
             </div>
             <div className="plan-price">
               {currentPlanPrice && interval
@@ -919,11 +902,7 @@ class PlansPanel extends Component {
         {needSubscriptionPurchase ? (
           <React.Fragment>
             <div className="select-header">
-              {planId != "NYA-UNLIMITED"
-                ? `${newPlanName} Subscription`
-                : name != "NYA-FREE"
-                ? `${newPlanName} Subscription`
-                : "Select Subscription"}
+              {planId != NYA_UNLIMITED ? `${newPlanName} Subscription` : (name != NYA_FREE ?  `${newPlanName} Subscription` : "Select Subscription")}
             </div>
             {this.productSelection()}
             {tryOtherPlan && (

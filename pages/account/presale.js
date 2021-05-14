@@ -5,7 +5,11 @@ import Ticket from '../../components/tikets'
 import moment from 'moment'
 import _ from "lodash";
 import {getjwtToken} from '../../static/auth'
-const Presale = ({ticketsData =[], assignedCodes}) => {
+import { withAuth0 } from '@auth0/auth0-react';
+import { connect } from "react-redux"
+import { showPopUp } from "../../store/notSupportedRoutes/action";
+
+const Presale = ({ticketsData =[], token, userData, showPopUp}) => {
     const sortDate = (item) => item.sort((a, b) => new Date(b.date) - new Date(a.date));
 
     let ticketsBefore = ticketsData.filter(item => item && (moment.utc(item.date) < moment.utc().startOf('day')))
@@ -14,7 +18,7 @@ const Presale = ({ticketsData =[], assignedCodes}) => {
     let ticketsAfter = ticketsData.filter(item => item && (moment.utc(item.date) >= moment.utc().startOf('day')))
     if(!_.isEmpty(ticketsAfter))ticketsAfter = sortDate(ticketsBefore);
     const tickets = ticketsAfter.concat(ticketsBefore)
-    console.log('tickets', tickets)
+
 
      const onCopy = (code) => {
             const targetId = "_hiddenCopyText_"
@@ -59,15 +63,14 @@ const Presale = ({ticketsData =[], assignedCodes}) => {
      { tickets &&
                     tickets.map((ticket, ind) => (
                         <Ticket
-                            assignedCodes={assignedCodes}
                             ticket={ticket}
                             key={`ticket-${ind}`}
                             onCopy={onCopy}
-                            isUserSubscribed={false}
-                            currentUserPlan={{}}
-                            userInfo={{}}
-                            entryID={""}
-                            accountPage={""}
+                            userInfo={userData}
+                            token={token}
+                            showPopUp={showPopUp}
+
+
                         />
                     ))}
        </div>
@@ -92,7 +95,14 @@ export async function getServerSideProps(props) {
     const data = await res.json() 
     const {tickets: ticketsData, assignedCodes,ticketsRequestedForCodes } = data
     
-    return { props: { ticketsData, assignedCodes, ticketsRequestedForCodes} }
+    return { props: { ticketsData, assignedCodes, ticketsRequestedForCodes,token } }
   }
 
-  export default  Presale;
+  const mapStateToProps = function (state) {
+    return {
+      userData: state.userData,
+    };
+  }
+
+  const Tickets = connect( mapStateToProps, {showPopUp})(Presale);
+  export default   withAuth0( Tickets);

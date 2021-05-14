@@ -1,9 +1,9 @@
 import { React, useEffect, useState} from "react";
 import { connect } from "react-redux";
-import { hidePopUp } from "../store/notSupportedRoutes/action";
+import { hidePopUp } from "../../store/notSupportedRoutes/action";
 import { Grid } from "semantic-ui-react";
-import RadioButton from '../components/radioButton'
-import fetchData from '../api/fetch';
+import RadioButton from '../../components/radioButton'
+import fetchData from '../../api/fetch';
 import { useRouter } from 'next/router';
 
 const notification = ({ visible,showContent, hidePopUp,accountView, token,modalType }) => {

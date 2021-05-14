@@ -35,7 +35,7 @@ const Presale = ({planPrices, planInformation, user,token, setUser, userData}) =
             name: NYA_FREE
         }
         //get this info from the store
-      const {userPlanId = "NYA-FREE",relevantSubscriptionDate ={}} = userData
+      const {userPlanId = NYA_FREE,relevantSubscriptionDate ={}} = userData
         // let sortedPlans = sortPlansAccordingPrice(plans);
 
         for (let i = 0; i < plans.length; i++) {
