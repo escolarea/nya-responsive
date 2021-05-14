@@ -3,8 +3,9 @@ import "../styles/index.scss";
 import { wrapper } from "../store/store";
 import {useEffect, useState} from 'react';
 import { connect } from "react-redux";
-import PopUpBox from "../components/pop-up-box";
-import Notification from '../components/notifications'
+import PopUpBox from "../components/modals/pop-up-box";
+import Notification from '../components/modals/notifications'
+import TicketModal from '../components/modals/subscriber-ticket'
 import { Sidebar} from "semantic-ui-react";
 import { React, Fragment } from "react";
 import SideBarMenu from '../components/sidebar'
@@ -75,6 +76,11 @@ const WrappedApp = ({ Component, pageProps, visible, modalType, showPopUp, userT
         }else{
           break;
         }
+      case 'ticket-modal':
+        return(
+        <TicketModal
+          user={user}
+        />)
       case 'download':
         return(<PopUpBox />)
       default:

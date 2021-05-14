@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import moment from 'moment'
 import cns                  from 'classnames'
+import {NYA_FREE, NYA_MONTHLY} from '../utils/url_constants'
+import fetchData from '../api/fetch';
+
 
 class Ticket extends Component {
     constructor (props) {
@@ -20,28 +23,36 @@ class Ticket extends Component {
     }
 
     render () {
-        const { ticket, onCopy, assignedCodes, isUserSubscribed, currentUserPlan ="", userInfo } = this.props
+        console.log("this.props", this.props)
+        const { ticket, onCopy, assignedCodes, userInfo = {}} = this.props
         const { loading } = this.state
+        const {userData :{userPlanId,userIsFree } = {} } = userInfo
+        console.log('userIsFree', userIsFree)
+        
+        const isUserSubscribed = !userIsFree;
+        const currentUserPlan = (userPlanId !== ( NYA_FREE || NYA_MONTHLY))
+
 
         const date = moment.utc(ticket.date)
-        const code = "";
-        // this.state.code || getTicketCode(`${userInfo.user_id}-${ticket.id}`)
-        const showCode = false
-        // isUserSubscribed && currentUserPlan === 'NYA-UNLIMITED-YEARLY' && code
-
-        if (isUserSubscribed && currentUserPlan === 'NYA-UNLIMITED-YEARLY' && !code) {
+        const code = this.state.code  || false;
+        const showCode = isUserSubscribed && currentUserPlan && code
+        
+        if (isUserSubscribed && currentUserPlan && !code) {
             assignedCodes && assignedCodes.map(code => {
                 if (code.ticket === ticket.id) {
-                    setTicketCode(`${userInfo.user_id}-${ticket.id}`, code.code)
                     this.setState({code: code.code})
                 }
             })
         }
 
         const onCodeButtonClick = () => {
-            if (!isUserSubscribed || currentUserPlan !== 'NYA-UNLIMITED-YEARLY') {
-                window.subsTicketMonthly()
-                return
+
+            console.log('isUserSubscribed', isUserSubscribed)
+            console.log("currentUserPlan", currentUserPlan)
+
+            if (!isUserSubscribed || !currentUserPlan) {
+                this.props.showPopUp('ticket-modal');
+                return;
             }
             if (code) {
                 onCopy(code)
@@ -53,14 +64,31 @@ class Ticket extends Component {
                     this.setState({code: staticCode, loading: false})
                 } else {
                     this.setState({loading: true})
-                    fetchTicketCode(ticket.id)
-                        .then((result) => {
-                            this.setState({code: result.body.code, loading: false})
+                    const {token} = this.props;
+                    console.log('token', token)
+
+                    if(token){
+                        const headers = {"Authorization": 'Bearer ' + token,'Content-Type': 'text/plain'}
+                        const request = {
+                        method:'GET',
+                        query:`api/tickets/${ticket.id}/code`,
+                        headers
+                        }
+
+                        fetchData(request).then(data=>data.text()).then((result) => {
+                            console.log('body', result)
+                            this.setState({code: result.code, loading: false})
                         })
                         .catch(err => {
                             console.error(err)
                             this.setState({loading: false})
                         })
+
+                    }else{
+                        this.setState({loading: false})
+                    }
+
+                    
                 }
             }
         }
