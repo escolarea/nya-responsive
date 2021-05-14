@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useRouter } from "next/router";
-import Notification from '../../components/notifications'
+import Notification from '../../components/modals/notifications'
 import {getjwtToken} from '../../static/auth';
 
 const Overview = ({ token}) => {

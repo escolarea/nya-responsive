@@ -1,6 +1,6 @@
 import { React, useState } from "react";
 import { connect } from "react-redux";
-import { hidePopUp } from "../store/notSupportedRoutes/action";
+import { hidePopUp } from "../../store/notSupportedRoutes/action";
 import { Grid } from "semantic-ui-react";
 
 const PopUpBox = ({ visible, hidePopUp }) => {

@@ -46,7 +46,6 @@ const ContactSubject = ({user, token}) => {
   return (
     <React.Fragment>
       <Container className="contact-container">
-        {renderTopBar()}
         <div className="contact-wrapper">
           <Container className="contact-main-content">
             <div className="ui grid" style={{ marginTop: "10px"}}>

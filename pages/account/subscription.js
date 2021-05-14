@@ -2,6 +2,7 @@ import React, { useEffect} from 'react'
 import template from '../../static/template';
 import { useRouter } from "next/router";
 import { connect } from "react-redux"
+import {NYA_FREE } from '../../utils/url_constants'
 
 const Subscription = ({userData}) => {
   const router = useRouter();
@@ -11,7 +12,7 @@ const Subscription = ({userData}) => {
     }
    
   },[])
-  const {userPlanId = "NYA-FREE"} = userData.userData
+  const {userPlanId = NYA_FREE} = userData.userData
 
   let userPlanType =  userPlanId && userPlanId.split(/\W|_/g);
     userPlanType = `NYA-${userPlanType[userPlanType.length - 1]}`;
