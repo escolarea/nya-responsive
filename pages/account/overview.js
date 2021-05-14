@@ -26,7 +26,7 @@ const Overview = ({loggedInUser}) => {
         </div>
         <div className="left aligned column overview" onClick={editAccount}>
          <span className="header-title">Email</span>
-         <p>{loggedInUser.name}</p>
+         <p>{loggedInUser.email}</p>
         </div>
      </div>
      <div className="one column row links overview-btn">
