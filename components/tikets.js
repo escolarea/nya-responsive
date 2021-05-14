@@ -76,7 +76,6 @@ class Ticket extends Component {
                         }
 
                         fetchData(request).then(data=>data.text()).then((result) => {
-                            console.log('body', result)
                             this.setState({code: result.code, loading: false})
                         })
                         .catch(err => {

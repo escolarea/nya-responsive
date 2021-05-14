@@ -1,27 +1,32 @@
-import React, { Component } from "react";
+// import checkImg from "../../public/static/images/account-info/check-item.png";
+// import SplashScreen from "../splash-screen";
 import _ from "lodash";
-import StripeCheckout from 'react-stripe-checkout';
-import fetchData from '../../api/fetch'
-import { login } from '../../static/auth0';
-import { withAuth0 } from '@auth0/auth0-react';
-import {updateUserInfo} from '../../helpers/getUserData'
+import { login } from "../../static/auth0";
+import { updateUserInfo } from "../../helpers/getUserData";
+import { useRouter } from 'next/router'
+import { withAuth0 } from "@auth0/auth0-react";
+import fetchData from "../../api/fetch";
 import Input from "../input";
 import {NYA_FREE, NYA_UNLIMITED, NYA_YEARLY, NYA_MONTHLY} from '../../utils/url_constants'
 import {sortPlansAccordingPrice,  getPlanInfo} from '../../helpers/plans'
 import RadioButton from '../radioButton'
 import LoadingIndicator from '../loading'
-import { useRouter } from 'next/router'
+import React, { Component } from "react";
+import StripeCheckout from "react-stripe-checkout";
 
 
 // TODO: Ensure `paymentFail` returns reletive error msg
 
 class Line extends Component {
   render() {
+    const available = this.props.available;
     return (
-      <div className="description-line">
+      <div className={`description-line ${available ? "available" : ""}`}>
         <div className="line">
+          <div className="plan-checks">
+            {available && <img src="/static/images/account-info/check.png" alt="check" width="24px"/>}
+          </div>
           <div className="line-text"> {this.props.children}</div>
-          <div className="plan-checks">{this.props.planChecks}</div>
         </div>
       </div>
     );
@@ -49,7 +54,7 @@ class CheckBox extends Component {
                           +-----> paymentFail -> initial
 */
 
-const PlanBtn = (props)=>{
+const PlanBtn = (props) => {
   const {
     isFreePlan,
     userHasThisPlan,
@@ -59,24 +64,26 @@ const PlanBtn = (props)=>{
     initialClickPurchase,
     topButton = true,
     userPlanType,
-    userAuthenticated
-  } = props; 
+    userAuthenticated,
+  } = props;
 
-
-
-
-  let buttonText = plan && plan.buyButtonText
-    buttonText = typeof buttonText === "string"  ? buttonText : planId
-    return (
-      <div className={`button-bottom ${topButton ? "plan-button" : "plan-button-bottom"}`}>
+  let buttonText = plan && plan.buyButtonText;
+  buttonText = typeof buttonText === "string" ? buttonText : planId;
+  return (
+    <div
+      className={`button-bottom ${
+        topButton ? "plan-button" : "plan-button-bottom"
+      }`}
+    >
       {!isFreePlan && (
         <div
           className={`button get-plan ${
-            !(userHasThisPlan && userAuthenticated) ?   checkIfShouldHideButton(planId, userAuthenticated, userPlanType, ) : "subscribed" 
+            !(userHasThisPlan && userAuthenticated)
+              ? checkIfShouldHideButton(planId, userAuthenticated, userPlanType)
+              : "subscribed"
           }`}
-         
-          onClick={() =>{
-            if(!userAuthenticated){
+          onClick={() => {
+            if (!userAuthenticated) {
               login();
               return;
             }
@@ -85,17 +92,16 @@ const PlanBtn = (props)=>{
               return;
             }
 
-            initialClickPurchase(plan, planId)
-          } }
+            initialClickPurchase(plan, planId);
+          }}
         >
-          {userHasThisPlan && userAuthenticated
-            ? "MANAGE"
-            : buttonText }
+          {userHasThisPlan && userAuthenticated ? "MANAGE" : buttonText}
         </div>
       )}
     </div>
-    );
-}
+  );
+};
+
 class PlansPanel extends Component {
   constructor(props, ctx) {
     super(props, ctx);
@@ -104,21 +110,20 @@ class PlansPanel extends Component {
     // const state = props.view === "select" ? "select" : (props.view === "confirmation" ? "confirmation" : "initial");
 
     // const queryCode = props.router.location.query.code;
-    this.prorationRequestFinished = false
+    this.prorationRequestFinished = false;
     this.state = {
-      state:'initial',
+      state: "initial",
       annualPlan: "year",
       acceptedTerms: false,
-    //   giftcode: queryCode || "",
-      giftcode:  "",
-      tryOtherPlan:false,
-      planNames : {
+      //   giftcode: queryCode || "",
+      giftcode: "",
+      tryOtherPlan: false,
+      planNames: {
         "NYA-UNLIMITED": "CLASSIC",
         "NYA-RUST": "RUST",
-        "NYA-PATRON" : "PATRON"
-      }
+        "NYA-PATRON": "PATRON",
+      },
     };
-    
 
     this.initialClickPurchase = this.initialClickPurchase.bind(this);
     this.planSelectionOnChange = this.planSelectionOnChange.bind(this);
@@ -132,12 +137,17 @@ class PlansPanel extends Component {
     this.checkIfShouldHideButton = this.checkIfShouldHideButton.bind(this)
     this.loading = this.loading.bind(this)
   }
-  
-  componentDidMount() {
 
+  componentDidMount() {
     let { plansAvailable } = this.props;
     let planSelected = plansAvailable && plansAvailable[NYA_UNLIMITED];
-    if (planSelected) this.setState({ planSelected, planId: NYA_UNLIMITED, singleRadioButtonRendered: false, setAnualRadioButtonData: false });
+    if (planSelected)
+      this.setState({
+        planSelected,
+        planId: NYA_UNLIMITED,
+        singleRadioButtonRendered: false,
+        setAnualRadioButtonData: false,
+      });
   }
   componentWillUpdate(newprops /*, newstate*/) {
     if (newprops.userData !== this.props.userData)return;
@@ -150,15 +160,18 @@ class PlansPanel extends Component {
     return this[this.state.state]();
   }
 
-  renderPlanBenefits(planBenefitsObj) {
-    
+  renderPlanBenefits(patronBenefits, planBenefitsArr) {
     return (
       <div className="details section">
-        {planBenefitsObj &&
-          planBenefitsObj.map((benefit, idx) => {
+        {patronBenefits &&
+          patronBenefits.map((benefit, idx) => {
+            const benefitAvailable = (planBenefitsArr || []).includes(benefit);
             return (
               <div key={idx}>
-                <Line key={idx} >
+                <Line
+                  key={idx}
+                  available = {benefitAvailable}
+                >
                   {benefit}
                 </Line>
               </div>
@@ -200,41 +213,43 @@ class PlansPanel extends Component {
     customCheckImages[planID] && (checkURL = customCheckImages[planID]);
     return checkURL;
   }
-  planType(planId){
-    const plan={
-      "NYA-UNLIMITED" :"free",
-      "NYA-RUST" : "rust",
-      "NYA-PATRON" : "patron"
-    }
-    return plan[planId] 
+  planType(planId) {
+    const plan = {
+      "NYA-UNLIMITED": "free",
+      "NYA-RUST": "rust",
+      "NYA-PATRON": "patron",
+    };
+    return plan[planId];
   }
 
   renderPlans(plans, planInformation) {
-    const user = this.getUserInformation() || {}
+    const user = this.getUserInformation() || {};
 
-    const{ userPlanType, isAppleSub} = user
-
+    const { userPlanType, isAppleSub } = user;
     const isAuthenticated = this.props.user ? true : false;
 
     const planItems = [];
     let plansData = [];
     let planIDs = [];
-    
+    const patron = plans["NYA-PATRON"];
+    const patronPlanBenefits = patron ? patron.planBenefits : [];
+
     let sortedPlans = sortPlansAccordingPrice(plans);
     Object.keys(sortedPlans).forEach((planId) => {
       console.log("userPlanType", userPlanType)
       console.log("planId", planId)
       let userHasThisPlan = userPlanType.includes(planId);
       let plan = plans[planId];
-      let isFreePlan = (planId == NYA_FREE);
+      let isFreePlan = planId == NYA_FREE;
 
-      let planStyle = this.planType(planId)
+      let planStyle = this.planType(planId);
       let prices = plan["prices"];
       let planInfo =
         (planInformation.data && getPlanInfo(planInformation.data, planId)) ||
         {};
       plansData.push(planInfo);
-      planIDs.push(planId); 
+      planIDs.push(planId);
+
       //ITERATE TO CREATE PLAN ITEM
       planItems.push(
         <div className={`pane  ${planStyle}`} key={`plan-${planId}`}>
@@ -263,12 +278,11 @@ class PlansPanel extends Component {
               />
             )}
           </div>
-          {this.renderPlanBenefits(plan.planBenefits)}
+          {this.renderPlanBenefits(patronPlanBenefits, plan.planBenefits)}
         </div>
       );
       // bottomButtons.push(this.renderGetPlanButtons(isFreePlan, userHasThisPlan, userAuthenticated, plan,planId, false ));
     });
-
 
     return (
       <div className="content plansContainer">
@@ -280,31 +294,34 @@ class PlansPanel extends Component {
   }
 
   getUserInformation(){
-    const { userPlanId =NYA_FREE, isAppleSub=false, userSubscriptionStatus:status =null,  hasPlanExpired=true, userSubType:type='stripe'} = this.props.userData || {}
+    const { userPlanId = NYA_FREE, isAppleSub=false, userSubscriptionStatus:status =null,  hasPlanExpired=true, userSubType:type='stripe'} = this.props.userData || {}
 
-    const subActive =!hasPlanExpired;
+    const subActive = !hasPlanExpired;
 
-    let userPlanType =  userPlanId.split(/\W|_/g) 
+    let userPlanType = userPlanId.split(/\W|_/g);
     userPlanType = `NYA-${userPlanType[userPlanType.length - 1]}`;
 
     if (userPlanType == NYA_YEARLY|| userPlanType == NYA_MONTHLY) {
       userPlanType = NYA_UNLIMITED;
     }
 
-    return { userPlanType,type ,status, subActive, isAppleSub}
+    return { userPlanType, type, status, subActive, isAppleSub };
   }
 
   checkIfShouldHideButton(planID, userAuthenticated, planType){
     let currentPlanName = this.state.planNames[planType] || NYA_FREE;
     let buttonPlanName = this.state.planNames[planID];
     let className = "";
-    if (userAuthenticated){
-      if ((currentPlanName == "RUST" && (buttonPlanName == "CLASSIC"))
-      ||(currentPlanName == "PATRON" && (buttonPlanName == "CLASSIC" || buttonPlanName == "RUST"))){
+    if (userAuthenticated) {
+      if (
+        (currentPlanName == "RUST" && buttonPlanName == "CLASSIC") ||
+        (currentPlanName == "PATRON" &&
+          (buttonPlanName == "CLASSIC" || buttonPlanName == "RUST"))
+      ) {
         className = "hidden";
       }
     }
-    return className
+    return className;
   }
   loading(){
     return(
@@ -341,15 +358,14 @@ class PlansPanel extends Component {
   initialClickPurchase(plan, planId) {
     let planToBePurchased = plan && plan.plan[0];
     const user = this.getUserInformation() || {};
-    const {userPlanType}= user
-    const {token} = this.props
-
+    const { userPlanType } = user;
+    const { token } = this.props;
 
     this.setState({
       planSelected: plan,
       planId,
       planToBePurchased,
-      annualPlan:planToBePurchased.interval, 
+      annualPlan: planToBePurchased.interval,
       productId: planToBePurchased.product_id,
     });
 
@@ -366,22 +382,29 @@ class PlansPanel extends Component {
             })
           }
       } else {
-        // Login("/account?screen=plans&view=select");
+        this.setState({
+          state: "select",
+          screen: "plans",
+          view: "select",
+        });
       }
   }
 
-  async  sendCodeHandler (){
-    const {giftcode,planToBePurchased} = this.state
-    const {token} = this.props;
-    const headers = {"Authorization": 'Bearer ' + token,"Content-Type": "text/plain"}
+  async sendCodeHandler() {
+    const { giftcode, planToBePurchased } = this.state;
+    const { token } = this.props;
+    const headers = {
+      Authorization: "Bearer " + token,
+      "Content-Type": "text/plain",
+    };
 
-    // validate that it's 8 digit 
-    if(token){
+    // validate that it's 8 digit
+    if (token) {
       const request = {
-        method:'GET',
-        query:`api/subscriptions/gift/${giftcode}`,
-        headers
-      }
+        method: "GET",
+        query: `api/subscriptions/gift/${giftcode}`,
+        headers,
+      };
 
       const giftRequest = await fetchData(request);
       const planId = await giftRequest.text();
@@ -390,23 +413,30 @@ class PlansPanel extends Component {
         if(planId === planToBePurchased.product_id){
           this.setState({ state: "paying" }, async () => {
             const params = {
-              method:'PUT',
-              query:`api/subscriptions/gift/${giftcode}`,
-              headers
-            }
+              method: "PUT",
+              query: `api/subscriptions/gift/${giftcode}`,
+              headers,
+            };
 
             const redemption = await fetchData(params);
-            if(redemption){
-              this.setState({ state: "paymentOK" })
-            }else{
-              this.setState({ state: "paymentFail",codeNotification:'Gift redemption failed, please contact us' })
+            if (redemption) {
+              this.setState({ state: "paymentOK" });
+            } else {
+              this.setState({
+                state: "paymentFail",
+                codeNotification: "Gift redemption failed, please contact us",
+              });
             }
           });
-      }else{
-        this.setState({tryOtherPlan:true, couponPlan:planId, codeNotification:`Redeem your coupon on plan ${planId}`})
+        } else {
+          this.setState({
+            tryOtherPlan: true,
+            couponPlan: planId,
+            codeNotification: `Redeem your coupon on plan ${planId}`,
+          });
+        }
       }
-    }   
-  }
+    }
   }
 
   _getPurchaseButton() {
@@ -416,20 +446,22 @@ class PlansPanel extends Component {
       giftcode,
       planToBePurchased,
       planId,
-      chargesPreview
+      chargesPreview,
     } = this.state;
-    const {email} = this.props.user
-    let displayPrice = ""
-    if(chargesPreview){
-     displayPrice = this.getCopyPrice()
-    } 
-    const planPrice = displayPrice != "" ? displayPrice.replace(/[ ,.]/g, "") : 
-      planToBePurchased && planToBePurchased.price.replace(/[ ,.]/g, "");
+    const { email } = this.props.user;
+    let displayPrice = "";
+    if (chargesPreview) {
+      displayPrice = this.getCopyPrice();
+    }
+    const planPrice =
+      displayPrice != ""
+        ? displayPrice.replace(/[ ,.]/g, "")
+        : planToBePurchased && planToBePurchased.price.replace(/[ ,.]/g, "");
     if (false) {
       return null;
     }
     if (acceptedTerms) {
-      if (giftcode !== "" ) {
+      if (giftcode !== "") {
         return (
           <div className="button" onClick={this.sendCodeHandler}>
             SUBMIT
@@ -440,11 +472,11 @@ class PlansPanel extends Component {
 
         return (
           <StripeCheckout
-          email={email}
-          billingAddress={true}
-          token={this.selectGotToken}
-          amount={price}
-          stripeKey={process.env.NEXT_PUBLIC_STRIPE_KEY}
+            email={email}
+            billingAddress={true}
+            token={this.selectGotToken}
+            amount={price}
+            stripeKey={process.env.NEXT_PUBLIC_STRIPE_KEY}
           >
             <div className="button" >SUBMIT</div>
          </StripeCheckout>
@@ -474,10 +506,10 @@ class PlansPanel extends Component {
     this.setState({ acceptedTerms: !this.state.acceptedTerms });
   }
 
-  getRadioButtonConfig(product){
+  getRadioButtonConfig(product) {
     const { interval, price } = product;
-    const { annualPlan} = this.state;
-    let preSaleTickets = true
+    const { annualPlan } = this.state;
+    let preSaleTickets = true;
     let productPosition = "left";
     let productIntervalOption = "monthlyOption";
     let giftcodeDisplay = false;
@@ -487,9 +519,17 @@ class PlansPanel extends Component {
       productIntervalOption = "annualOption";
       giftcodeDisplay = true;
     }
-    let config = {interval, price, productPosition, productIntervalOption, 
-                  giftcodeDisplay, preSaleTickets, product, annualPlan }
-    return config
+    let config = {
+      interval,
+      price,
+      productPosition,
+      productIntervalOption,
+      giftcodeDisplay,
+      preSaleTickets,
+      product,
+      annualPlan,
+    };
+    return config;
   }
 
   renderRadioButton(config, automaticallyChecked){
@@ -498,232 +538,292 @@ class PlansPanel extends Component {
     const {upgrade} = this.state
 
     //This is necessary for set yearly option as default whenever montly option is available too.
-    if (!automaticallyChecked && interval == "year" && !this.state.setAnualRadioButtonData ) {
+    if (
+      !automaticallyChecked &&
+      interval == "year" &&
+      !this.state.setAnualRadioButtonData
+    ) {
       this.setState({
         annualPlan: interval,
         planToBePurchased: product,
         productId: product.product_id,
-        setAnualRadioButtonData: true
+        setAnualRadioButtonData: true,
       });
     }
 
-    return(
-      <div className={`radio-${productPosition}`} key={`radio-${productPosition}`} onClick={()=>this.planSelectionOnChange(product)} >
-              <RadioButton
-                id={productIntervalOption}
-                checked={automaticallyChecked ? automaticallyChecked : annualPlan == interval} 
-                onChange={()=>this.planSelectionOnChange(product)}
-                product={product}
-                value={interval}
-              />
-              <div className="radio-description">
-                <div className="term">{interval == 'month' ? "Monthly" : "Annual"}</div>
-                <div className="price">
-                  ${price} per {interval}
-                  <br />
-                  {preSaleTickets && <span> {interval == 'month' ? "(no pre-sale ticket access)" : "(includes pre-sale ticket access)"}</span>}
-                </div>
-                {(giftcodeDisplay && !upgrade)&& (
-                  <Input
-                    className="input--giftcode input"
-                    placeholder="Enter Gift Code"
-                    limit={8}
-                    value={this.state.giftcode}
-                    onChange={this.giftcodeOnChange}
-                    name="code"
-                  />
-                )}
-              </div>
-            </div>
+    return (
+      <div
+        className={`radio-${productPosition}`}
+        key={`radio-${productPosition}`}
+        onClick={() => this.planSelectionOnChange(product)}
+      >
+        <RadioButton
+          id={productIntervalOption}
+          checked={
+            automaticallyChecked ? automaticallyChecked : annualPlan == interval
+          }
+          onChange={() => this.planSelectionOnChange(product)}
+          product={product}
+          value={interval}
+        />
+        <div className="radio-description">
+          <div className="term">
+            {interval == "month" ? "Monthly" : "Annual"}
+          </div>
+          <div className="price">
+            ${price} per {interval}
+            <br />
+            {preSaleTickets && (
+              <span>
+                {" "}
+                {interval == "month"
+                  ? "(no pre-sale ticket access)"
+                  : "(includes pre-sale ticket access)"}
+              </span>
+            )}
+          </div>
+          {(giftcodeDisplay && !upgrade) && (
+            <Input
+              className="input--giftcode input"
+              placeholder="Enter Gift Code"
+              limit={8}
+              value={this.state.giftcode}
+              onChange={this.giftcodeOnChange}
+              name="code"
+            />
+          )}
+        </div>
+      </div>
     );
-
   }
-  
+
   productSelection() {
-    const productSelection= []
-    const {planSelected,planId} = this.state;
-    const {name} = this.props.purchasedPlan
+    const productSelection = [];
+    const { planSelected, planId } = this.state;
+    const { name } = this.props.purchasedPlan;
 
     if(planSelected){
       if (planId != NYA_UNLIMITED || (planId == NYA_UNLIMITED && name != NYA_FREE)){
         let anualRadioButton = this.renderSingleAnualRadioButton()
         productSelection.push(anualRadioButton);
-      } else { 
+      } else {
         planSelected.plan.forEach((product) => {
           let config = this.getRadioButtonConfig(product);
           productSelection.push(this.renderRadioButton(config, false));
         });
       }
     }
-    return <div className="productSelection">{productSelection}</div> 
+    return <div className="productSelection">{productSelection}</div>;
   }
 
-  renderSingleAnualRadioButton(){
-    const { planSelected} = this.state;
-    let plan = planSelected.plan.find(plan => plan.interval == "year")
+  renderSingleAnualRadioButton() {
+    const { planSelected } = this.state;
+    let plan = planSelected.plan.find((plan) => plan.interval == "year");
     const { interval, product_id } = plan;
-    let config = this.getRadioButtonConfig(plan)
-    let anualRadioButton =this.renderRadioButton(config, true)
-   
-    if (!this.state.singleRadioButtonRendered){
+    let config = this.getRadioButtonConfig(plan);
+    let anualRadioButton = this.renderRadioButton(config, true);
+
+    if (!this.state.singleRadioButtonRendered) {
       this.setState({
         annualPlan: interval,
         planToBePurchased: plan,
         productId: product_id,
-        singleRadioButtonRendered: true
+        singleRadioButtonRendered: true,
       });
     }
-    return anualRadioButton 
+    return anualRadioButton;
   }
 
-  finishedProrationRequest(){
-    this.prorationRequestFinished = true
-    this.setState({prorationAvailable:true})
+  finishedProrationRequest() {
+    this.prorationRequestFinished = true;
+    this.setState({ prorationAvailable: true });
   }
 
-  checkFutureProration(planSelected){
+  checkFutureProration(planSelected) {
     //Supporting proration preview of an anual subscription
-    let chargesPreview = []
-    let plan = planSelected.plan.find(plan => plan.interval == "year")
-    this.prorationRequestFinished = false
-    const { product_id:planId, interval } = plan;
-    const {token} = this.props
-    const headers= {'Authorization': 'Bearer ' + token, 'Content-Type': 'application/json'}
+    let chargesPreview = [];
+    let plan = planSelected.plan.find((plan) => plan.interval == "year");
+    this.prorationRequestFinished = false;
+    const { product_id: planId, interval } = plan;
+    const { token } = this.props;
+    const headers = {
+      Authorization: "Bearer " + token,
+      "Content-Type": "application/json",
+    };
 
-    //todo : data fetch for this 
+    //todo : data fetch for this
     const request = {
-      method:'POST',
-      query:"api/subscriptions/customer-next-charge",
-      body:JSON.stringify({planId}),
-      headers
-    }
-    fetchData(request).then(nextInvoice =>  nextInvoice.json()).then((nextInvoice) => {
-
-      chargesPreview.push({
+      method: "POST",
+      query: "api/subscriptions/customer-next-charge",
+      body: JSON.stringify({ planId }),
+      headers,
+    };
+    fetchData(request)
+      .then((nextInvoice) => nextInvoice.json())
+      .then((nextInvoice) => {
+        chargesPreview.push({
           interval,
           futureCharge: nextInvoice.total,
-          prorationDate: nextInvoice.subscription_proration_date
-      }); 
-          this.setState({chargesPreview, prorationPreviewPlan: planSelected.planName})
-          this.finishedProrationRequest()
-
-    }).catch(error=>{
-      if (error) {
-        chargesPreview.push({
-          interval: "year",
-          futureCharge: plan.price,
+          prorationDate: nextInvoice.subscription_proration_date,
         });
         this.setState({
           chargesPreview,
           prorationPreviewPlan: planSelected.planName,
-          prorationAvailable: true,
-          defaultProration: true,
         });
         this.finishedProrationRequest();
-        console.error(
-          "There was an error obtaining the proration charge" + err
-        );
-      }
-    })
+      })
+      .catch((error) => {
+        if (error) {
+          chargesPreview.push({
+            interval: "year",
+            futureCharge: plan.price,
+          });
+          this.setState({
+            chargesPreview,
+            prorationPreviewPlan: planSelected.planName,
+            prorationAvailable: true,
+            defaultProration: true,
+          });
+          this.finishedProrationRequest();
+          console.error(
+            "There was an error obtaining the proration charge" + err
+          );
+        }
+      });
   }
 
-  checkIfUpgradeOrDowngrade(currentPlanName,newPlanName){
+  checkIfUpgradeOrDowngrade(currentPlanName, newPlanName) {
     let action = "upgrade";
-    if (currentPlanName == "RUST" && (newPlanName == "CLASSIC")
-        ||currentPlanName == "PATRON" && (newPlanName == "CLASSIC" || newPlanName == "RUST")){
-        action = "downgrade";
+    if (
+      (currentPlanName == "RUST" && newPlanName == "CLASSIC") ||
+      (currentPlanName == "PATRON" &&
+        (newPlanName == "CLASSIC" || newPlanName == "RUST"))
+    ) {
+      action = "downgrade";
     }
-    return action
+    return action;
   }
 
-  getCopyPrice(){
-    const {chargesPreview, defaultProration} = this.state;
-    let price = chargesPreview[0].futureCharge
-    if(!defaultProration) {
-      price =parseFloat((chargesPreview[0].futureCharge)/100).toFixed(2)
-    } 
-    return price
+  getCopyPrice() {
+    const { chargesPreview, defaultProration } = this.state;
+    let price = chargesPreview[0].futureCharge;
+    if (!defaultProration) {
+      price = parseFloat(chargesPreview[0].futureCharge / 100).toFixed(2);
+    }
+    return price;
   }
 
-  getDefaultDate(){	
-    var currentDate = new Date();	
-    var year = currentDate.getFullYear() + 1;	
-    var month = currentDate.getMonth() + 1;	
-    var day = currentDate.getDate();	
-    var finalDate = `${month}/${day}/${year}`	
-    return finalDate	
+  getDefaultDate() {
+    var currentDate = new Date();
+    var year = currentDate.getFullYear() + 1;
+    var month = currentDate.getMonth() + 1;
+    var day = currentDate.getDate();
+    var finalDate = `${month}/${day}/${year}`;
+    return finalDate;
   }
 
-  renderConfirmationCopy(action, currentPlanName, newPlanName){
-    const {chargesPreview, defaultProration} = this.state;
-    const {renewalDate, interval} = this.props.purchasedPlan
-    let displayDate = interval == "month" ? this.getDefaultDate() : renewalDate
-    let displayPrice = 0.00
-    if(chargesPreview) displayPrice = this.getCopyPrice()
+  renderConfirmationCopy(action, currentPlanName, newPlanName) {
+    const { chargesPreview, defaultProration } = this.state;
+    const { renewalDate, interval } = this.props.purchasedPlan;
+    let displayDate = interval == "month" ? this.getDefaultDate() : renewalDate;
+    let displayPrice = 0.0;
+    if (chargesPreview) displayPrice = this.getCopyPrice();
 
-    if (action == "downgrade"){
+    if (action == "downgrade") {
       return (
         <div className="confirmation-description">
           <div className="confirmation-title"> What you need to know:</div>
           <div className="explanation">
-            Your current <div className="plan-name">{currentPlanName.toLowerCase()}</div> subscription will remain active for the remainder of it's current term.<br/><br/>
-            At the end of this term, on <p className="renewal-date">{renewalDate}</p> your account will be downgraded to a <div className="plan-name">{newPlanName.toLowerCase()}</div> subscription and 
-            you will be charged <p className="proration-value">{`$${displayPrice}`}</p><br/><br/>
-            You will continue to enjoy the benefits of your current subscription level until that time.
-          </div> 
+            Your current{" "}
+            <div className="plan-name">{currentPlanName.toLowerCase()}</div>{" "}
+            subscription will remain active for the remainder of it's current
+            term.
+            <br />
+            <br />
+            At the end of this term, on{" "}
+            <p className="renewal-date">{renewalDate}</p> your account will be
+            downgraded to a{" "}
+            <div className="plan-name">{newPlanName.toLowerCase()}</div>{" "}
+            subscription and you will be charged{" "}
+            <p className="proration-value">{`$${displayPrice}`}</p>
+            <br />
+            <br />
+            You will continue to enjoy the benefits of your current subscription
+            level until that time.
+          </div>
         </div>
       );
-    } else{
+    } else {
       return (
         <div className="confirmation-description">
           <div className="confirmation-title"> What you need to know:</div>
           <div className="explanation">
-            Today you will be charged <p className="proration-value">{`$${displayPrice}`}</p><br/>
-            (this is the cost of your new subscriptions less the amount remaining on your current subscription).<br/><br/>
-            Unless cancelled, your subscription 
-            will renew at the full price of your new subscription on <p className="renewal-date">{displayDate}</p>.
-          </div> 
+            Today you will be charged{" "}
+            <p className="proration-value">{`$${displayPrice}`}</p>
+            <br />
+            (this is the cost of your new subscriptions less the amount
+            remaining on your current subscription).
+            <br />
+            <br />
+            Unless cancelled, your subscription will renew at the full price of
+            your new subscription on{" "}
+            <p className="renewal-date">{displayDate}</p>.
+          </div>
         </div>
       );
     }
   }
 
-  renderConfirmationButtons(action){
-    let buttonText = "UPGRADE SUBSCRIPTION"
-    if (action == "downgrade") buttonText = "DOWNGRADE SUBSCRIPTION"
-    return(
+  renderConfirmationButtons(action) {
+    let buttonText = "UPGRADE SUBSCRIPTION";
+    if (action == "downgrade") buttonText = "DOWNGRADE SUBSCRIPTION";
+    return (
       <div className="confirmation-buttons">
-        <div className="confirm-purchase" onClick={this.goToSelectionScreen}>{buttonText}</div>
-        <div className="back-purchase" onClick={this.backToPlans}>BACK</div>
+        <div className="confirm-purchase" onClick={this.goToSelectionScreen}>
+          {buttonText}
+        </div>
+        <div className="back-purchase" onClick={this.backToPlans}>
+          BACK
+        </div>
       </div>
     );
   }
 
-  goToSelectionScreen(){
-    this.setState({upgrade:true})
-    this.setState({state:'select',screen: "plans", view: "select"})
-    
+  goToSelectionScreen() {
+    this.setState({ upgrade: true });
+    this.setState({ state: "select", screen: "plans", view: "select" });
   }
 
-  renderConfirmationScreen(){
-    const {planSelected, planId} = this.state;
-    //get this from the user 
+  renderConfirmationScreen() {
+    const { planSelected, planId } = this.state;
+    //get this from the user
     const user = this.getUserInformation();
-    const {userPlanType, } = user
+    const { userPlanType } = user;
 
-    const {planType,interval, price: currentPlanPrice} = this.props.purchasedPlan 
+    const {
+      planType,
+      interval,
+      price: currentPlanPrice,
+    } = this.props.purchasedPlan;
+
      
     let currentPlanName = this.state.planNames[userPlanType] || NYA_FREE;
     let newPlanName = this.state.planNames[planId];
-    let action = this.checkIfUpgradeOrDowngrade(currentPlanName, newPlanName)
-   
-    return (  
+    let action = this.checkIfUpgradeOrDowngrade(currentPlanName, newPlanName);
+
+    return (
       <div className="content select confirmation">
         <div className="header-section">
           <div className="plan-box current">
             <div className="plan-status">Current Subscription</div>
-            <div className="plan-name">{currentPlanName ? currentPlanName: NYA_FREE}</div>
-            <div className="plan-price">{ currentPlanPrice && interval ? `$${currentPlanPrice} /${interval}`: ""}</div> 
+            <div className="plan-name">
+              {currentPlanName ? currentPlanName : NYA_FREE}
+            </div>
+            <div className="plan-price">
+              {currentPlanPrice && interval
+                ? `$${currentPlanPrice} /${interval}`
+                : ""}
+            </div>
           </div>
           {/* <img className="arrow" src={arrowImg}/> */}
           {/* <img className="arrow" src={arrowImg}/> */}
@@ -741,20 +841,22 @@ class PlansPanel extends Component {
     );
   }
 
-  confirmation(){
-    const {planSelected, prorationPreviewPlan} = this.state;
-    planSelected && prorationPreviewPlan != planSelected.planName && this.checkFutureProration(planSelected)
+  confirmation() {
+    const { planSelected, prorationPreviewPlan } = this.state;
+    planSelected &&
+      prorationPreviewPlan != planSelected.planName &&
+      this.checkFutureProration(planSelected);
 
-    if (!planSelected ) {
+    if (!planSelected) {
       this.setState({ state: "initial" });
-      return null
+      return null;
     }
 
-    if (this.state.prorationAvailable &&  this.prorationRequestFinished){
+    if (this.state.prorationAvailable && this.prorationRequestFinished) {
       let confirmationScreen = this.renderConfirmationScreen();
-      this.state.prorationAvailable = false // FIXME
-      this.state.prorationPreviewPlan = ""
-      this.prorationRequestFinished = false
+      this.state.prorationAvailable = false; // FIXME
+      this.state.prorationPreviewPlan = "";
+      this.prorationRequestFinished = false;
       return confirmationScreen;
     }else{
       return (
@@ -774,15 +876,15 @@ class PlansPanel extends Component {
       planSelected,
       planId,
       prorationPreviewPlan,
-      tryOtherPlan, 
+      tryOtherPlan,
       couponPlan,
-      codeNotification
+      codeNotification,
     } = this.state;
 
-    const {name} = this.props.purchasedPlan
+    const { name } = this.props.purchasedPlan;
 
     let needSubscriptionPurchase = true;
-    let planSelectedName = planSelected && planSelected.planName 
+    let planSelectedName = planSelected && planSelected.planName;
     const token = false;
     // freePassToken();
     const hasValidFreePass = token !== null && token.validity ? true : false;
@@ -790,11 +892,11 @@ class PlansPanel extends Component {
 
     //TEMP DISABLE TO ALLOW UPGRADE -DOWNGRADE
     // if (hasAuth() && !hasValidFreePass) needSubscriptionPurchase = isFreeUser();
-    if (!needSubscriptionPurchase && !giftcode || !planSelected ) {
+    if ((!needSubscriptionPurchase && !giftcode) || !planSelected) {
       this.setState({ state: "initial" });
-      return null
+      return null;
     }
-  
+
     return (
       <div className="content select">
         {needSubscriptionPurchase ? (
@@ -803,7 +905,11 @@ class PlansPanel extends Component {
               {planId != NYA_UNLIMITED ? `${newPlanName} Subscription` : (name != NYA_FREE ?  `${newPlanName} Subscription` : "Select Subscription")}
             </div>
             {this.productSelection()}
-            {tryOtherPlan&& <div className ="coupon-redeem" onClick={this.backToPlans}>{codeNotification}</div>}
+            {tryOtherPlan && (
+              <div className="coupon-redeem" onClick={this.backToPlans}>
+                {codeNotification}
+              </div>
+            )}
             <div className="terms">
               <CheckBox
                 checked={acceptedTerms}
@@ -816,10 +922,10 @@ class PlansPanel extends Component {
                 selected. After this period ends, your subscription will
                 automatically be renewed and you will be charged the standard
                 price for that subscription until you cancel. This does not
-                apply to gift subscriptions which will expire 1 year to the
-                date after redemption. You can see when you subscription will
-                renew next, or learn how to cancel, via your account page.
-                Your subscription is subject to our{" "}
+                apply to gift subscriptions which will expire 1 year to the date
+                after redemption. You can see when you subscription will renew
+                next, or learn how to cancel, via your account page. Your
+                subscription is subject to our{" "}
                 <a href="/terms.html" target="_blank">
                   Terms
                 </a>{" "}
@@ -845,8 +951,8 @@ class PlansPanel extends Component {
             </div>
           </React.Fragment>
         )}
-        </div>
-    ); 
+      </div>
+    );
   }
 
   selectGotToken(token) {
@@ -863,20 +969,25 @@ class PlansPanel extends Component {
     if(chargesPreview) displayPrice = this.getCopyPrice()
     let planBeforeUpgrade = this.state.planNames[planType] || "";
     const request = {
-      method:'POST',
-      query:'api/subscriptions',
-      body:JSON.stringify({source, planId, upgrade, displayPrice, planBeforeUpgrade}),
-      headers
-    }
+      method: "POST",
+      query: "api/subscriptions",
+      body: JSON.stringify({
+        source,
+        planId,
+        upgrade,
+        displayPrice,
+        planBeforeUpgrade,
+      }),
+      headers,
+    };
 
     fetchData(request).then(
-        (res) => this.setState({ state: "paymentOK" }),
-        (err) => this.setState({ state: "paymentFail" })
-      );
+      (res) => this.setState({ state: "paymentOK" }),
+      (err) => this.setState({ state: "paymentFail" })
+    );
   }
 
   paying() {
-
     return (
       <div className="content">
         <div className="message">Creating your subscription...</div>
@@ -931,7 +1042,6 @@ class PlansPanel extends Component {
 
   clickExplore() {
     document.location.href = "/";
-    
   }
 
   backToPlans(){
@@ -939,11 +1049,7 @@ class PlansPanel extends Component {
   }
 
   render() {
-    return (
-      <div className="panel plans-panel">
-        {this.getContent()}
-      </div>
-    );
+    return <div className="panel plans-panel">{this.getContent()}</div>;
   }
 }
 
