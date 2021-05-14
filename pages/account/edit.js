@@ -2,22 +2,19 @@ import React, { useEffect, useState } from "react";
 import { Form } from "semantic-ui-react";
 import template from "../../static/template";
 import { useRouter } from "next/router";
-import { useSelector } from "react-redux";
 import fetchData from "../../api/fetch";
 
-const Edit = ({ loggedInUser }) => {
-  //TODO add request for editing this on the respective endpoint
-  //TODO Handle value change with hooks
+const Edit = ({ loggedInUser, token }) => {
   const router = useRouter();
-  const userToken = useSelector((state) => state.userToken.userToken);
-  console.log(loggedInUser);
   useEffect(() => {
-    if (!loggedInUser) {
-      router.push("/account");
+    if (!token) {
+      router.push("/login");
     }
   }, []);
-  
-  const prevName = loggedInUser ? loggedInUser.user_metadata.customFirstname : "";
+
+  const prevName = loggedInUser
+    ? loggedInUser.user_metadata.customFirstname || loggedInUser.nickname
+    : "";
   const prevEmail = loggedInUser ? loggedInUser.email : "";
 
   const [state, setState] = useState({
@@ -28,50 +25,35 @@ const Edit = ({ loggedInUser }) => {
   });
 
   const updateAccount = () => {
-    const token = userToken.token;
-    console.log("token",token);
     setState({ ...state, updating: true });
-    const usernameChange =
-      state.username !== prevName ? "username_change" : null;
-    const emailChange = state.email !== prevEmail ? "email_change" : null;
+    const change = `${state.username !== prevName ? "username_change" : ""}${
+      state.email !== prevEmail ? "email_change" : ""
+    }`;
     const headers = {
       Authorization: "Bearer " + token,
       "Content-Type": "application/json",
     };
+    console.log(change);
     const request = {
       method: "PUT",
       query: "api/account/settings",
       headers,
+      body: JSON.stringify({
+        type: change,
+        values: { username: state.username, email: state.email }
+      })
     };
-    if (usernameChange) {
-      fetchData({
-        ...request,
-        body: JSON.stringify({
-          type: usernameChange,
-          values: { username: state.username },
-        }),
-      }).then(data => {
-        if(data.ok){
-          setState({ ...state, resultMessage: "Success"})
-        } else setState({...state, resultMessage: "Something went wrong."})
-      }).catch(err =>{
-        setState({...state, resultMessage: "Something went wrong."})
-      })
-    }
-    if (emailChange) {
-      fetchData({
-        ...request,
-        body: JSON.stringify({
-          type: emailChange,
-          values: { email: state.email },
-        }),
-      }).then(data => {
-        if(data.ok){
-          setState({ ...state, resultMessage: "Success"})
-        } else setState({...state, resultMessage: "Something went wrong."})
-      }).catch(err =>{
-        setState({...state, resultMessage: "Something went wrong."})
-      })
+    if (change) {
+      fetchData(request)
+        .then((data) => {
+          if (data.ok) {
+            setState({ ...state, resultMessage: "Success. Reloading app in 3 secs..." });
+            setTimeout(()=>router.push("/login"), 3000);
+          } else setState({ ...state, resultMessage: "Something went wrong." });
+        })
+        .catch((err) => {
+          setState({ ...state, resultMessage: "Something went wrong." });
+        });
     }
   };
 
@@ -86,7 +68,9 @@ const Edit = ({ loggedInUser }) => {
                 <input
                   placeholder={state.username}
                   value={state.username}
-                  onChange={(e) => setState({ ...state, username: e.target.value })}
+                  onChange={(e) =>
+                    setState({ ...state, username: e.target.value })
+                  }
                   disabled={state.updating}
                 />
               </Form.Field>
@@ -124,8 +108,7 @@ const Edit = ({ loggedInUser }) => {
               className="ui fluid primary button overview"
               onClick={updateAccount}
               disabled={
-                (state.username === prevName && 
-                state.email === prevEmail) ||
+                (state.username === prevName && state.email === prevEmail) ||
                 state.email === "" ||
                 state.username === ""
               }

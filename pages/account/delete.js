@@ -7,12 +7,11 @@ import { logout } from "../../static/auth0";
 import { deleteToken } from "../../static/auth";
 import fetchData from "../../api/fetch";
 
-const DeleteAccount = ({ loggedInUser }) => {
+const DeleteAccount = ({ loggedInUser, token }) => {
   const router = useRouter();
-  const userToken = useSelector(state => state.userToken.userToken);
   useEffect (()=>{
-    if(!loggedInUser){
-      router.push('/account')
+    if(!token){
+      router.push('/login')
     } 
   },[]);
 
@@ -22,8 +21,6 @@ const DeleteAccount = ({ loggedInUser }) => {
   });
 
   const deleteAccount = () => {
-    const token = userToken.token;
-    console.log("token",token);
     setState({...state, deleting: true});
     const headers = {
       Authorization: "Bearer " + token,
@@ -39,7 +36,6 @@ const DeleteAccount = ({ loggedInUser }) => {
         if (!data.ok) {
           setState({...state, errorMessage: "Something went wrong."});
         } else {
-          setTimeout(3000);
           deleteToken();
           logout();
         }

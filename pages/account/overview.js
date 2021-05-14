@@ -3,6 +3,7 @@ import template from '../../static/template';
 import { useRouter } from "next/router";
 
 const Overview = ({loggedInUser}) => {
+  const name = loggedInUser.user_metadata.customFirstname || loggedInUser.nickname;
   const router = useRouter();
   useEffect (()=>{
     if(!loggedInUser){
@@ -21,7 +22,7 @@ const Overview = ({loggedInUser}) => {
      <div className="one column row links overview">
         <div className="left aligned column overview" onClick={editAccount}>
             <span className="header-title">First name</span>
-            <p>{loggedInUser.user_metadata.customFirstname}</p>
+            <p>{name}</p>
         </div>
         <div className="left aligned column overview" onClick={editAccount}>
          <span className="header-title">Email</span>
