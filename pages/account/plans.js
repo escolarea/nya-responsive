@@ -8,12 +8,14 @@ import {getTokenForServer,getjwtToken} from '../../static/auth'
 import { connect } from "react-redux"
 import {setUser} from '../../store/userData/action'
 import {updateUserInfo} from '../../helpers/getUserData'
+import template from "../../static/template"
+import {useRouter} from "next/router";
 
 const Presale = ({planPrices, planInformation, user,token, setUser, userData}) => {
     const [plansList, setplansList] = useState({})
     const [userPlan, setpurchasedPlan ] = useState({})
     const [loading, setLoading ] = useState(false)
-
+    const router = useRouter();
         
     useEffect(()=>{
       //DO THIS IN THE WRAPPER THAT SHOW LOADING BEFORE PASSING DOWN THE INFO
@@ -144,4 +146,5 @@ export async function getServerSideProps(props) {
   })(Presale);
 
 
+  // export default  withAuth0(template(Plans));
   export default  withAuth0(Plans);
