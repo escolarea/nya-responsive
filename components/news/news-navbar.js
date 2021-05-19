@@ -33,7 +33,7 @@ class NewsNavbar extends Component {
   constructor(props) {
     super(props);
     // this.onClick = this.onClick.bind(this);
-    this.toggleMenu = this.toggleMenu.bind(this);
+    this.toggleSideBar = this.toggleSideBar.bind(this);
   }
 
   //   onClick(page) {
@@ -43,7 +43,7 @@ class NewsNavbar extends Component {
   //     // router.push(router.createLocation(route))
   //   }
 
-  toggleMenu() {
+  toggleSideBar() {
     if (!this.props.visibleSideBar) this.props.showSideBar();
     else this.props.hideSideBar();
   }
@@ -122,11 +122,12 @@ class NewsNavbar extends Component {
                 width="3"
                 textAlign="center"
                 verticalAlign='middle'
-                onClick={this.toggleMenu}
+                onClick={this.toggleSideBar}
+                className="toggleSideBar"
               >
                 {
                   <img
-                    className="ui image center aligned menu-icon"
+                    className="ui image center aligned menu-icon toggleSideBar"
                     src="../static/images/global-menu/global-menu-icon-hl.png"
                   />
                 }
