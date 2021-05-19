@@ -123,11 +123,11 @@ class NewsNavbar extends Component {
                 textAlign="center"
                 verticalAlign='middle'
                 onClick={this.toggleSideBar}
-                className="toggleSideBar"
+                className="sidebar-link"
               >
                 {
                   <img
-                    className="ui image center aligned menu-icon toggleSideBar"
+                    className="ui image center aligned menu-icon sidebar-link"
                     src="../static/images/global-menu/global-menu-icon-hl.png"
                   />
                 }
