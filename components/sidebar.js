@@ -25,6 +25,22 @@ const SideBarMenu = ({
     }
   }, []) ;
 
+  useEffect(() => {
+    const pusher = document.querySelector("#pusher");
+    const onClickPusher = (e) => {
+      if (visibleSideBar && !e.target.classList.contains("toggleSideBar")) {
+        e.preventDefault();
+        hideSideBar();
+      }
+    };
+    if (visibleSideBar) {
+      pusher.addEventListener("click", onClickPusher);
+    }
+    return () => {
+      pusher.removeEventListener("click", onClickPusher);
+    }
+  }, [visibleSideBar])
+
   return (
     <Sidebar
       className="global-menu"
