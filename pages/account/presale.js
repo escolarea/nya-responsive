@@ -1,33 +1,67 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import Link from "next/link";
 import fetchData from '../../api/fetch'
 import Ticket from '../../components/tikets'
 import moment from 'moment'
 import _ from "lodash";
-import {getjwtToken} from '../../static/auth'
-import { withAuth0 } from '@auth0/auth0-react';
 import { connect } from "react-redux"
 import { showPopUp } from "../../store/notSupportedRoutes/action";
 import { useRouter } from 'next/router';
+import template from '../../static/template';
 
-const Presale = ({ticketsData =[], token, userData, showPopUp, assignedCodes}) => {
+const Presale = ({token, userData, showPopUp}) => {
+  const [ticketsData, SetTicketsData] = useState([])
+  const [assignedCodes, setAssignedCodes] = useState([])
+  const [ticketsRequestedForCodes, setTicketsRequestedForCodes]  = useState([])
+  const [loaded, SetLoaded] = useState(false)
+
   const router = useRouter();
-  useEffect(()=>{
+  useEffect( async () =>{
     const {userData:user} = userData;
     if (Object.keys(user).length === 0 ) {
       router.push('/account')
     }
+
+    if (token) {
+      const headers = { Authorization: "Bearer " + token };
+      const request = {
+        method: "GET",
+        query: "api/tickets",
+        headers,
+      };
+      const res = await fetchData(request);
+      const data = await res.json();
+      const {
+        tickets,
+        assignedCodes,
+        ticketsRequestedForCodes,
+      } = data;
+
+      parseTickets(tickets)
+      setAssignedCodes(assignedCodes)
+      setTicketsRequestedForCodes(ticketsRequestedForCodes)
+      SetLoaded(true)
+
+    }
+
   },[])
 
-    const sortDate = (item) => item.sort((a, b) => new Date(b.date) - new Date(a.date));
 
-    let ticketsBefore = ticketsData.filter(item => item && (moment.utc(item.date) < moment.utc().startOf('day')))
-    if(!_.isEmpty(ticketsBefore))ticketsBefore = sortDate(ticketsBefore);
-    
-    let ticketsAfter = ticketsData.filter(item => item && (moment.utc(item.date) >= moment.utc().startOf('day')))
-    if(!_.isEmpty(ticketsAfter))ticketsAfter = sortDate(ticketsBefore);
-    const tickets = ticketsAfter.concat(ticketsBefore)
+    const parseTickets  = (tickets = {}) =>{
 
+      const sortDate = (item) => item.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+      let ticketsBefore = tickets.filter(item => item && (moment.utc(item.date) < moment.utc().startOf('day')))
+      if(!_.isEmpty(ticketsBefore))ticketsBefore = sortDate(ticketsBefore);
+      
+      let ticketsAfter = tickets.filter(item => item && (moment.utc(item.date) >= moment.utc().startOf('day')))
+      if(!_.isEmpty(ticketsAfter))ticketsAfter = sortDate(ticketsBefore);
+
+      const parsedTickets = ticketsAfter.concat(ticketsBefore);
+
+      SetTicketsData(parsedTickets)
+
+    }
 
      const onCopy = (code) => {
             const targetId = "_hiddenCopyText_"
@@ -59,7 +93,6 @@ const Presale = ({ticketsData =[], token, userData, showPopUp, assignedCodes}) =
 
             return succeed
         }
-
   return (
     <div id="account-menu-container">
      <div className="one column row links subscription-overview">
@@ -69,8 +102,8 @@ const Presale = ({ticketsData =[], token, userData, showPopUp, assignedCodes}) =
         </div>
      </div>
      <div className="tickets-panel">
-     { tickets &&
-                    tickets.map((ticket, ind) => (
+     { ticketsData &&
+                    (ticketsData || []).map((ticket, ind) => (
                         <Ticket
                             ticket={ticket}
                             key={`ticket-${ind}`}
@@ -89,26 +122,6 @@ const Presale = ({ticketsData =[], token, userData, showPopUp, assignedCodes}) =
   
 } 
 
-export async function getServerSideProps(props) {
-
-  const { req } = props;
-  let token = req.headers && req.headers.cookie ? await getjwtToken(req) : null;
-  if(token === undefined) token = null
-
-    const headers = {'Authorization': 'Bearer ' + token}
-    const request = {
-        method:'GET',
-        query:'api/tickets',
-        headers
-
-      }
-    const res = await fetchData(request)
-    const data = await res.json() 
-    const {tickets: ticketsData, assignedCodes,ticketsRequestedForCodes } = data
-    
-    return { props: { ticketsData, assignedCodes, ticketsRequestedForCodes,token } }
-  }
-
   const mapStateToProps = function (state) {
     return {
       userData: state.userData,
@@ -116,4 +129,4 @@ export async function getServerSideProps(props) {
   }
 
   const Tickets = connect( mapStateToProps, {showPopUp})(Presale);
-  export default   withAuth0( Tickets);
+  export default   template( Tickets);
