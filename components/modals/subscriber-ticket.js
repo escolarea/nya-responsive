@@ -21,28 +21,23 @@ const ticketPopUp = ({ visible, hidePopUp }) => {
       </span>
       <div className="content">
         <h1 className="center aligned header">Pre-Sale tickets are exclusive to NYA yearly subscribers.</h1>
-        <Grid columns="equal" stackable>
+        <Grid columns="equal" stackable onClick={() => hidePopUp()}>
           <Grid.Row>
-            <Grid.Column width="8" className="icon">
+            <Grid.Column width="8" className="icon ticket">
               <Link
                 href="/account/plans"
+                className="sub-btn"
               >
                 SUBSCRIBE
-              </Link>
-            </Grid.Column>
-            <Grid.Column width="8" className="icon">
-              <Link
-                href="/account"
-              >
-                LOG IN
               </Link>
             </Grid.Column>
           </Grid.Row>
           <Grid.Row>
             <Grid.Column textAlign="center">
             <sup>*</sup>
-            Monthly subscribers contact 
+            Monthly subscribers contact <sup></sup>
             <Link href="/contact">customer support</Link>
+            <sup></sup>
             for help.
             </Grid.Column>
           </Grid.Row>

@@ -51,19 +51,6 @@ async function getJWK() {
     if (validToken) 
       return token;
     else return null;
-    // if (req && req.headers && req.headers.cookie) {
-    //   const jwtFromCookie = req.headers.cookie.split(';').find(c => c.trim().startsWith('jwtToken='));
-    //   if (!jwtFromCookie) {
-    //     return undefined;
-    //   }
-    //   const token = jwtFromCookie.split('=')[1];
-    //   console.log("TOKEN","JWT",token);
-    //   if(token){
-    //     return token
-    //   }else{
-    //     return null
-    //   }
-    // }
   }
   
   async function getTokenForServer(req) {

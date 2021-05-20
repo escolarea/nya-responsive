@@ -4,7 +4,7 @@ import { getTokenForBrowser, getTokenForServer,getjwtToken } from '../static/aut
 export default Page => class Template extends React.Component {
 
   static async getInitialProps({ req }) {
-    const token = await getjwtToken(req)
+    const token = await getjwtToken()
     const loggedInUser = await getTokenForBrowser() || await getTokenForServer(req);
     const pageProperties = await Page.getInitialProps && await Page.getInitialProps(req);
     return {

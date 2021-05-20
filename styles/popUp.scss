@@ -35,9 +35,6 @@
     .eight.wide.column.icon{
       display: flex;
       justify-content: space-around;
-      .custom-radio{
-        height: 3rem;
-      }
       input{
         transform: scale(3);
       }
@@ -56,6 +53,11 @@
       display: flex;
       justify-content: center;
     }
+    .custom-radio{
+      input{
+        margin-bottom: 2rem;
+      }
+    }
 
   }
 }
@@ -70,6 +72,22 @@
   background-color: rgba($color: black, $alpha: 0.8);
   padding-left: 12px;
   padding-right: 12px;
+  .icon{
+    &.ticket{
+      background-color: #035CA7;
+      margin-top: 2rem !important;
+      position: relative;
+      font-family: "DINPro", sans-serif;
+      font-weight: bolder;
+      font-size: 16px;
+      height: 48px;
+      border-radius: 5px;
+      .sub-btn{
+        color: #f0f1f3;
+        text-decoration: none;
+      }
+    }
+  }
   .icon img {
     width: 100%;
   }

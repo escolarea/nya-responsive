@@ -59,7 +59,7 @@ const WrappedApp = ({ Component, pageProps, visible, modalType, showPopUp, userT
 
       if(firstLogin && !hasSeenNewsletterPreference()){
         showPopUp('first-login');
-        localStorage.setItem('newsletter-pref-seen', true)
+        localStorage.setItem('presale-code', true)
       }
     }
   },[userToken])
