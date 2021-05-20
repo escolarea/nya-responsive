@@ -15,29 +15,23 @@ class Ticket extends Component {
         }
     }
 
-    componentDidMount() {
-        const { entryID, accountPage } = this.props
-        if (entryID === this.props.ticket.id) {
-            accountPage.scrollTop = this.wrapper.offsetTop
-        }
-    }
-
     render () {
-        console.log("this.props", this.props)
         const { ticket, onCopy, assignedCodes, userInfo = {}} = this.props
         const { loading } = this.state
-        const {userData :{userPlanId,userIsFree } = {} } = userInfo
-        console.log('userIsFree', userIsFree)
-        
+        const {userData :{userPlanId = NYA_FREE, userIsFree = true } = {} } = userInfo
         const isUserSubscribed = !userIsFree;
         const currentUserPlan = (userPlanId !== ( NYA_FREE || NYA_MONTHLY))
 
 
         const date = moment.utc(ticket.date)
-        const code = this.state.code  || false;
-        const showCode = isUserSubscribed && currentUserPlan && code
-        
-        if (isUserSubscribed && currentUserPlan && !code) {
+        const userTicket = assignedCodes.find(_ticket=>_ticket.ticket === ticket.id)  || false;
+
+        const storageCode = localStorage.getItem('presale-code') || this.state.code ; 
+
+        const code = storageCode  !== 'undefined' ?  storageCode  : userTicket && userTicket.code;
+        let showCode = (isUserSubscribed && currentUserPlan && code)
+
+            if (isUserSubscribed && currentUserPlan && !code) {
             assignedCodes && assignedCodes.map(code => {
                 if (code.ticket === ticket.id) {
                     this.setState({code: code.code})
@@ -46,37 +40,32 @@ class Ticket extends Component {
         }
 
         const onCodeButtonClick = () => {
-
-            console.log('isUserSubscribed', isUserSubscribed)
-            console.log("currentUserPlan", currentUserPlan)
-
-            if (!isUserSubscribed || !currentUserPlan) {
+            if (!currentUserPlan) {
                 this.props.showPopUp('ticket-modal');
                 return;
             }
-            if (code) {
+            if (code && code !== null) {
                 onCopy(code)
             } else {
-                // window.ticketsUnavailable() // REMOVE THIS LATER ONCE CONTETNFUL IS WORKING
-                // return
-                const {staticCode, flexibleCodeSource} = ticket
+                const {staticCode = false } = ticket
                 if (staticCode) {
                     this.setState({code: staticCode, loading: false})
                 } else {
                     this.setState({loading: true})
                     const {token} = this.props;
-                    console.log('token', token)
 
                     if(token){
-                        const headers = {"Authorization": 'Bearer ' + token,'Content-Type': 'text/plain'}
+                        const headers = {"Authorization": 'Bearer ' + token,'Content-Type': 'application/json'}
                         const request = {
                         method:'GET',
                         query:`api/tickets/${ticket.id}/code`,
                         headers
                         }
 
-                        fetchData(request).then(data=>data.text()).then((result) => {
+                        fetchData(request).then(data=>data.json()).then((result) => {
+                            localStorage.setItem('presale-code', result.code)
                             this.setState({code: result.code, loading: false})
+                            showCode = true
                         })
                         .catch(err => {
                             console.error(err)
@@ -107,7 +96,6 @@ class Ticket extends Component {
                         { showCode &&
                             <div className='ticket-codeSection'>
                                 <label>CODE: <label className='code'>{code}</label></label>
-                                <label>{ticket.codeLabel}</label>
                             </div>
                         }
                         {ticket.buyLinkEnabled && ticket.buyLinkUrl && <div

@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { useRouter } from "next/router";
 import Notification from '../../components/modals/notifications'
-import {getjwtToken} from '../../static/auth';
+import template from '../../static/template';
 
 const Overview = ({ token}) => {
   const router = useRouter();
@@ -9,7 +9,6 @@ const Overview = ({ token}) => {
     if(!token){
       router.push('/account')
     }
-   
   },[])
   return (
     <div id="account-menu-container">
@@ -23,15 +22,6 @@ const Overview = ({ token}) => {
   
 } 
 
-export async function getServerSideProps(props) {
-  const {req} = props
 
-  let token =  req && req.headers && req.headers.cookie ?  await getjwtToken(req) : null;
-  if(token === undefined) token = null;
-  
-  return { props: { token } }
-}
-
-
-export default  Overview
+export default  template( Overview)
 

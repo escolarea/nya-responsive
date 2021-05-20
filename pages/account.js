@@ -12,13 +12,12 @@ import { useRouter } from 'next/router';
 import LoadingIndicator from '../components/loading'
 
 
-const Account = ({ isLoggedIn, setUser, removeToken, userInfo, userData}) => {
+const Account = ({ isLoggedIn, setUser, removeToken, userData, token}) => {
     const router = useRouter();
-    const { token } = userInfo;
 
     const [ pageStatus, setPageStatus ] = useState('loading');
     
-    const retrieveUserData = async (token) => {
+    const retrieveUserData = async () => {
       if(token){
         const headers = {'Authorization': 'Bearer ' + token};
         const res =  await fetchData({method:'GET',query:'api/subscriptions', headers });
@@ -36,8 +35,9 @@ const Account = ({ isLoggedIn, setUser, removeToken, userInfo, userData}) => {
       router.push('/login')
       return;
      }
-     if(userData.userData&& Object.keys(userData.userData).length == 0){
-      retrieveUserData(token);
+     console.log("userData", userData)
+     if(userData.userData && Object.keys(userData.userData).length == 0){
+      retrieveUserData();
      }
      setPageStatus('ready');
    },[])
@@ -62,6 +62,7 @@ const Account = ({ isLoggedIn, setUser, removeToken, userInfo, userData}) => {
             <div id="logout-btn"className="left aligned" onTouchStart={()=>{
               removeToken();
               localStorage.removeItem('newsletter-pref-seen');
+              localStorage.removeItem('presale-code');
               logout();
             }}>LOG OUT </div>
           </div>
