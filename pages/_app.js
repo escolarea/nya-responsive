@@ -108,7 +108,7 @@ const WrappedApp = ({ Component, pageProps, visible, modalType, showPopUp, userT
           <Sidebar.Pushable>
             <SideBarMenu
             />
-            <Sidebar.Pusher>
+            <Sidebar.Pusher id="pusher">
               <div id="main-wrapper">            
                 <div id="content">
                   <div

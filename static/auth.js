@@ -46,19 +46,11 @@ async function getJWK() {
     }
   }
   async function getjwtToken (req){
-    if (req && req.headers && req.headers.cookie) {
-      const jwtFromCookie = await req.headers.cookie.split(';').find(c => c.trim().startsWith('jwtToken='));
-      if (!jwtFromCookie) {
-        return undefined;
-      }
-      const token = await jwtFromCookie.split('=')[1];
-      if(token){
-        return token
-      }else{
-        return null
-      }
-
-    }
+    const token = Cookie.get('jwtToken');
+    const validToken = await verifyToken(token);
+    if (validToken) 
+      return token;
+    else return null;
   }
   
   async function getTokenForServer(req) {
