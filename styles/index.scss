@@ -39,6 +39,9 @@ div.ui.container{
     align-items: center;  
 
 }
+.nextjs-toast-errors-parent{
+    display: none;
+}
 
 .loading-indicator{
     animation: pulse 4s infinite linear;
