@@ -25,6 +25,22 @@ const SideBarMenu = ({
     }
   }, []) ;
 
+  useEffect(() => {
+    const pusher = document.querySelector("#pusher");
+    const onClickPusher = (e) => {
+      if (visibleSideBar && !e.target.classList.contains("sidebar-link")) {
+        e.preventDefault();
+        hideSideBar();
+      }
+    };
+    if (visibleSideBar) {
+      pusher.addEventListener("click", onClickPusher);
+    }
+    return () => {
+      pusher.removeEventListener("click", onClickPusher);
+    }
+  }, [visibleSideBar])
+
   return (
     <Sidebar
       className="global-menu"
@@ -76,16 +92,14 @@ const SideBarMenu = ({
         <Grid.Row columns={1} className="buttons">
           <Grid.Column>
           <Link href="/account/plans">
-            <Button primary fluid >
-       
+            <Button className="link" primary fluid >
               <a className="link">SUBSCRIBE</a>
-      
             </Button>
             </Link>
           </Grid.Column>
           <Grid.Column>
           <Link href="/account" >
-            <Button primary fluid onTouchStart={()=>{      
+            <Button className="link" primary fluid onTouchStart={()=>{      
               const path = window.location.pathname;
               localStorage.setItem('path', path);
               }} >

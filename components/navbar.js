@@ -32,10 +32,11 @@ const NavBar = ({visibleSideBar, hideSideBar, showSideBar, path =''}) => {
 
   const {style = "regular", title=false, backUrl=false} = styleInfo;
   const icon = style === 'light-back' ? '../static/images/ppv/arrow-left.png' : '../static/images/global-menu/global-menu-icon-hl.png'
+  
   return (
     <Menu fixed="top" className={style}>
-      <Menu.Item onClick={()=>{backUrl ? router.push(backUrl) : toggleSideBar()}} >
-        <img src={icon}/>
+      <Menu.Item className="sidebar-link" onClick={()=>{backUrl ? router.push(backUrl) : toggleSideBar()}} >
+        <img src={icon} className="sidebar-link"/>
       </Menu.Item>
       <Menu.Item className="title">
         {title ? title : <div className="nya-log"/>}
