@@ -18,23 +18,26 @@ const Presale = ({
   planPrices,
   planInformation,
   user,
-  token,
   setUser,
   userData,
 }) => {
   const [plansList, setplansList] = useState({});
   const [userPlan, setpurchasedPlan] = useState({});
   const [loading, setLoading] = useState(false);
+  const [token, setToken] = useState(false);
 
-  useEffect(() => {
+  useEffect( async () => {
     //DO THIS IN THE WRAPPER THAT SHOW LOADING BEFORE PASSING DOWN THE INFO
+
+    const getToken =  await getjwtToken();
+    if(getToken) setToken(getToken)
     if (
-      token &&
+      getToken &&
       userData.userData &&
       Object.keys(userData.userData).length === 0
     ) {
       setLoading(true);
-      updateUserInfo(token, setUser).then((data) => {
+      updateUserInfo(getToken, setUser).then((data) => {
         setLoading(false);
       });
     }
@@ -140,14 +143,12 @@ export async function getServerSideProps(props) {
     req && req.headers && req.headers.cookie
       ? await getTokenForServer(req)
       : null;
-  let token =
-    req && req.headers && req.headers.cookie ? await getjwtToken(req) : null;
-  if (token === undefined) token = null;
+
   if (!user) user = null;
 
   const { planPrices, planInformation } = data;
 
-  return { props: { planPrices, planInformation, user, token } };
+  return { props: { planPrices, planInformation, user } };
 }
 
 const mapStateToProps = function (state) {

@@ -15,8 +15,6 @@ import React, { Component } from "react";
 import StripeCheckout from "react-stripe-checkout";
 
 
-// TODO: Ensure `paymentFail` returns reletive error msg
-
 class Line extends Component {
   render() {
     const available = this.props.available;
@@ -88,7 +86,8 @@ const PlanBtn = (props) => {
               return;
             }
             if(userHasThisPlan){
-              this.props.router.push('/account/subscription')
+              const {router} = props
+              router.push('/account/subscription')
               return;
             }
 
@@ -236,8 +235,6 @@ class PlansPanel extends Component {
 
     let sortedPlans = sortPlansAccordingPrice(plans);
     Object.keys(sortedPlans).forEach((planId) => {
-      console.log("userPlanType", userPlanType)
-      console.log("planId", planId)
       let userHasThisPlan = userPlanType.includes(planId);
       let plan = plans[planId];
       let isFreePlan = planId == NYA_FREE;
@@ -275,6 +272,7 @@ class PlansPanel extends Component {
                 checkIfShouldHideButton={this.checkIfShouldHideButton}
                 initialClickPurchase={this.initialClickPurchase}
                 userPlanType={userPlanType}
+                router={this.props.router}
               />
             )}
           </div>
@@ -371,7 +369,7 @@ class PlansPanel extends Component {
 
     // Verify that the plan is different than tha one purchased to enable upgrade/downgrade
     if (token) {
-        if(((planId != NYA_UNLIMITED) && (userPlanType != NYA_FREE)) && (planId !==userPlanType)){
+        if((planId != NYA_UNLIMITED) && (userPlanType != NYA_FREE) && (planId !==userPlanType)){
             this.setState({
                 state:'confirmation',screen: "plans", view: "select"
               })
@@ -810,6 +808,7 @@ class PlansPanel extends Component {
     let currentPlanName = this.state.planNames[userPlanType] || NYA_FREE;
     let newPlanName = this.state.planNames[planId];
     let action = this.checkIfUpgradeOrDowngrade(currentPlanName, newPlanName);
+    console.log("@@@@@@ action", action);
 
     return (
       <div className="content select confirmation">
@@ -998,7 +997,6 @@ class PlansPanel extends Component {
   paymentOK() {
   
     const { token,setUser, router} = this.props
-    console.log("token", token)
     if(token){
     updateUserInfo(token, setUser);
     }
@@ -1045,7 +1043,8 @@ class PlansPanel extends Component {
   }
 
   backToPlans(){
-    this.props.router.push('/account/plans')
+    const {router} = this.props
+    router.push('/account/plans')
   }
 
   render() {
