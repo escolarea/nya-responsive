@@ -47,11 +47,11 @@ async function getJWK() {
   }
   async function getjwtToken (req){
     if (req && req.headers && req.headers.cookie) {
-      const jwtFromCookie = req.headers.cookie.split(';').find(c => c.trim().startsWith('jwtToken='));
+      const jwtFromCookie = await req.headers.cookie.split(';').find(c => c.trim().startsWith('jwtToken='));
       if (!jwtFromCookie) {
         return undefined;
       }
-      const token = jwtFromCookie.split('=')[1];
+      const token = await jwtFromCookie.split('=')[1];
       if(token){
         return token
       }else{

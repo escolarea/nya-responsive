@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Link from "next/link";
 import fetchData from '../../api/fetch'
 import Ticket from '../../components/tikets'
@@ -8,8 +8,17 @@ import {getjwtToken} from '../../static/auth'
 import { withAuth0 } from '@auth0/auth0-react';
 import { connect } from "react-redux"
 import { showPopUp } from "../../store/notSupportedRoutes/action";
+import { useRouter } from 'next/router';
 
-const Presale = ({ticketsData =[], token, userData, showPopUp}) => {
+const Presale = ({ticketsData =[], token, userData, showPopUp, assignedCodes}) => {
+  const router = useRouter();
+  useEffect(()=>{
+    const {userData:user} = userData;
+    if (Object.keys(user).length === 0 ) {
+      router.push('/account')
+    }
+  },[])
+
     const sortDate = (item) => item.sort((a, b) => new Date(b.date) - new Date(a.date));
 
     let ticketsBefore = ticketsData.filter(item => item && (moment.utc(item.date) < moment.utc().startOf('day')))
@@ -69,6 +78,7 @@ const Presale = ({ticketsData =[], token, userData, showPopUp}) => {
                             userInfo={userData}
                             token={token}
                             showPopUp={showPopUp}
+                            assignedCodes={assignedCodes}
 
 
                         />
@@ -80,10 +90,11 @@ const Presale = ({ticketsData =[], token, userData, showPopUp}) => {
 } 
 
 export async function getServerSideProps(props) {
+
   const { req } = props;
   let token = req.headers && req.headers.cookie ? await getjwtToken(req) : null;
-
   if(token === undefined) token = null
+
     const headers = {'Authorization': 'Bearer ' + token}
     const request = {
         method:'GET',

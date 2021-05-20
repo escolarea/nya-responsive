@@ -15,29 +15,23 @@ class Ticket extends Component {
         }
     }
 
-    componentDidMount() {
-        const { entryID, accountPage } = this.props
-        if (entryID === this.props.ticket.id) {
-            accountPage.scrollTop = this.wrapper.offsetTop
-        }
-    }
-
     render () {
-        console.log("this.props", this.props)
         const { ticket, onCopy, assignedCodes, userInfo = {}} = this.props
         const { loading } = this.state
-        const {userData :{userPlanId,userIsFree } = {} } = userInfo
-        console.log('userIsFree', userIsFree)
+        const {userData :{userPlanId = NYA_FREE, userIsFree = true } = {} } = userInfo
         
         const isUserSubscribed = !userIsFree;
         const currentUserPlan = (userPlanId !== ( NYA_FREE || NYA_MONTHLY))
 
 
         const date = moment.utc(ticket.date)
-        const code = this.state.code  || false;
+        const userTicket = assignedCodes.find(_ticket=>_ticket.ticket === ticket.id) 
+
+        const storageCode = localStorage.getItem('presale-code') || false 
+        const code = storageCode?  localStorage.getItem('presale-code') : userTicket && userTicket.code;
         const showCode = isUserSubscribed && currentUserPlan && code
-        
-        if (isUserSubscribed && currentUserPlan && !code) {
+ 
+            if (isUserSubscribed && currentUserPlan && !code) {
             assignedCodes && assignedCodes.map(code => {
                 if (code.ticket === ticket.id) {
                     this.setState({code: code.code})
@@ -46,10 +40,6 @@ class Ticket extends Component {
         }
 
         const onCodeButtonClick = () => {
-
-            console.log('isUserSubscribed', isUserSubscribed)
-            console.log("currentUserPlan", currentUserPlan)
-
             if (!isUserSubscribed || !currentUserPlan) {
                 this.props.showPopUp('ticket-modal');
                 return;
@@ -57,9 +47,7 @@ class Ticket extends Component {
             if (code) {
                 onCopy(code)
             } else {
-                // window.ticketsUnavailable() // REMOVE THIS LATER ONCE CONTETNFUL IS WORKING
-                // return
-                const {staticCode, flexibleCodeSource} = ticket
+                const {staticCode} = ticket
                 if (staticCode) {
                     this.setState({code: staticCode, loading: false})
                 } else {
@@ -76,6 +64,7 @@ class Ticket extends Component {
                         }
 
                         fetchData(request).then(data=>data.text()).then((result) => {
+                            localStorage.setItem('presale-code', result.code)
                             this.setState({code: result.code, loading: false})
                         })
                         .catch(err => {
