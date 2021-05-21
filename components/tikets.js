@@ -28,7 +28,7 @@ class Ticket extends Component {
 
         const storageCode = localStorage.getItem('presale-code') || this.state.code ; 
 
-        const code = storageCode  !== 'undefined' ?  storageCode  : userTicket && userTicket.code;
+        const code = (storageCode  !== 'undefined' )?  storageCode  : userTicket && userTicket.code;
         let showCode = (isUserSubscribed && currentUserPlan && code)
 
             if (isUserSubscribed && currentUserPlan && !code) {
@@ -63,6 +63,7 @@ class Ticket extends Component {
                         }
 
                         fetchData(request).then(data=>data.json()).then((result) => {
+                            console.log("@@@@@@@ result.code", result.code)
                             localStorage.setItem('presale-code', result.code)
                             this.setState({code: result.code, loading: false})
                             showCode = true
