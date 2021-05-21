@@ -4,17 +4,9 @@
 }
 .left-side-icons {
     display: grid;
-    grid-template-columns: 1fr;
-    grid-template-rows: repeat(auto-fit, 17%);
-
-    &.extendedColumn{
-        grid-template-rows: repeat(auto-fit, 15%);
-    }
-    &.extraColumn{
-        grid-template-rows: repeat(auto-fit, 11%);
-    }
     .row{  
-        margin-top: 3rem;   
+        margin-top: 1rem;
+        margin-bottom: 1rem;   
         height: inherit !important;
         &.small, &.side-to-side{
             .image{
@@ -27,7 +19,6 @@
             position: relative;
             grid-column: 1; 
             width: inherit;
-            left: 10%;
             height: auto;
             font-size: 1rem;
         }
