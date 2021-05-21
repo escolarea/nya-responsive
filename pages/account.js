@@ -23,6 +23,11 @@ const Account = ({ isLoggedIn, setUser, removeToken, userData, token}) => {
         const res =  await fetchData({method:'GET',query:'api/subscriptions', headers });
         const data = await res.json();
         //This brings the subscription info and the jwt for OS
+        if(data && data.error){
+          logout();
+          return;
+        } 
+
         const userData= determineUserStatusFromSubscriptionResponse(data.subscription);
         userData.loggedInUser = isLoggedIn;
         setUser(userData);

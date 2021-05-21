@@ -7,11 +7,6 @@ import _ from "lodash";
 import marked from "marked";
 import cn from "classnames";
 import { showPopUp } from "../store/notSupportedRoutes/action";
-// import postit01 from '../images/filing-cabinet/postit_01.png'
-// import postit02 from '../images/filing-cabinet/postit_02.png'
-// import postit03 from '../images/filing-cabinet/postit_03.png'
-// import postit04 from '../images/filing-cabinet/postit_04.png'
-// import postit05 from '../images/filing-cabinet/postit_05.png'
 
 const FrontDrawer = ({ leftSideIcons, postIt, showPopUp }) => {
 
@@ -37,7 +32,6 @@ const FrontDrawer = ({ leftSideIcons, postIt, showPopUp }) => {
     if (!image) return;
     if (!_.has(image, "fields.file.url")) return;
     const url = image.fields.file.url;
-    const backgroundImage = `url(${url})`;
     const link = videoId
       ? `/video?vimeoId=${videoId}`
       : data[performanceLogKey] || data[linkKey] || "";
@@ -128,7 +122,7 @@ const FrontDrawer = ({ leftSideIcons, postIt, showPopUp }) => {
     if (link) {
       let path = removeHash(link);
       result.push(
-        <div style={{ backgroundImage: background }} className={cx}>
+        <div style={{ backgroundImage: background }} className={cx} key={id}>
           <Link href={path}>
             <div
               className={contentCn}

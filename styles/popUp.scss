@@ -7,6 +7,11 @@
       display: flex;
       justify-content: center;
     }
+    .custom-radio{
+      input{
+        margin-bottom: 2rem;
+      }
+    }
   }
 }
 .pop__up.modal,.pop__up.account{
