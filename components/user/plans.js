@@ -475,6 +475,7 @@ class PlansPanel extends Component {
             token={this.selectGotToken}
             amount={price}
             stripeKey={process.env.NEXT_PUBLIC_STRIPE_KEY}
+            image={'../../static/images/NYA_icon_128x128.jpg'}
           >
             <div className="button" >SUBMIT</div>
          </StripeCheckout>
