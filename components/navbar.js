@@ -2,8 +2,6 @@ import {Menu} from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import {hideSideBar, showSideBar } from '../store/sidebar/action';
 import { useRouter } from 'next/router';
-// import Arrow from '../static/icons/arrow.svg'
-// import regularIcon from '../static/images/global-menu/global-menu-icon-hl.png'
 
 const NavBar = ({visibleSideBar, hideSideBar, showSideBar, path =''}) => {
 
