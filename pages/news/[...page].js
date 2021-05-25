@@ -140,7 +140,7 @@ const News = ({routeType, articles, params, pageData, commonValues}) => {
         
         const pageInfo = pageData && pageData[params-1] || {};
         const title = pageInfo && pageInfo.columnsTitles && pageInfo.columnsTitles[0].title || "";
-        const desc = pageInfo && pageInfo._id || "";
+        const desc = pageInfo && pageInfo.title || "";
         const currentUrl  = `${process.env.NEXT_PUBLIC_SITE_URL}/news/${params}` || "" ;    
         return (
           <>
