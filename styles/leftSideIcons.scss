@@ -1,48 +1,31 @@
-#leftside-icons-wrapper{
-    background-color: #4c311b;
-    
+#leftside-icons-wrapper {
+  background-color: #4c311b;
 }
 .left-side-icons {
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-template-rows: repeat(auto-fit, 17%);
-
-    &.extendedColumn{
-        grid-template-rows: repeat(auto-fit, 15%);
+  .row {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    height: inherit !important;
+    width: 100%;
+    &.small {
+      width: 50%;
+      float: left;
     }
-    &.extraColumn{
-        grid-template-rows: repeat(auto-fit, 11%);
+    &.small,
+    &.side-to-side {
+      .image {
+        width: 120px;
+        height: auto;
+        font-size: 1rem;
+      }
     }
-    .row{  
-        margin-top: 3rem;   
-        height: inherit !important;
-        &.small, &.side-to-side{
-            .image{
-                width: 120px;
-                height: auto;
-                font-size: 1rem; 
-            }
-        }
-        &.small{
-            position: relative;
-            grid-column: 1; 
-            width: inherit;
-            left: 10%;
-            height: auto;
-            font-size: 1rem;
-        }
-        &.side-to-side{
-            position: relative;
-            width: inherit;
-            margin-left: 9rem;
-        } 
-    }
-    .icon {
-        background-position: center;
-        background-repeat:no-repeat;
-        background-size: contain;
-        width:400px;
-        height: inherit; 
-        margin-bottom: 10px;
-    }
+  }
+  .icon {
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    width: 400px;
+    height: inherit;
+    margin-bottom: 10px;
+  }
 }
