@@ -1,4 +1,5 @@
 module.exports = {
+    productionBrowserSourceMaps: true,
     serverRuntimeConfig: { // Will only be available on the server side
       test: 'test'
     },
