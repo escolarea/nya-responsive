@@ -6,11 +6,8 @@ import Article     from '../../components/news/article'
 import NewsNavbar  from '../../components/news/news-navbar'
 import {parseOnlyNumbers} from '../../helpers/numbers'
 import fetchData from '../../api/fetch'
-<<<<<<< HEAD
-=======
 import Meta from '../../components/metatags';
 import { useRouter } from 'next/router';
->>>>>>> 5009ddc415343034e882efe74e9f021351684f0e
 
 const News = ({routeType, articles, params, pageData, commonValues}) => {
   const [numberOfArticles, setnumberOfArticles] = useState(5);
