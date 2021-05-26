@@ -63,7 +63,6 @@ class Ticket extends Component {
                         }
 
                         fetchData(request).then(data=>data.json()).then((result) => {
-                            console.log("@@@@@@@ result.code", result.code)
                             localStorage.setItem('presale-code', result.code)
                             this.setState({code: result.code, loading: false})
                             showCode = true
