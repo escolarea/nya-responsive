@@ -8,7 +8,6 @@
     flex-direction: column;
     justify-content: end;
     align-items: end;
- 
     padding-top: 2rem;
     .one.column.row.links{
         width: 100%;
@@ -166,4 +165,29 @@
         }
 
     }
+}
+.terms{
+    overflow-y: scroll;
+    overflow-x: hidden;
+    padding: 1rem;
+    .credits{
+        p{
+            white-space: pre-wrap;
+            font-family: 'Typewriter';
+        }
+        h2{
+            font-family: 'Typewriter';
+            font-size: 18px;
+        }
+    }
+
+    p.title{
+        margin-top: 2rem;
+        text-align: center;
+        width: 100%;
+        font-size: 1.5em;
+        border-top: solid black;
+        border-bottom: solid black;
+    }   
+        
 }
