@@ -1,4 +1,0 @@
-#!/bin/bash
-#service httpd start
-#yarn start 3000
-echo "start server script"
