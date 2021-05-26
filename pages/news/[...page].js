@@ -9,6 +9,7 @@ import fetchData from '../../api/fetch'
 import Meta from '../../components/metatags';
 import { useRouter } from 'next/router';
 
+
 const News = ({routeType, articles, params, pageData, commonValues}) => {
   const [numberOfArticles, setnumberOfArticles] = useState(5);
   const [loaded, setloaded] = useState(false);
