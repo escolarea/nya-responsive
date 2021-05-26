@@ -3,13 +3,9 @@
 import React , {useEffect, useState}  from 'react'
 import NewsWrapper from '../../components/news/news'
 import Article     from '../../components/news/article'
-import Navigation  from '../../components/news/navigation'
 import NewsNavbar  from '../../components/news/news-navbar'
-import {add} from '../../store/commonValues/action'
 import {parseOnlyNumbers} from '../../helpers/numbers'
-import Link from "next/link";
 import fetchData from '../../api/fetch'
-import NavBar from '../../components/navbar';
 
 const News = ({routeType, articles, params, pageData, commonValues}) => {
   const [numberOfArticles, setnumberOfArticles] = useState(5);
@@ -190,6 +186,8 @@ export async function getServerSideProps(context) {
       request.json()
 
     ]);
+
+    console.log("initialData", initialData);
 
     const {data : navKeys} = contrarianPage
     const {data:commonValues} = initialData 
