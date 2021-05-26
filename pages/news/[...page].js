@@ -6,23 +6,28 @@ import Article     from '../../components/news/article'
 import NewsNavbar  from '../../components/news/news-navbar'
 import {parseOnlyNumbers} from '../../helpers/numbers'
 import fetchData from '../../api/fetch'
+<<<<<<< HEAD
+=======
+import Meta from '../../components/metatags';
+import { useRouter } from 'next/router';
+>>>>>>> 5009ddc415343034e882efe74e9f021351684f0e
 
 const News = ({routeType, articles, params, pageData, commonValues}) => {
   const [numberOfArticles, setnumberOfArticles] = useState(5);
   const [loaded, setloaded] = useState(false);
+  const router = useRouter();
 
   useEffect(()=>{
     let newsInterval = false
     if(routeType === 'page'){
-      setloaded(true)
-      // if(newsInterval)clearInterval(newsInterval);
-//to do run this undefinetely 
-                // newsInterval = setInterval(() => {
-                //   setnumberOfArticles(numberOfArticles + 5)
-                //   setloaded(true)
-                // }, 2000)
-
-               
+      setloaded(true)               
+    }
+    if (
+      params.includes("top-10-albums") ||
+      params.includes("top-40-tracks") ||
+      params.includes("movietone")
+    ) {
+      router.push('/news/1');
     }
 
     return(()=>{
@@ -107,11 +112,22 @@ const News = ({routeType, articles, params, pageData, commonValues}) => {
   if(routeType === 'post'){
 
     const {article} = articles
+    const {headline:title = "", excerpt: desc = "", id} = article
+    console.log("title", title)
+    const currentUrl  = `${process.env.NEXT_PUBLIC_SITE_URL}/news/${params}/${id}` || "" ;   
+
     return(
+      <>
+      <Meta 
+          title={title}
+          canonical={currentUrl}
+          desc={desc}
+          />
       <Article
       data={article}
       loaded={loaded}
       />
+      </>
     )
   } 
 
@@ -121,22 +137,21 @@ const News = ({routeType, articles, params, pageData, commonValues}) => {
 
         const routes = routesParse(contrarianPagesTitles, pageData)
         //page style and backgrounds
-        let headerImage          = routes && routes.pages['header'] 
-        let pageStyle            = routes && routes.pages['styles'] 
-        let backgroundImage      = routes && routes.backgroundImage 
         let themeAperance        = routes && routes.themeAperance
 
-//REVISE THIS ONE 
         //force light mode on these routes because page number is always one
-        if( params.includes("top-10-albums") ||
-            params.includes("top-40-tracks") || 
-            params.includes("movietone")){
-            themeAperance       = 'light-mode';
-            backgroundImage     = defaultBackground;
-            // headerImage         =  params.includes("movietone") ? ppvHeader : defaultHeader;
-        }
         
+        const pageInfo = pageData && pageData[params-1] || {};
+        const title = pageInfo && pageInfo.columnsTitles && pageInfo.columnsTitles[0].title || "";
+        const desc = pageInfo && pageInfo.title || "";
+        const currentUrl  = `${process.env.NEXT_PUBLIC_SITE_URL}/news/${params}` || "" ;    
         return (
+          <>
+          <Meta 
+          title={title}
+          canonical={currentUrl}
+          desc={desc}
+          />
           <React.Fragment>
           <NewsNavbar 
             pagesData={pageData}
@@ -153,6 +168,7 @@ const News = ({routeType, articles, params, pageData, commonValues}) => {
             params={params}
           />
           </React.Fragment>
+          </>
         );
 } 
 
@@ -160,7 +176,7 @@ const News = ({routeType, articles, params, pageData, commonValues}) => {
 export async function getServerSideProps(context) {
 
     const { page }   =  context.query;
-    let    params    =  page[0];
+    let    params    =  page && page[0];
     const  routeType =  page.length == 2 ? 'post' : 'page'
 
     const promises   =  [
