@@ -3,7 +3,7 @@ FROM public.ecr.aws/bitnami/node:12-prod
 WORKDIR /app
 
 COPY package.json yarn.lock ./
-RUN npm i -S && npm i -D
+RUN npm i
 
 COPY . .
 
