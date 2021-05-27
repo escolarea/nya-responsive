@@ -3,7 +3,7 @@ FROM public.ecr.aws/bitnami/node:latest
 WORKDIR /app
 
 COPY package.json yarn.lock ./
-RUN npm i
+RUN npm_config_user=root npm i
 
 COPY . .
 
