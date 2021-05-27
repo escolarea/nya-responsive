@@ -110,7 +110,7 @@ const News = ({routeType, articles, params, pageData, commonValues}) => {
 
     const {article} = articles
     const {headline:title = "", excerpt: desc = "", id} = article
-    console.log("title", title)
+
     const currentUrl  = `${process.env.NEXT_PUBLIC_SITE_URL}/news/${params}/${id}` || "" ;   
 
     return(
@@ -139,9 +139,9 @@ const News = ({routeType, articles, params, pageData, commonValues}) => {
         //force light mode on these routes because page number is always one
         
         const pageInfo = pageData && pageData[params-1] || {};
-        const title = pageInfo && pageInfo.columnsTitles && pageInfo.columnsTitles[0].title || "";
-        const desc = pageInfo && pageInfo.title || "";
-        const currentUrl  = `${process.env.NEXT_PUBLIC_SITE_URL}/news/${params}` || "" ;    
+        const title = pageInfo && pageInfo.columnsTitles && pageInfo.columnsTitles[0].title || "Neil Young Archives";
+        const desc = pageInfo && pageInfo.title || "NYA contains the complete archives of Neil Young";
+        const currentUrl  = `${process.env.NEXT_PUBLIC_SITE_URL}/news/${params}` || `${process.env.NEXT_PUBLIC_SITE_URL}` ;    
         return (
           <>
           <Meta 
