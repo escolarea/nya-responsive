@@ -118,7 +118,7 @@ const News = ({routeType, articles, params, pageData, commonValues}) => {
       <Meta 
           siteName="Neil Young Archives"
           title={title}
-          canonical={currentUrl}
+          canonical={currentUrl} 
           desc={desc}
           />
       <Article
