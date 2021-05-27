@@ -1,18 +1,12 @@
-FROM node:12.18.1
+FROM public.ecr.aws/bitnami/node:12-prod
+#FROM node:12.18.1
+WORKDIR /app
 
-RUN mkdir -p /usr/src/app
-ENV PORT 3000
-WORKDIR /usr/src/app
-
-COPY package.json /usr/src/app
-COPY yarn.lock /usr/src/app
-
-
+COPY package.json yarn.lock ./
 RUN npm i -S && npm i -D
 
-COPY . /usr/src/app
+COPY . .
 
 RUN yarn build
-
-EXPOSE 3000
-CMD [ "yarn", "start" ]
+EXPOSE 8080
+CMD [ "node", "server.js" ]
