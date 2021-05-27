@@ -11,7 +11,6 @@ const Home = ({leftSideIcons,postIt }) => {
         <NavBar/>
         <Container>
           <FrontDrawer leftSideIcons={leftSideIcons} postIt={postIt} />
-          {<p>HOLA 1</p>}
         </Container>
       </React.Fragment>
   );
