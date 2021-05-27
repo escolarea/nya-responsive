@@ -202,8 +202,6 @@ export async function getServerSideProps(context) {
 
     ]);
 
-    console.log("initialData", initialData);
-
     const {data : navKeys} = contrarianPage
     const {data:commonValues} = initialData 
     const pageData =  Object.keys(navKeys).map(page=>navKeys[page])
