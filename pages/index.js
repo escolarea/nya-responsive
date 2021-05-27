@@ -9,8 +9,9 @@ const Home = ({leftSideIcons,postIt }) => {
   return (
       <React.Fragment>
         <Meta 
+          siteName="Neil Young Archives"
           title={'Neil Young Archives'}
-          canonical={'https://neilyoungarchives.com/'}
+          canonical={'https://neilyoungarchives.com'}
           desc={'NYA contains the complete archives of Neil Young. The site is designed for a chronological exploration of artist output including music, books, films, & videos. Music is streamed in high-res with Xstream by NYA.  A living document, NYA is always being updated with new information, content and news.'}
           />
         <Container>
