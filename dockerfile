@@ -1,4 +1,4 @@
-FROM public.ecr.aws/bitnami/node:12-prod
+FROM public.ecr.aws/bitnami/node:latest
 #FROM node:12.18.1
 WORKDIR /app
 
