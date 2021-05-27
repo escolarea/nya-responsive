@@ -2,8 +2,6 @@ import {Menu} from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import {hideSideBar, showSideBar } from '../store/sidebar/action';
 import { useRouter } from 'next/router';
-// import Arrow from '../static/icons/arrow.svg'
-// import regularIcon from '../static/images/global-menu/global-menu-icon-hl.png'
 
 const NavBar = ({visibleSideBar, hideSideBar, showSideBar, path =''}) => {
 
@@ -24,7 +22,11 @@ const NavBar = ({visibleSideBar, hideSideBar, showSideBar, path =''}) => {
     'presale':{'style':'light-back','backUrl':'/account', 'title':'Pre-Sale Tickets'},
     'notifications':{'style':'light-back','backUrl':'/account', 'title':'Notification Settings'},
     'subscription':{'style':'light-back','backUrl':'/account', 'title':'Subscription'},
-    'subject':{'style':'light-back','backUrl':'/contact', 'title':'Subject'}
+    'subject':{'style':'light-back','backUrl':'/contact', 'title':'Subject'},
+    'about':{'style':'light-back','backUrl':false, 'title':'About'},
+    'terms':{'style':'light-back','backUrl':'/about', 'title':'Terms and Conditions'},
+    'privacy':{'style':'light-back','backUrl':'/about', 'title':'Privacy Policy'},
+    'credits':{'style':'light-back','backUrl':'/about', 'title':'Credits'}
   }
 
 
