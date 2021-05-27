@@ -6,7 +6,7 @@ const Meta = (props) => (
 <meta property="og:type" content="website" />
 <meta name="og:title" property="og:title" content={props.title} />
 <meta name="og:description" property="og:description" content={props.desc} />
-<meta property="og:site_name" content="Proper Noun" />
+<meta property="og:site_name" content=" Neil Young Archives" />
 <meta property="og:url" content={`${props.canonical}`} />  
 <meta name="twitter:card" content="summary" /> 
 <meta name="twitter:title" content={props.title} />
