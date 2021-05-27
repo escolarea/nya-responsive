@@ -116,6 +116,7 @@ const News = ({routeType, articles, params, pageData, commonValues}) => {
     return(
       <>
       <Meta 
+          siteName="Neil Young Archives"
           title={title}
           canonical={currentUrl}
           desc={desc}
@@ -140,11 +141,12 @@ const News = ({routeType, articles, params, pageData, commonValues}) => {
         
         const pageInfo = pageData && pageData[params-1] || {};
         const title = pageInfo && pageInfo.columnsTitles && pageInfo.columnsTitles[0].title || "Neil Young Archives";
-        const desc = pageInfo && pageInfo.title || "NYA contains the complete archives of Neil Young";
+        const desc = `NYA contains the complete archives of Neil Young. Times contrarian ${pageInfo && pageInfo.title}`;
         const currentUrl  = `${process.env.NEXT_PUBLIC_SITE_URL}/news/${params}` || `${process.env.NEXT_PUBLIC_SITE_URL}` ;    
         return (
           <>
           <Meta 
+          siteName="Neil Young Archives"
           title={title}
           canonical={currentUrl}
           desc={desc}
