@@ -1,10 +1,11 @@
-import React, { Component, Fragment } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 import cn from "classnames";
 import { parseOnlyNumbers } from "../../helpers/numbers";
-import { Menu, Segment, Grid } from "semantic-ui-react";
+import { Menu, Grid } from "semantic-ui-react";
 import moment from "moment";
-import { connect } from "react-redux";
+import { connect, useSelector, useDispatch } from "react-redux";
 import { hideSideBar, showSideBar } from "../../store/sidebar/action";
+import { updateNavbarScrollPosition } from "../../store/newsNavbar/action";
 import { showPopUp } from "../../store/notSupportedRoutes/action";
 import Link from "next/link";
 
@@ -29,26 +30,27 @@ const NewsLink = (props) => {
   );
 };
 
-class NewsNavbar extends Component {
-  constructor(props) {
-    super(props);
-    // this.onClick = this.onClick.bind(this);
-    this.toggleSideBar = this.toggleSideBar.bind(this);
+const NewsNavbar = (props) => {
+  const visibleSideBar = useSelector(state => state.sidebar.visible);
+  const scrollPosition = useSelector(state => state.newsNavbar.scrollPosition);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const navMenu = document.querySelector("#nav-menu");
+    if (props.page === "1") {
+      navMenu.scrollTo(0, 0);
+      dispatch(updateNavbarScrollPosition(0));
+    } else {
+      navMenu.scrollTo(scrollPosition, 0);
+    }
+  }, []);
+
+  const toggleSideBar = () => {
+    if (!visibleSideBar) dispatch(showSideBar());
+    else dispatch(hideSideBar());
   }
 
-  //   onClick(page) {
-  //     const { navBarRoutes } = this.props;
-  //     const route = navBarRoutes[page];
-  //     //TODO: use next/router for prerender routes
-  //     // router.push(router.createLocation(route))
-  //   }
-
-  toggleSideBar() {
-    if (!this.props.visibleSideBar) this.props.showSideBar();
-    else this.props.hideSideBar();
-  }
-
-  renderNavBar() {
+  const renderNavBar = () => {
     const {
       page,
       pagesData,
@@ -56,15 +58,15 @@ class NewsNavbar extends Component {
       maxPage,
       fixed,
       params,
-    } = this.props;
-    const showLinks = this.props.showLinks || true;
+    } = props;
+    const showLinks = props.showLinks || true;
     // const linksWithoutDivider = [pagesData.length - 1, 0, 1];
     let items = [];
 
     const MovietoneLink = (
       <Fragment key="movietone">
         <Menu.Item>
-          <div className="link" onClick={(e) => this.props.showPopUp('download')}>
+          <div className="link" onClick={(e) => props.showPopUp('download')}>
             <p className="highlighted">Movietone</p>
           </div>
         </Menu.Item>
@@ -80,10 +82,12 @@ class NewsNavbar extends Component {
           if (p.linkString === "PPV") {
             titlePage = "ppv";
           }
-
+          console.log(p)
           return (
             <Fragment key={p.title}>
-              <Menu.Item>
+              <Menu.Item
+                className = {p.title === `page-${page}` ? 'active' : ''}
+              >
                 <NewsLink
                   page={titlePage}
                   current={page}
@@ -122,7 +126,7 @@ class NewsNavbar extends Component {
                 width="3"
                 textAlign="center"
                 verticalAlign='middle'
-                onClick={this.toggleSideBar}
+                onClick={toggleSideBar}
                 className="sidebar-link"
               >
                 {
@@ -163,6 +167,8 @@ class NewsNavbar extends Component {
           </Grid>
         </Menu>
         <Menu
+          id="nav-menu"
+          onScroll={e=>dispatch(updateNavbarScrollPosition(e.target.scrollLeft))}
           className={`news-navbar navigation ${themeAperance} ${
             fixed ? "fixed" : ""
           }`}
@@ -172,10 +178,8 @@ class NewsNavbar extends Component {
       </div>
     );
   }
-
-  render() {
-    return this.renderNavBar();
-  }
+  
+  return renderNavBar();
 }
 
 const mapStateToProps = (state) => {
