@@ -82,7 +82,6 @@ const NewsNavbar = (props) => {
           if (p.linkString === "PPV") {
             titlePage = "ppv";
           }
-          console.log(p)
           return (
             <Fragment key={p.title}>
               <Menu.Item
