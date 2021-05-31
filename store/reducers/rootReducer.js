@@ -5,6 +5,7 @@ import sidebar from '../sidebar/reducer'
 import userData from '../userData/reducer'
 import contactUs from '../contactUs/reducer';
 import userToken from '../token/reducer'
+import newsNavbar from '../newsNavbar/reducer';
 
 const rootReducer = combineReducers({
     commonValues:commonValues,
@@ -12,7 +13,8 @@ const rootReducer = combineReducers({
     sidebar:sidebar,
     userData:userData,
     contactUs: contactUs,
-    userToken:userToken
+    userToken:userToken,
+    newsNavbar: newsNavbar
 })
 
 export default rootReducer;
