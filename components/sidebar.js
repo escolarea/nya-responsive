@@ -11,12 +11,12 @@ const SideBarMenu = ({
   showPopUp,
   hideSideBar
 }) => {
-  const handleNotSupportedRoutes = () => showPopUp();
+  const handleNotSupportedRoutes = () => showPopUp('download');
 
   useEffect(() => {
     const clickOnLink = (e) => {
       if (e.target.classList.contains("link"))
-        hideSideBar();
+        hideSideBar('download');
     };
     const menu = document.querySelector(".global-menu-grid");
     menu.addEventListener("click", clickOnLink);
@@ -24,6 +24,22 @@ const SideBarMenu = ({
       menu.removeEventListener("click", clickOnLink);
     }
   }, []) ;
+
+  useEffect(() => {
+    const pusher = document.querySelector("#pusher");
+    const onClickPusher = (e) => {
+      if (visibleSideBar && !e.target.classList.contains("sidebar-link")) {
+        e.preventDefault();
+        hideSideBar();
+      }
+    };
+    if (visibleSideBar) {
+      pusher.addEventListener("click", onClickPusher);
+    }
+    return () => {
+      pusher.removeEventListener("click", onClickPusher);
+    }
+  }, [visibleSideBar])
 
   return (
     <Sidebar
@@ -75,18 +91,23 @@ const SideBarMenu = ({
         </Grid.Row>
         <Grid.Row columns={1} className="buttons">
           <Grid.Column>
-            <Button primary fluid >
-            <Link href="/account/plans">
+          <Link href="/account/plans">
+            <Button className="link" primary fluid >
               <a className="link">SUBSCRIBE</a>
-            </Link>
             </Button>
+            </Link>
           </Grid.Column>
           <Grid.Column>
-            <Button primary fluid >
-            <Link href="/account">
+          <Link href="/account" >
+            <Button className="link" primary fluid onTouchStart={()=>{      
+              const path = window.location.pathname;
+              localStorage.setItem('path', path);
+              }} >
+           
               <a className="link">ACCOUNT</a>
-            </Link>
+           
             </Button>
+            </Link>
           </Grid.Column>
         </Grid.Row>
         <Grid.Row columns={1} className="buttons">

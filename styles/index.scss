@@ -29,7 +29,34 @@ div.ui.container{
     margin-right:0rem !important;
     padding-top:20px;
     margin-top: -5px;
+    .icon-link {
+        height: max-content!important;
+    }
 }
+.loading{
+    
+    height: 100vh;
+    background: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;  
+
+}
+.nextjs-toast-errors-parent{
+    display: none;
+}
+
+.loading-indicator{
+    animation: pulse 4s infinite linear;
+}
+@keyframes pulse {
+    from {
+        transform: rotate(0deg);
+      }
+      to {
+        transform: rotate(359deg);
+      }
+  }
 
 @import 'mixins.scss';
 @import 'leftSideIcons.scss';

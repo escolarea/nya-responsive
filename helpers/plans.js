@@ -1,10 +1,12 @@
-export const getPlanProperty = (property = 'banner', planId = 'NYA-UNLIMITED',) => {
+import {NYA_FREE, NYA_UNLIMITED} from '../utils/url_constants'
+
+export const getPlanProperty = (property = 'banner', planId = NYA_UNLIMITED,) => {
   const plan = getPlan(planId) 
   const planBanner = plan ? plan[property] : false ;
   return planBanner
 }
 //get plan benefits from contentful 
-export const getPlanBenefits = (planId = 'NYA-FREE') => {
+export const getPlanBenefits = (planId = NYA_FREE) => {
   return getPlanProperty('benefits', planId)
 }
 

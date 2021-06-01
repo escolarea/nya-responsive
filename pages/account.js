@@ -7,18 +7,27 @@ import template from '../static/template';
 import PropTypes from 'prop-types';
 import { connect } from "react-redux"
 import { logout } from '../static/auth0';
+import {removeToken} from '../store/token/actions'
 import { useRouter } from 'next/router';
+import LoadingIndicator from '../components/loading'
 
 
-const Account = ({token, isLoggedIn,setUser}) => {
+const Account = ({ isLoggedIn, setUser, removeToken, userData, token}) => {
     const router = useRouter();
-    const [pageStatus, setPageStatus ] = useState('loading')
-    const retrieveUserData = async (token) => {
+
+    const [ pageStatus, setPageStatus ] = useState('loading');
+    
+    const retrieveUserData = async () => {
       if(token){
         const headers = {'Authorization': 'Bearer ' + token};
         const res =  await fetchData({method:'GET',query:'api/subscriptions', headers });
         const data = await res.json();
         //This brings the subscription info and the jwt for OS
+        if(data && data.error){
+          logout();
+          return;
+        } 
+
         const userData= determineUserStatusFromSubscriptionResponse(data.subscription);
         userData.loggedInUser = isLoggedIn;
         setUser(userData);
@@ -26,18 +35,25 @@ const Account = ({token, isLoggedIn,setUser}) => {
       }
    }  
    useEffect(()=>{
+
      if(!isLoggedIn){
-      // localStorage.setItem('prev-url', document.referrer);
       router.push('/login')
       return;
      }
-
-     retrieveUserData(token);
+     console.log("userData", userData)
+     if(userData.userData && Object.keys(userData.userData).length == 0){
+      retrieveUserData();
+     }
      setPageStatus('ready');
-   })
+   },[])
 
   if(pageStatus === 'loading'){
-    return<div>loading</div>
+    return(
+    <div className="loading">
+      <center>
+        <LoadingIndicator/>
+      </center>
+    </div>)
   }
   return (
     <div id="account-menu-container" className="global-menu">
@@ -48,7 +64,12 @@ const Account = ({token, isLoggedIn,setUser}) => {
             <div className="left aligned column"><Link href="/account/plans" className="left aligned column"> Plans </Link></div>
             <div className="left aligned column"><Link href="/account/presale" className="left aligned column"> Presale Tickets </Link></div>
             <div className="left aligned column"><Link href="/account/notifications" className="left aligned column"> Notification Settings </Link></div>
-            <div id="logout-btn"className="left aligned" onTouchStart={logout}>LOG OUT </div>
+            <div id="logout-btn"className="left aligned" onTouchStart={()=>{
+              removeToken();
+              localStorage.removeItem('newsletter-pref-seen');
+              localStorage.removeItem('presale-code');
+              logout();
+            }}>LOG OUT </div>
           </div>
           
         </div>
@@ -61,8 +82,16 @@ Account.propTypes = {
 }
 
 
-const AccountComponent = connect( null, {
+const mapStateToProps = (state) => {
+
+  return {
+    userInfo : state.userToken.userToken,
+    userData : state.userData
+  };
+};
+const AccountComponent = connect( mapStateToProps, {
   setUser,
+  removeToken
 })(Account);
 
 export default template(AccountComponent)

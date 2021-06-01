@@ -3,10 +3,10 @@ export const actionType = {
   HIDE_POPUP: "HIDE_POPUP:"
 } 
 
-export const showPopUp = () => (dispatch, data) => {
-  return dispatch({ type: actionType.SHOW_POPUP })
+export const showPopUp = (data) => (dispatch) => {
+  return dispatch({ type: actionType.SHOW_POPUP, data })
 }
 
-export const hidePopUp = () => (dispatch, data) => {
-  return dispatch({ type: actionType.HIDE_POPUP })
+export const hidePopUp = (data) => (dispatch) => {
+  return dispatch({ type: actionType.HIDE_POPUP, data })
 }

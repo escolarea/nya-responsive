@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import moment from 'moment'
 import cns                  from 'classnames'
+import {NYA_FREE, NYA_MONTHLY} from '../utils/url_constants'
+import fetchData from '../api/fetch';
+
 
 class Ticket extends Component {
     constructor (props) {
@@ -12,55 +15,68 @@ class Ticket extends Component {
         }
     }
 
-    componentDidMount() {
-        const { entryID, accountPage } = this.props
-        if (entryID === this.props.ticket.id) {
-            accountPage.scrollTop = this.wrapper.offsetTop
-        }
-    }
-
     render () {
-        const { ticket, onCopy, assignedCodes, isUserSubscribed, currentUserPlan ="", userInfo } = this.props
+        const { ticket, onCopy, assignedCodes, userInfo = {}} = this.props
         const { loading } = this.state
+        const {userData :{userPlanId = NYA_FREE, userIsFree = true } = {} } = userInfo
+        const isUserSubscribed = !userIsFree;
+        const currentUserPlan = (userPlanId !== ( NYA_FREE || NYA_MONTHLY))
+
 
         const date = moment.utc(ticket.date)
-        const code = "";
-        // this.state.code || getTicketCode(`${userInfo.user_id}-${ticket.id}`)
-        const showCode = false
-        // isUserSubscribed && currentUserPlan === 'NYA-UNLIMITED-YEARLY' && code
+        const userTicket = assignedCodes.find(_ticket=>_ticket.ticket === ticket.id)  || false;
 
-        if (isUserSubscribed && currentUserPlan === 'NYA-UNLIMITED-YEARLY' && !code) {
+        const storageCode = localStorage.getItem('presale-code') || this.state.code ; 
+
+        const code = (storageCode  !== 'undefined' )?  storageCode  : userTicket && userTicket.code;
+        let showCode = (isUserSubscribed && currentUserPlan && code)
+
+            if (isUserSubscribed && currentUserPlan && !code) {
             assignedCodes && assignedCodes.map(code => {
                 if (code.ticket === ticket.id) {
-                    setTicketCode(`${userInfo.user_id}-${ticket.id}`, code.code)
                     this.setState({code: code.code})
                 }
             })
         }
 
         const onCodeButtonClick = () => {
-            if (!isUserSubscribed || currentUserPlan !== 'NYA-UNLIMITED-YEARLY') {
-                window.subsTicketMonthly()
-                return
+            if (!currentUserPlan) {
+                this.props.showPopUp('ticket-modal');
+                return;
             }
-            if (code) {
+            if (code && code !== null) {
                 onCopy(code)
             } else {
-                // window.ticketsUnavailable() // REMOVE THIS LATER ONCE CONTETNFUL IS WORKING
-                // return
-                const {staticCode, flexibleCodeSource} = ticket
+                const {staticCode = false } = ticket
                 if (staticCode) {
                     this.setState({code: staticCode, loading: false})
                 } else {
                     this.setState({loading: true})
-                    fetchTicketCode(ticket.id)
-                        .then((result) => {
-                            this.setState({code: result.body.code, loading: false})
+                    const {token} = this.props;
+
+                    if(token){
+                        const headers = {"Authorization": 'Bearer ' + token,'Content-Type': 'application/json'}
+                        const request = {
+                        method:'GET',
+                        query:`api/tickets/${ticket.id}/code`,
+                        headers
+                        }
+
+                        fetchData(request).then(data=>data.json()).then((result) => {
+                            localStorage.setItem('presale-code', result.code)
+                            this.setState({code: result.code, loading: false})
+                            showCode = true
                         })
                         .catch(err => {
                             console.error(err)
                             this.setState({loading: false})
                         })
+
+                    }else{
+                        this.setState({loading: false})
+                    }
+
+                    
                 }
             }
         }
@@ -80,7 +96,6 @@ class Ticket extends Component {
                         { showCode &&
                             <div className='ticket-codeSection'>
                                 <label>CODE: <label className='code'>{code}</label></label>
-                                <label>{ticket.codeLabel}</label>
                             </div>
                         }
                         {ticket.buyLinkEnabled && ticket.buyLinkUrl && <div

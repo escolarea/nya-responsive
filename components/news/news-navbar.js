@@ -33,7 +33,7 @@ class NewsNavbar extends Component {
   constructor(props) {
     super(props);
     // this.onClick = this.onClick.bind(this);
-    this.toggleMenu = this.toggleMenu.bind(this);
+    this.toggleSideBar = this.toggleSideBar.bind(this);
   }
 
   //   onClick(page) {
@@ -43,7 +43,7 @@ class NewsNavbar extends Component {
   //     // router.push(router.createLocation(route))
   //   }
 
-  toggleMenu() {
+  toggleSideBar() {
     if (!this.props.visibleSideBar) this.props.showSideBar();
     else this.props.hideSideBar();
   }
@@ -64,7 +64,7 @@ class NewsNavbar extends Component {
     const MovietoneLink = (
       <Fragment key="movietone">
         <Menu.Item>
-          <div className="link" onClick={(e) => this.props.showPopUp()}>
+          <div className="link" onClick={(e) => this.props.showPopUp('download')}>
             <p className="highlighted">Movietone</p>
           </div>
         </Menu.Item>
@@ -122,11 +122,12 @@ class NewsNavbar extends Component {
                 width="3"
                 textAlign="center"
                 verticalAlign='middle'
-                onClick={this.toggleMenu}
+                onClick={this.toggleSideBar}
+                className="sidebar-link"
               >
                 {
                   <img
-                    className="ui image center aligned menu-icon"
+                    className="ui image center aligned menu-icon sidebar-link"
                     src="../static/images/global-menu/global-menu-icon-hl.png"
                   />
                 }
