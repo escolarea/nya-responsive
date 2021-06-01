@@ -41,7 +41,7 @@ const NavBar = ({visibleSideBar, hideSideBar, showSideBar, path =''}) => {
         <img src={icon} className="sidebar-link"/>
       </Menu.Item>
       <Menu.Item className="title">
-        {title ? title : <div className="nya-log"/>}
+        {title ? title : <div className="nya-log">Neil Young Archives</div>}
       </Menu.Item>
     </Menu>
   );
