@@ -93,18 +93,18 @@
 .news-content {
   overflow-x: scroll;
   $column-width: 250px;
-  $gutter: 16px;
 
   .scrollable {
-    min-width: $column-width * 3;
-    max-width: $column-width * 5;
-    width: max-content;
-    .article-column {
-      width: $column-width;
-      // margin-left: $gutter;
-      float: left !important;
-      border-right: 1px solid gray;
-      padding: 0 $gutter;
+    display: grid;
+    grid-gap: 20px;
+    scroll-snap-type: x proximity;
+    &:before,
+    &:after {
+       content: '';
+    }
+    .article-column:not(:last-child) {
+      border-right: 1px solid black;
+      padding-right: 20px;
     }
   }
 }
