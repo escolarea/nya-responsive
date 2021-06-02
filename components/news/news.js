@@ -196,9 +196,12 @@ class NewsWrapper extends Component {
     const parsedColumns = columns.map((side) =>
       this._renderColumn(side, page, layout)
     );
+    const columnContainerStyle = {
+      gridTemplateColumns: `10px repeat(${parsedColumns.length}, calc(50% - (20px * 2))) 10px`
+    }
     return (
       <Container fluid className="news-content" style={{ paddingTop:"10rem" }}>
-        <div columns="equal" className="scrollable">
+        <div columns="equal" className="scrollable" style={columnContainerStyle}>
           {parsedColumns}
         </div>
       </Container>
