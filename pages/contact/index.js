@@ -212,9 +212,9 @@ const Contact = ({ user, token }) => {
   };
 
   return (
-    <Container className="contact-container">
+    <Container fluid className="contact-container">
       <div className="contact-wrapper">
-        <Container className="container contact-main-content">
+        <Container fluid className="container contact-main-content">
           {state.messageSent ? (
             <div className="result-message">
               {state.resultMessage}
