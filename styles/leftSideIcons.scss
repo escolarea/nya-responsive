@@ -1,6 +1,13 @@
 #leftside-icons-wrapper {
   background-color: #4c311b;
   height: inherit;
+  @media only screen 
+  and (min-device-width : 768px) 
+  and (max-device-width : 1024px) 
+  and (orientation : portrait)
+  and (-webkit-min-device-pixel-ratio: 2){
+  height: 100vh;
+}
 }
 .left-side-icons {
   width: 100%;
