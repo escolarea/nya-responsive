@@ -148,7 +148,7 @@ const notification = ({ visible,showContent, hidePopUp,accountView, token,modalT
       style={{ visibility: visible || showContent ? "visible" : "hidden" }}
     >
       {!accountView && <span className="close" onClick={() =>{ 
-          if(modalType=== 'first-login'){
+          if(modalType === 'first-login'){
             hidePopUp('first-login');
           }
           }}>
