@@ -105,8 +105,8 @@ const notification = ({ visible,showContent, hidePopUp,accountView, token,modalT
                 <Grid.Column textAlign="center">
                 <p className="header">Would you like to receive newsletters from NYA? </p>
                 </Grid.Column>
-            </Grid.Row>
-          <Grid.Row>
+            </Grid.Row >
+          <Grid.Row className="modal-input">
             <Grid.Column width="8" className="icon">
                 <div>
                 <RadioButton
