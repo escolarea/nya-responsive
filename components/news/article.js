@@ -42,7 +42,7 @@ function getArticleImages(data) {
 const NewsArticle = props => {
   const router = useRouter();
   const render = () => {
-    const { data, loaded } = props;
+    const { data, loaded ,themeAperance,headerImage} = props;
     if (_.isEmpty(data)) {
       // TODO: 404
       return null;
@@ -60,7 +60,7 @@ const NewsArticle = props => {
     return (
       <React.Fragment>
         <div className="news-navbar-wrapper">
-          <Menu className={`news-navbar header`}>
+          <Menu className={`news-navbar header ${themeAperance}`}>
             <Grid>
               <Grid.Row columns={2}>
                 <Grid.Column

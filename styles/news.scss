@@ -1,4 +1,13 @@
 .news-content {
+  &.dark-mode{
+    @include background-colors($light-theme:false);
+    .scrollable .article-column{
+      border-right: 1px solid  #b3b3b3 !important;
+    }
+    >*, div, p, a{
+        @include theme-colors($light-theme: false);
+    }
+  }
   a {
     color: #000;
     text-decoration: none;

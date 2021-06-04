@@ -1686,20 +1686,7 @@
         width: 100%;
         top: 165px;
         border-bottom: 1px solid black;
-        &.dark-mode{
-            @include background-colors($light-theme:false);
-            border-bottom: 1px solid #b3b3b3;
-            >*, div, p, a{
-                @include theme-colors($light-theme: false);
-            }
-            .link{
-                .highlighted{
-                   color:black !important;
-                }
-            }
-        }     
-
-
+   
         p {
             display: inline-block;
             font-family: Georgia;

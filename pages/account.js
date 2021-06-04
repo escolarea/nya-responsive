@@ -40,7 +40,6 @@ const Account = ({ isLoggedIn, setUser, removeToken, userData, token}) => {
       router.push('/login')
       return;
      }
-     console.log("userData", userData)
      if(userData.userData && Object.keys(userData.userData).length == 0){
       retrieveUserData();
      }
