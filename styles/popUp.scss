@@ -18,7 +18,10 @@
     }
     .custom-radio{
       input{
-        margin-bottom: 2rem;
+        width: 10px;
+          height: 10px;
+          border: solid 0px;
+          margin-bottom: 2rem;
         &:after {
           width: 15px;
           height: 15px;
