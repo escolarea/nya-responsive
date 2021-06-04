@@ -267,3 +267,33 @@
         }
     }
 }
+// ################# IPAD VIEW ##########################
+@media only screen and (device-width: 768px) {
+    .tickets-panel{
+        display: flex;
+        flex-direction: column;
+        .ticket{
+            width: 50%;
+            display: flex;
+            flex-direction: column;
+            .ticket-codeSection {
+                
+                top: 11rem;
+            }
+            .ticket-button{
+                top: 123px;
+            }
+            .code-button {
+                top: 163px;
+            }
+        }
+        .ticket--nya .ticket-descrOne {
+            top: 63px;
+            left: 75px;
+        }
+        .ticket--nya .ticket-descrTwo {
+            top: 92px;
+        }
+   
+    }
+}

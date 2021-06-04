@@ -1,5 +1,6 @@
 #account-menu-container{
-    height: 100vh;
+    min-height:1200px ;
+    height: 100%;
     width: 100%;
     background-image: url('../static/images/account-info/tab-content-body.jpg');
     background-size: 100%;
@@ -60,6 +61,7 @@
             }
         }
         &.overview-btn{
+            text-align: center;
             padding: 2rem 1rem;
             button.overview{
                 background-color: hsla(0,0%,100%,.4);
