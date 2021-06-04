@@ -133,7 +133,7 @@ const notification = ({ visible,showContent, hidePopUp,accountView, token,modalT
           </Grid.Row>
           <Grid.Row>
             <Grid.Column textAlign="center">
-              <div onTouchStart={()=>SetNotificationSettings() }className="update-btn">UPDATE</div>
+              <div onTouchStart={()=>SetNotificationSettings() }className="update-btn">SUBMIT</div>
             </Grid.Column>
           </Grid.Row>
         </Grid>)
