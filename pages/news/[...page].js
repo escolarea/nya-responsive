@@ -106,13 +106,20 @@ const News = ({routeType, articles, params, pageData, commonValues}) => {
     return  {routes, pages, maxPage,  existingPages, positionRoutes, themeAperance, backgroundImage}
   }
 
+  const {contrarianPagesTitles} = commonValues.commonValues
+
+  const routes = routesParse(contrarianPagesTitles, pageData)
+  //page style and backgrounds
+  let themeAperance        = routes && routes.themeAperance
+  let backgroundStyle      = routes && routes.backgroundImage
+  let headerImage          = routes && routes.pages['header'] 
+
   if(routeType === 'post'){
 
     const {article} = articles
     const {headline:title = "", excerpt: desc = "", id} = article
-
-    const currentUrl  = `${process.env.NEXT_PUBLIC_SITE_URL}/news/${params}/${id}` || "" ;   
-
+    const currentUrl  = `${process.env.NEXT_PUBLIC_SITE_URL}/news/${params}/${id}` || "" ; 
+ 
     return(
       <>
       <Meta 
@@ -122,6 +129,8 @@ const News = ({routeType, articles, params, pageData, commonValues}) => {
           desc={desc}
           />
       <Article
+      themeAperance={themeAperance}
+      headerImage={headerImage}
       data={article}
       loaded={loaded}
       />
@@ -131,11 +140,6 @@ const News = ({routeType, articles, params, pageData, commonValues}) => {
 
     // const {volume = "",today = getDate(), leftHeaderText = "", leftHeaderLink, rightHeaderText = "", 
   //               linkRight} = this.props.data || {};
-        const {contrarianPagesTitles} = commonValues.commonValues
-
-        const routes = routesParse(contrarianPagesTitles, pageData)
-        //page style and backgrounds
-        let themeAperance        = routes && routes.themeAperance
 
         //force light mode on these routes because page number is always one
         
@@ -157,6 +161,8 @@ const News = ({routeType, articles, params, pageData, commonValues}) => {
             params={params}
             page={params}
             themeAperance={themeAperance}
+            backgroundStyle={backgroundStyle}
+            headerImage={headerImage}
           />
           <NewsWrapper
             articles={articles} 
@@ -165,6 +171,8 @@ const News = ({routeType, articles, params, pageData, commonValues}) => {
             numberOfArticles={numberOfArticles}
             loaded={loaded}
             params={params}
+            themeAperance={themeAperance}
+            backgroundStyle={backgroundStyle}
           />
           </React.Fragment>
           </>
@@ -202,7 +210,6 @@ export async function getServerSideProps(context) {
 
     ]);
 
-    console.log("initialData", initialData);
 
     const {data : navKeys} = contrarianPage
     const {data:commonValues} = initialData 
