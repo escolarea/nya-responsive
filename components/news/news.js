@@ -186,7 +186,7 @@ class NewsWrapper extends Component {
   render() {
     if (!this.props.loaded) return <div />;
     // <SplashScreen style={{height: '100vh', width: '100%'}} loadState={100} />;
-    const { page ,themeAperance,backgroundStyle} = this.props;
+    const { page ,themeAperance} = this.props;
     const pageData =
       this.props.pageData.find(
         (p) => parseOnlyNumbers(p.title) === parseInt(page)

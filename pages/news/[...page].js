@@ -106,20 +106,28 @@ const News = ({routeType, articles, params, pageData, commonValues}) => {
     return  {routes, pages, maxPage,  existingPages, positionRoutes, themeAperance, backgroundImage}
   }
 
-  const {contrarianPagesTitles} = commonValues.commonValues
-
-  const routes = routesParse(contrarianPagesTitles, pageData)
-  //page style and backgrounds
-  let themeAperance        = routes && routes.themeAperance
-  let backgroundStyle      = routes && routes.backgroundImage
-  let headerImage          = routes && routes.pages['header'] 
-
   if(routeType === 'post'){
 
-    const {article} = articles
-    const {headline:title = "", excerpt: desc = "", id} = article
-    const currentUrl  = `${process.env.NEXT_PUBLIC_SITE_URL}/news/${params}/${id}` || "" ; 
- 
+    const {article} = articles;
+
+    const {headline:title = "", excerpt: desc = "", id, pageNumber} = article
+    const pageInfo        = pageData && pageData.find(_page=> _page.title === pageNumber);
+    const pageNumberId    = pageNumber.replace(/\D/g, "");
+    const currentUrl      = `${process.env.NEXT_PUBLIC_SITE_URL}/news/${pageNumberId}/${id}` || "" ; 
+    const backUrl         = `${process.env.NEXT_PUBLIC_SITE_URL}/news/${pageNumberId}` || ""
+
+
+    const {darkMode       = false , backgroundImage= false , pageHeader = false} = pageInfo; 
+    let themeAperance     = 'light-mode';
+    let background        = '';
+    let headerImg         = '';
+
+    if(darkMode){
+      themeAperance       = 'dark-mode';
+      background          = backgroundImage.fields && backgroundImage.fields.file.url;
+      headerImg           = pageHeader.fields && pageHeader.fields.file.url;
+
+    }
     return(
       <>
       <Meta 
@@ -130,9 +138,10 @@ const News = ({routeType, articles, params, pageData, commonValues}) => {
           />
       <Article
       themeAperance={themeAperance}
-      headerImage={headerImage}
+      headerImage={headerImg}
       data={article}
       loaded={loaded}
+      backUrl={backUrl}
       />
       </>
     )
@@ -140,6 +149,13 @@ const News = ({routeType, articles, params, pageData, commonValues}) => {
 
     // const {volume = "",today = getDate(), leftHeaderText = "", leftHeaderLink, rightHeaderText = "", 
   //               linkRight} = this.props.data || {};
+        const {contrarianPagesTitles} = commonValues.commonValues
+
+        const routes = routesParse(contrarianPagesTitles, pageData)
+        //page style and backgrounds
+        let themeAperance        = routes && routes.themeAperance
+        let backgroundStyle      = routes && routes.backgroundImage
+        let headerImage          = routes && routes.pages['header'] 
 
         //force light mode on these routes because page number is always one
         
