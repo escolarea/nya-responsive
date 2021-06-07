@@ -42,7 +42,7 @@ function getArticleImages(data) {
 const NewsArticle = props => {
   const router = useRouter();
   const render = () => {
-    const { data, loaded ,themeAperance,headerImage} = props;
+    const { data, loaded ,themeAperance,headerImage, backUrl = false} = props;
     if (_.isEmpty(data)) {
       // TODO: 404
       return null;
@@ -67,7 +67,7 @@ const NewsArticle = props => {
                   width="3"
                   textAlign="center"
                   verticalAlign="middle"
-                  onClick={()=>router.back()}
+                  onClick={()=>{backUrl ? router.push(backUrl) : router.back()}}
                 >
                   {
                     <img

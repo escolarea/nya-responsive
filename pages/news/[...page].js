@@ -112,7 +112,9 @@ const News = ({routeType, articles, params, pageData, commonValues}) => {
 
     const {headline:title = "", excerpt: desc = "", id, pageNumber} = article
     const pageInfo        = pageData && pageData.find(_page=> _page.title === pageNumber);
-    const currentUrl      = `${process.env.NEXT_PUBLIC_SITE_URL}/news/${params}/${id}` || "" ; 
+    const pageNumberId    = pageNumber.replace(/\D/g, "");
+    const currentUrl      = `${process.env.NEXT_PUBLIC_SITE_URL}/news/${pageNumberId}/${id}` || "" ; 
+    const backUrl         = `${process.env.NEXT_PUBLIC_SITE_URL}/news/${pageNumberId}` || ""
 
 
     const {darkMode       = false , backgroundImage= false , pageHeader = false} = pageInfo; 
@@ -126,11 +128,6 @@ const News = ({routeType, articles, params, pageData, commonValues}) => {
       headerImg           = pageHeader.fields && pageHeader.fields.file.url;
 
     }
-
-
-    console.log("article", article)
-    console.log("pageInfo", pageInfo)
-
     return(
       <>
       <Meta 
@@ -144,6 +141,7 @@ const News = ({routeType, articles, params, pageData, commonValues}) => {
       headerImage={headerImg}
       data={article}
       loaded={loaded}
+      backUrl={backUrl}
       />
       </>
     )
