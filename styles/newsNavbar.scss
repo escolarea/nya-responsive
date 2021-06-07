@@ -19,6 +19,7 @@ $borderColor: rgba($color: #000000, $alpha: 0.4);
     }
   }
   &.dark-mode{
+    border-bottom: 1px solid #b3b3b3;
     @include background-colors($light-theme:false);
     &:before{
       display: none;
@@ -44,6 +45,9 @@ $borderColor: rgba($color: #000000, $alpha: 0.4);
       &.selected{
            color:black !important;
         }
+    }
+    .menu-icon{
+      filter: brightness(1) invert(1);
     }
   } 
   .menu-icon{

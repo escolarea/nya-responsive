@@ -83,7 +83,7 @@ const NewsArticle = props => {
                 >
                   <img
                     className="ui image center aligned"
-                    src="/static/images/news/newspaper-header.png"
+                    src={headerImage ? headerImage :"/static/images/news/newspaper-header.png"}
                     alt=""
                   />
                 </Grid.Column>
@@ -92,7 +92,7 @@ const NewsArticle = props => {
             </Grid>
           </Menu>
         </div>
-        <div className="news-content" style={{paddingTop: "40px"}}>
+        <div className={`news-content ${themeAperance}`} style={{paddingTop: "40px"}}>
           <div className="main-content article">
             <div className="article">
               {bodyHeadline ? (
