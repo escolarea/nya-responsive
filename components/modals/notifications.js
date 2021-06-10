@@ -105,8 +105,8 @@ const notification = ({ visible,showContent, hidePopUp,accountView, token,modalT
                 <Grid.Column textAlign="center">
                 <p className="header">Would you like to receive newsletters from NYA? </p>
                 </Grid.Column>
-            </Grid.Row>
-          <Grid.Row>
+            </Grid.Row >
+          <Grid.Row className="modal-input">
             <Grid.Column width="8" className="icon">
                 <div>
                 <RadioButton
@@ -133,7 +133,7 @@ const notification = ({ visible,showContent, hidePopUp,accountView, token,modalT
           </Grid.Row>
           <Grid.Row>
             <Grid.Column textAlign="center">
-              <div onTouchStart={()=>SetNotificationSettings() }className="update-btn">UPDATE</div>
+              <div onTouchStart={()=>SetNotificationSettings() }className="update-btn">SUBMIT</div>
             </Grid.Column>
           </Grid.Row>
         </Grid>)
@@ -148,7 +148,7 @@ const notification = ({ visible,showContent, hidePopUp,accountView, token,modalT
       style={{ visibility: visible || showContent ? "visible" : "hidden" }}
     >
       {!accountView && <span className="close" onClick={() =>{ 
-          if(modalType=== 'first-login'){
+          if(modalType === 'first-login'){
             hidePopUp('first-login');
           }
           }}>

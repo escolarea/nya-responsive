@@ -42,7 +42,7 @@ function getArticleImages(data) {
 const NewsArticle = props => {
   const router = useRouter();
   const render = () => {
-    const { data, loaded } = props;
+    const { data, loaded ,themeAperance,headerImage, backUrl = false} = props;
     if (_.isEmpty(data)) {
       // TODO: 404
       return null;
@@ -60,14 +60,14 @@ const NewsArticle = props => {
     return (
       <React.Fragment>
         <div className="news-navbar-wrapper">
-          <Menu className={`news-navbar header`}>
+          <Menu className={`news-navbar header ${themeAperance}`}>
             <Grid>
               <Grid.Row columns={2}>
                 <Grid.Column
                   width="3"
                   textAlign="center"
                   verticalAlign="middle"
-                  onClick={()=>router.back()}
+                  onClick={()=>{backUrl ? router.push(backUrl) : router.back()}}
                 >
                   {
                     <img
@@ -83,7 +83,7 @@ const NewsArticle = props => {
                 >
                   <img
                     className="ui image center aligned"
-                    src="/static/images/news/newspaper-header.png"
+                    src={headerImage ? headerImage :"/static/images/news/newspaper-header.png"}
                     alt=""
                   />
                 </Grid.Column>
@@ -92,7 +92,7 @@ const NewsArticle = props => {
             </Grid>
           </Menu>
         </div>
-        <div className="news-content" style={{paddingTop: "40px"}}>
+        <div className={`news-content ${themeAperance}`} style={{paddingTop: "40px"}}>
           <div className="main-content article">
             <div className="article">
               {bodyHeadline ? (

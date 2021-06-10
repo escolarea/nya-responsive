@@ -39,12 +39,16 @@ const FrontDrawer = ({ leftSideIcons, postIt, showPopUp }) => {
     columnRow.push(`'${suffix}'`);
 
     if (iconSize !== "default" && iconSize !== undefined) {
-      columnClass = iconSize;
+        columnClass = iconSize;
       if (prevIconSize && prevIconSize == iconSize && prevIconImage) {
         columnClass = "small side-to-side";
         gridRow = { gridRow: `${prev}` };
         columnRow.pop();
       }
+    }
+    //cases with one small on one row
+    if( (prevIconSize == undefined && iconSize == 'small' )|| (prevIconSize == 'small' && iconSize =='default')){
+      columnClass = ""
     }
     let path = removeHash(link);
     const token = ""; //getOrastreamToken();
@@ -79,10 +83,11 @@ const FrontDrawer = ({ leftSideIcons, postIt, showPopUp }) => {
   };
   const parseLeftSideIcons = (data, result, leftSideIconsColumns) => {
     const iconkeys = Object.keys(data);
+    const keysLength = iconkeys.length;
 
-    for (let i = 0; i <= iconkeys.length; i++) {
+    for (let i = 0; i <= keysLength; i++) {
       let icon = iconkeys[i];
-      if (i >= 1)
+      if (i >= 1 ||i <= keysLength)
         leftSideIconsColumns.prevIconIndex = parseOnlyNumbers(iconkeys[i - 1]);
       if (icon && parseOnlyLetters(icon) == "icon") {
         let iconArea = parseOnlyNumbers(icon);
@@ -91,7 +96,7 @@ const FrontDrawer = ({ leftSideIcons, postIt, showPopUp }) => {
           data,
           result,
           leftSideIconsColumns.prevIconIndex,
-          leftSideIconsColumns.columnRow
+          leftSideIconsColumns.columnRow,
         );
       }
     }

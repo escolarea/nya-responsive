@@ -3,14 +3,14 @@ import { Container } from "semantic-ui-react";
 import { useRouter } from "next/router";
 import {useDispatch, useSelector} from 'react-redux';
 import {setSubject} from '../../store/contactUs/action';
-import { getTokenForServer, getjwtToken } from "../../static/auth";
+import template from '../../static/template';
 
-const ContactSubject = ({user, token}) => {
+const ContactSubject = ({token}) => {
   const router = useRouter();
   const subject = useSelector(state=>state.contactUs.subject);
   const dispatch = useDispatch();
   const options = [
-    { value: "neil", label: "Letters for Neil" },
+    { value: "neil", label: "Letters for Neil", loginRequired: true},
     { value: "archivist", label: "Question for the Archivist" },
     { value: "help", label: "Customer Support" },
     { value: "billing", label: "Billing Issue" },
@@ -18,6 +18,11 @@ const ContactSubject = ({user, token}) => {
   ];
 
   const updateSubject = (option) => {
+    if (!token && option.loginRequired) {
+      localStorage.setItem('path','/contact')
+      router.push("/login");
+      return;
+    }
     dispatch(setSubject(option));
     router.back();
   }
@@ -69,16 +74,4 @@ const ContactSubject = ({user, token}) => {
   );
 };
 
-export default ContactSubject;
-
-export async function getServerSideProps(props) {
-  const { req } = props;
-  let user =
-    req.headers && req.headers.cookie ? await getTokenForServer(req) : null;
-  let token = req.headers && req.headers.cookie ? await getjwtToken(req) : null;
-  if(token === undefined) token = null
-  if (!user) {
-    user = null;
-  }
-  return {props: {user,token}};
-}
+export default template(ContactSubject);

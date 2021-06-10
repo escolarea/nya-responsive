@@ -23,6 +23,10 @@
 
 .content-wrapper {
     position:relative;
+    .home-wrapper{
+        height: fit-content;
+        background-color: #4c311b;
+    }
 }
 div.ui.container{
     margin-left:0rem !important;
