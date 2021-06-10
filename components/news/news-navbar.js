@@ -58,6 +58,8 @@ const NewsNavbar = (props) => {
       maxPage,
       fixed,
       params,
+      backgroundStyle,
+      headerImage
     } = props;
     const showLinks = props.showLinks || true;
     // const linksWithoutDivider = [pagesData.length - 1, 0, 1];
@@ -131,14 +133,14 @@ const NewsNavbar = (props) => {
                 {
                   <img
                     className="ui image center aligned menu-icon sidebar-link"
-                    src="../static/images/global-menu/global-menu-icon-hl.png"
+                    src={"../static/images/global-menu/global-menu-icon-hl.png"}
                   />
                 }
               </Grid.Column>
               <Grid.Column verticalAlign="middle" textAlign="center" width="11">
                 <img
                   className="ui image center aligned"
-                  src="../static/images/news/newspaper-header.png"
+                  src={headerImage ? headerImage : "../static/images/news/newspaper-header.png"}
                   alt=""
                 />
               </Grid.Column>

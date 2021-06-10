@@ -7,7 +7,7 @@ $dark-text: black;
   @if $light-theme {
     color: $dark-text;
   } @else {
-    color: $light-text;
+    color: $light-text !important;
   }
 }
 
@@ -15,7 +15,8 @@ $dark-text: black;
     @if $light-theme {
       background-color: $light-background;
     } @else {
-      background-color: $dark-background;
+      background-color: $dark-background !important;
+      background-image: none !important;
     }
   }
 

@@ -82,6 +82,8 @@ const PlanBtn = (props) => {
           }`}
           onClick={() => {
             if (!userAuthenticated) {
+              const path = window.location.pathname;
+              localStorage.setItem('path', path);
               login();
               return;
             }

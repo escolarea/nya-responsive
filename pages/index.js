@@ -14,7 +14,7 @@ const Home = ({leftSideIcons,postIt }) => {
           canonical={'https://neilyoungarchives.com'}
           desc={'NYA contains the complete archives of Neil Young. The site is designed for a chronological exploration of artist output including music, books, films, & videos. Music is streamed in high-res with Xstream by NYA.  A living document, NYA is always being updated with new information, content and news.'}
           />
-        <Container fluid>
+        <Container fluid className="home-wrapper">
           <FrontDrawer leftSideIcons={leftSideIcons} postIt={postIt} />
         </Container>
       </React.Fragment>

@@ -13,11 +13,60 @@ $borderColor: rgba($color: #000000, $alpha: 0.4);
   border-bottom: 1px solid $borderColor !important;
   border-radius: 0 !important;
   background: url("../static/images/news/newspaper-bg-tile.png")!important;
+  &.navigation.dark-mode.menu{
+    div.item{
+      border-right: 1px solid  #b3b3b3;
+    }
+  }
+  &.dark-mode{
+    border-bottom: 1px solid #b3b3b3;
+    @include background-colors($light-theme:false);
+    &:before{
+      display: none;
+    }
+    border-bottom: 1px solid #b3b3b3;
+    .menu{
+      border: 1px solid  #b3b3b3;
+      div.item{
+        &:last-child{
+          border-right:none;
+        }
+        &.active{
+          background: #ffffff33;
+        }
+       
+        border-right: 1px solid  #b3b3b3;
+      }
+    }
+    >*, div, p, a{
+        @include theme-colors($light-theme: false);
+    }
+    .link {
+      &.selected{
+           color:black !important;
+        }
+    }
+    .menu-icon{
+      filter: brightness(1) invert(1);
+    }
+  } 
   .menu-icon{
     height: 45px;
   }
   &.menu{
     width: 100%;
+    &.dark-mode{
+      @include background-colors($light-theme:false);
+      border: 1px solid #b3b3b3;
+      >*, div, p, a{
+          @include theme-colors($light-theme: false);
+      }
+      .link{
+          .highlighted{
+             color:black !important;
+          }
+      }
+  }  
     .grid {
       margin: 0!important;
       width: 100%;

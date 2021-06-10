@@ -186,7 +186,7 @@ class NewsWrapper extends Component {
   render() {
     if (!this.props.loaded) return <div />;
     // <SplashScreen style={{height: '100vh', width: '100%'}} loadState={100} />;
-    const { page } = this.props;
+    const { page ,themeAperance} = this.props;
     const pageData =
       this.props.pageData.find(
         (p) => parseOnlyNumbers(p.title) === parseInt(page)
@@ -200,7 +200,7 @@ class NewsWrapper extends Component {
       gridTemplateColumns: `10px repeat(${parsedColumns.length}, calc(50% - (20px * 2))) 10px`
     }
     return (
-      <Container fluid className="news-content" style={{ paddingTop:"10rem" }}>
+      <Container fluid className={`news-content ${themeAperance}`} style={{ paddingTop:"10rem"}}>
         <div columns="equal" className="scrollable" style={columnContainerStyle}>
           {parsedColumns}
         </div>

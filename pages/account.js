@@ -40,7 +40,6 @@ const Account = ({ isLoggedIn, setUser, removeToken, userData, token}) => {
       router.push('/login')
       return;
      }
-     console.log("userData", userData)
      if(userData.userData && Object.keys(userData.userData).length == 0){
       retrieveUserData();
      }
@@ -56,7 +55,7 @@ const Account = ({ isLoggedIn, setUser, removeToken, userData, token}) => {
     </div>)
   }
   return (
-    <div id="account-menu-container" className="global-menu">
+    <div id="account-menu-container" className="global-menu"style={{height: '100vh'}} >
       <div className="ui center aligned grid global-menu-grid">
           <div className="one column row links">
            <div className="left aligned column"><Link href="/account/overview" >Overview</Link> </div>

@@ -108,22 +108,40 @@ const News = ({routeType, articles, params, pageData, commonValues}) => {
 
   if(routeType === 'post'){
 
-    const {article} = articles
-    const {headline:title = "", excerpt: desc = "", id} = article
+    const {article} = articles;
 
-    const currentUrl  = `${process.env.NEXT_PUBLIC_SITE_URL}/news/${params}/${id}` || "" ;   
+    const {headline:title = "", excerpt: desc = "", id, pageNumber} = article
+    const pageInfo        = pageData && pageData.find(_page=> _page.title === pageNumber);
+    const pageNumberId    = pageNumber.replace(/\D/g, "");
+    const currentUrl      = `${process.env.NEXT_PUBLIC_SITE_URL}/news/${pageNumberId}/${id}` || "" ; 
+    const backUrl         = `${process.env.NEXT_PUBLIC_SITE_URL}/news/${pageNumberId}` || ""
 
+
+    const {darkMode       = false , backgroundImage= false , pageHeader = false} = pageInfo; 
+    let themeAperance     = 'light-mode';
+    let background        = '';
+    let headerImg         = '';
+
+    if(darkMode){
+      themeAperance       = 'dark-mode';
+      background          = backgroundImage.fields && backgroundImage.fields.file.url;
+      headerImg           = pageHeader.fields && pageHeader.fields.file.url;
+
+    }
     return(
       <>
       <Meta 
           siteName="Neil Young Archives"
           title={title}
-          canonical={currentUrl}
+          canonical={currentUrl} 
           desc={desc}
           />
       <Article
+      themeAperance={themeAperance}
+      headerImage={headerImg}
       data={article}
       loaded={loaded}
+      backUrl={backUrl}
       />
       </>
     )
@@ -136,6 +154,8 @@ const News = ({routeType, articles, params, pageData, commonValues}) => {
         const routes = routesParse(contrarianPagesTitles, pageData)
         //page style and backgrounds
         let themeAperance        = routes && routes.themeAperance
+        let backgroundStyle      = routes && routes.backgroundImage
+        let headerImage          = routes && routes.pages['header'] 
 
         //force light mode on these routes because page number is always one
         
@@ -157,6 +177,8 @@ const News = ({routeType, articles, params, pageData, commonValues}) => {
             params={params}
             page={params}
             themeAperance={themeAperance}
+            backgroundStyle={backgroundStyle}
+            headerImage={headerImage}
           />
           <NewsWrapper
             articles={articles} 
@@ -165,6 +187,8 @@ const News = ({routeType, articles, params, pageData, commonValues}) => {
             numberOfArticles={numberOfArticles}
             loaded={loaded}
             params={params}
+            themeAperance={themeAperance}
+            backgroundStyle={backgroundStyle}
           />
           </React.Fragment>
           </>
@@ -202,7 +226,6 @@ export async function getServerSideProps(context) {
 
     ]);
 
-    console.log("initialData", initialData);
 
     const {data : navKeys} = contrarianPage
     const {data:commonValues} = initialData 
