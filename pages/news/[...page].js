@@ -16,15 +16,17 @@ const News = ({routeType, articles, params, pageData, commonValues}) => {
 
   useEffect(()=>{
     let newsInterval = false
-    if(routeType === 'page'){
-      setloaded(true)               
-    }
     if (
       params.includes("top-10-albums") ||
       params.includes("top-40-tracks") ||
-      params.includes("movietone")
+      params.includes("movietone")     
+      
     ) {
       router.push('/news/1');
+    }
+
+    if(routeType === 'page'){
+      setloaded(true)               
     }
 
     return(()=>{
@@ -106,13 +108,24 @@ const News = ({routeType, articles, params, pageData, commonValues}) => {
     return  {routes, pages, maxPage,  existingPages, positionRoutes, themeAperance, backgroundImage}
   }
 
+  if(routeType === 'not-found' ){
+
+    return(
+      <>
+
+      <div style={{display:'flex',justifyContent:'center'}}> Article Not Found</div>
+
+      </>
+    )
+  }
+
   if(routeType === 'post'){
 
     const {article} = articles;
 
     const {headline:title = "", excerpt: desc = "", id, pageNumber} = article
-    const pageInfo        = pageData && pageData.find(_page=> _page.title === pageNumber);
-    const pageNumberId    = pageNumber.replace(/\D/g, "");
+    const pageInfo        = pageData && pageData.find(_page=> _page.title === pageNumber) || {};
+    const pageNumberId    = pageNumber && pageNumber.replace(/\D/g, "");
     const currentUrl      = `${process.env.NEXT_PUBLIC_SITE_URL}/news/${pageNumberId}/${id}` || "" ; 
     const backUrl         = `${process.env.NEXT_PUBLIC_SITE_URL}/news/${pageNumberId}` || ""
 
@@ -198,9 +211,10 @@ const News = ({routeType, articles, params, pageData, commonValues}) => {
 //renders as static page.
 export async function getServerSideProps(context) {
 
-    const { page }   =  context.query;
+
+    const { page , id}   =  context.query;
     let    params    =  page && page[0];
-    const  routeType =  page.length == 2 ? 'post' : 'page'
+    let    routeType =  page.length == 2 ? 'post' : 'page'
 
     const promises   =  [
       fetchData({method:'GET',query:'api/v2/contrarianPage'}),
@@ -211,8 +225,7 @@ export async function getServerSideProps(context) {
       promises.push(fetchData({method:'GET',query: `api/v2/news/page-${params}`}))
       
     }else{
-      params = page[1];
-      promises.push(fetchData({method:'GET',query:`api/v2/article/${params}`}))
+      promises.push(fetchData({method:'GET',query:`api/v2/article/${id}`}))
     }
 
     //request all promises 
@@ -227,11 +240,19 @@ export async function getServerSideProps(context) {
     ]);
 
 
+
+
+    const {data : article = {}} = articles
     const {data : navKeys} = contrarianPage
     const {data:commonValues} = initialData 
     const pageData =  Object.keys(navKeys).map(page=>navKeys[page])
 
-return { props: {routeType, articles: articles.data, params, pageData, commonValues } }
+    if(article && article.article &&  Object.keys(article.article).length === 0){
+      routeType = 'not-found'
+    }
+
+
+return { props: {routeType, articles: article, params, pageData, commonValues } }
 }
 
 export default News
