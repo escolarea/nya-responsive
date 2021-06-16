@@ -23,7 +23,7 @@ function externalizeHrefs(el) {
 
 function getExcerptImages(data, page) {
   const { id, column, vimeoId } = data;
-  const link = `/news/${page}/${encodeURIComponent(id)}`;
+  const link = `/news/${page}/article?id=${encodeURIComponent(id)}`;
   if (vimeoId) {
     return (
       <div className="video-container">
@@ -100,7 +100,7 @@ class Excerpt extends Component {
     } = this.props.data;
     const { idx, page, layout, pageStyle } = this.props;
 
-    const linkToArticle = `/news/${page}/${encodeURIComponent(id)}`;
+    const linkToArticle = `/news/${page}/article?id=${encodeURIComponent(id)}`;
 
     // Default page rules
     let featuredPost = column === "center" && idx === 0;

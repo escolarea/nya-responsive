@@ -146,6 +146,9 @@
   background-color: rgba($color: black, $alpha: 0.8);
   padding-left: 12px;
   padding-right: 12px;
+  h1, h2{
+    font-family: Typewriter,serif !important;
+  }
   .icon{
     &.ticket{
       background-color: #035CA7;
