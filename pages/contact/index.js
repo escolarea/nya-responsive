@@ -5,9 +5,10 @@ import { hideSideBar, showSideBar } from "../../store/sidebar/action";
 import Link from "next/link";
 import { getTokenForServer, getjwtToken } from "../../static/auth";
 import fetchData from "../../api/fetch";
-import lodash from "lodash";
+import { connect } from "react-redux";
+import _ from 'lodash'
 
-const Contact = ({ user, token }) => {
+const Contact = ({ user, token , userData}) => {
   // Redux state
   const visibleSideBar = useSelector((state) => state.sidebar.visible);
   const subject = useSelector((state) => state.contactUs.subject);
@@ -49,6 +50,7 @@ const Contact = ({ user, token }) => {
   const sendEmail = async () => {
     const isValidForm = validate();
     if (isValidForm) {
+      let onlySubscribersOptions=['neil','archivist' ]
       const headers = {
         Authorization: "Bearer " + token,
         "Content-Type": "application/json",
@@ -60,6 +62,19 @@ const Contact = ({ user, token }) => {
         subject: subject.value,
         to: subject.value,
       };
+
+      if(onlySubscribersOptions.includes(subject.value) && user&&user.user_metadata){
+        const {subscription:{status = false} = {} } = user.user_metadata
+        const {userSubscriptionStatus = false} = userData.userData
+        const canSendEmail = (userSubscriptionStatus == 'active' || status == 'active');
+
+        if(canSendEmail){
+          payload.subject+='-subscribers'
+        }else{
+          setState({...state, getPlan:true})
+          return;
+        }
+      }
       const res = await fetchData({
         method: "POST",
         query: "api/emails",
@@ -102,6 +117,23 @@ const Contact = ({ user, token }) => {
       </div>
     );
   };
+  const renderType = () => {
+    if(state.getPlan){
+      return(
+        <div className="result-message">
+              Subscribers Only
+              <div style={{ padding: "16px" }}>
+                <Link href="/account/plans">
+                  <button className="ui fluid primary button">Get Plan</button>
+                </Link>
+              </div>
+        </div>
+      )
+
+    }else{
+      return(renderForm())
+    }
+  }
 
   const renderForm = () => {
     return (
@@ -225,7 +257,7 @@ const Contact = ({ user, token }) => {
               </div>
             </div>
           ) : (
-            renderForm()
+            renderType()
           )}
         </Container>
       </div>
@@ -233,7 +265,13 @@ const Contact = ({ user, token }) => {
   );
 };
 
-export default Contact;
+const mapStateToProps = function (state) {
+  return {
+    userData: state.userData,
+  };
+};
+
+export default connect(mapStateToProps)(Contact);
 
 export async function getServerSideProps(props) {
   const { req } = props;

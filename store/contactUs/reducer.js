@@ -1,7 +1,7 @@
 import { actionType } from "./action";
 
 const initialState = {
-  subject: { value: "archivist", label: "Question for the Archivist" }
+  subject: { value: "help", label: "Customer Support"}
 }
 
 export default function update(state = initialState, action) {
