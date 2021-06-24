@@ -67,14 +67,16 @@ const Contact = ({ user, token , userData}) => {
         const {subscription:{status = false} = {} } = user.user_metadata
         const {userSubscriptionStatus = false} = userData.userData
         const canSendEmail = (userSubscriptionStatus == 'active' || status == 'active');
-
+        console.log("canSendEmail", canSendEmail)
         if(canSendEmail){
-          payload.subject+='-subscribers'
+          payload.subject +=`-subscribers`
+          payload.to  +=`-subscribers`
         }else{
           setState({...state, getPlan:true})
           return;
         }
       }
+      console.log("payload.subject", payload.subject)
       const res = await fetchData({
         method: "POST",
         query: "api/emails",
