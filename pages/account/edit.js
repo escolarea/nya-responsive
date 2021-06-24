@@ -33,7 +33,6 @@ const Edit = ({ loggedInUser, token }) => {
       Authorization: "Bearer " + token,
       "Content-Type": "application/json",
     };
-    console.log(change);
     const request = {
       method: "PUT",
       query: "api/account/settings",
