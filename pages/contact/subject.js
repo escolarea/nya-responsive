@@ -11,7 +11,7 @@ const ContactSubject = ({token}) => {
   const dispatch = useDispatch();
   const options = [
     { value: "neil", label: "Letters for Neil", loginRequired: true},
-    { value: "archivist", label: "Question for the Archivist" },
+    { value: "archivist", label: "Question for the Archivist",loginRequired: true },
     { value: "help", label: "Customer Support" },
     { value: "billing", label: "Billing Issue" },
     { value: "data", label: "Question about Data Usage" },
@@ -61,7 +61,7 @@ const ContactSubject = ({token}) => {
                       {option.label}
                     </div>
                     <div className="three wide column">
-                      {(subject.value === option. value) && <i className="check icon" />}
+                      {(subject.value === option.value) && <i className="check icon" />}
                     </div>
                   </div>
                 );
