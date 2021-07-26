@@ -78,7 +78,9 @@ div.ui.container{
 @import 'plans.scss';
 @import 'news.scss';
 @import 'contact.scss';
-
+#__next{
+    height: 100%;
+}
 .overlay {
     position: absolute !important;
     top: 0px; left: 0px;
