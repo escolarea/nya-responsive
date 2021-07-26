@@ -200,7 +200,7 @@ class NewsWrapper extends Component {
       gridTemplateColumns: `10px repeat(${parsedColumns.length}, calc(50% - (20px * 2))) 10px`
     }
     return (
-      <Container fluid className={`news-content ${themeAperance}`} style={{ paddingTop:"10rem"}}>
+      <Container fluid className={`news-content ${themeAperance}`}>
         <div columns="equal" className="scrollable" style={columnContainerStyle}>
           {parsedColumns}
         </div>
