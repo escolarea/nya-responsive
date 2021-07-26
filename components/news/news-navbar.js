@@ -115,6 +115,7 @@ const NewsNavbar = (props) => {
 
     // return <div className={`news-navbar ${themeAperance} ${fixed ? "fixed": ""}`}> {items} </div>;
     return (
+      <Menu fixed="top">
       <div className="news-navbar-wrapper">
         <Menu
           className={`news-navbar header ${themeAperance} ${
@@ -177,6 +178,7 @@ const NewsNavbar = (props) => {
           {items}
         </Menu>
       </div>
+      </Menu>
     );
   }
   
