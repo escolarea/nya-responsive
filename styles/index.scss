@@ -31,7 +31,7 @@
 div.ui.container{
     margin-left:0rem !important;
     margin-right:0rem !important;
-    padding-top:20px;
+    padding-top: 30px;
     margin-top: -5px;
     .icon-link {
         height: max-content!important;
@@ -78,7 +78,9 @@ div.ui.container{
 @import 'plans.scss';
 @import 'news.scss';
 @import 'contact.scss';
-
+#__next{
+    height: 100%;
+}
 .overlay {
     position: absolute !important;
     top: 0px; left: 0px;
