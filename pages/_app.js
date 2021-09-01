@@ -34,12 +34,15 @@ const WrappedApp = ({ Component, pageProps, visible, modalType, showPopUp, userT
   } 
 
   let currentPath = router.asPath || '';
-  let path;
+  let path, style = {};
   currentPath = pathExceptions(currentPath,'redirect')
   currentPath = pathExceptions(currentPath,'news');
 
   path = currentPath && currentPath.split("/").pop();
- 
+  if(path === ""){
+    style = {backgroundColor: "#4c311b"}
+  } 
+  console.log("style", style)
   const noNavRoutes = ['news', 'login', 'redirect'];
   const renderNavBar = (noNavRoutes.includes(path) || !(typeof parseInt(path) === 'number') );
 
@@ -107,7 +110,7 @@ const WrappedApp = ({ Component, pageProps, visible, modalType, showPopUp, userT
           <Sidebar.Pushable>
             <SideBarMenu
             />
-            <Sidebar.Pusher id="pusher">
+            <Sidebar.Pusher id="pusher" style={style}>
               <div id="main-wrapper">            
                 <div id="content">
                   <div
